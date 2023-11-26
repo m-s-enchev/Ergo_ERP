@@ -1,0 +1,23 @@
+body {
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+header {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    border: 2px solid darkred;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1em;
+
+}
+
+.navigation_display {
+    flex-grow: 2;
+    text-align: center;
+}
