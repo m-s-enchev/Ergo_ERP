@@ -9,11 +9,12 @@ header {
     position: fixed;
     display: flex;
     justify-content: space-between;
-    gap: 1em;
+    gap: 5vw;
     border: 2px solid darkred;
     box-sizing: border-box;
     width: 100%;
-    padding: 1em;
+    padding: 2vw;
+    font-size: 4vw;
 
 }
 
