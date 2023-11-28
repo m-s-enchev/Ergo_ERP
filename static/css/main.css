@@ -1,5 +1,5 @@
 .main {
-    margin-top: 4em;
+    margin-top: 10vw;
 }
 
 .homepage {
@@ -7,18 +7,40 @@
     display: flex;
     justify-content: left;
     flex-wrap: wrap;
-    gap: 4vw;
+    gap: 3vw;
     padding: 4vw;
 }
 
 .navigation_tile {
     flex-shrink: 0;
     width: 28vw;
-    border: 1px solid blue;
+    height: 28vw;
     font-size: 5vw;
     text-align: center;
     box-sizing: border-box;
     padding: 1vw;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    border-radius: 1vw;
+}
+
+.navigation_tile p:nth-child(1) {
+    flex-grow: 1;
+    text-align: center;
+}
+
+@media only screen and (max-width: 480px) {
+    .homepage {
+        gap: 5vw;
+        padding: 5vw;
+    }
+
+    .navigation_tile {
+        background-color: chocolate;
+        width: 42.5vw;
+        height: 30vw;
+        font-size: 7vw;
+        padding: 2vw;
+    }
 }
