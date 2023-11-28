@@ -9,6 +9,7 @@ header {
     position: fixed;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 5vw;
     border: 2px solid darkred;
     box-sizing: border-box;
@@ -18,7 +19,24 @@ header {
 
 }
 
+header button {
+    font-size: 4vw;
+}
+
 .navigation_display {
     flex-grow: 2;
     text-align: center;
+}
+
+
+@media only screen and (max-width: 480px) {
+    header {
+        gap: 5vw;
+        border: 2px solid darkred;
+        padding: 2vw;
+        font-size: 6vw;
+
+    }
+
+
 }
