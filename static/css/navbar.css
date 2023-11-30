@@ -10,17 +10,13 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 5vw;
     border: 2px solid darkred;
     box-sizing: border-box;
     width: 100%;
-    padding: 2vw;
-    font-size: 4vw;
-
 }
 
 header button {
-    font-size: 4vw;
+    font-size: inherit;
 }
 
 .navigation_display {
@@ -35,8 +31,35 @@ header button {
         border: 2px solid darkred;
         padding: 2vw;
         font-size: 6vw;
+    }
+}
+
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    header {
+        gap: 4vw;
+        border: 2px solid darkred;
+        padding: 2vw;
+        font-size: 4vw;
 
     }
+}
 
 
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    header {
+        gap: 3vw;
+        border: 2px solid darkred;
+        padding: 1.5vw;
+        font-size: 3vw;
+    }
+}
+
+@media only screen and (min-width: 1025px){
+    header {
+        gap: 3vw;
+        border: 2px solid darkred;
+        padding: 1.5vw;
+        font-size: 2vw;
+    }
 }
