@@ -1,10 +1,20 @@
 .main {
     margin-top: 10vw;
+    display: flex;
 }
 
 .homepage {
     box-sizing: border-box;
     display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    gap: 3vw;
+    padding: 4vw;
+}
+
+.shortcuts {
+    display: none;
+    box-sizing: border-box;
     justify-content: left;
     flex-wrap: wrap;
     gap: 3vw;
@@ -23,6 +33,7 @@
     flex-direction: column;
     justify-content: space-between;
     border-radius: 1vw;
+    background-color: chocolate;
 }
 
 .navigation_tile p:nth-child(1) {
@@ -37,7 +48,6 @@
     }
 
     .navigation_tile {
-        background-color: chocolate;
         width: 42.5vw;
         height: 30vw;
         font-size: 7vw;
@@ -53,10 +63,57 @@
     }
 
     .navigation_tile {
-        background-color: chocolate;
         width: 28vw;
         height: 28vw;
         font-size: 5vw;
         padding: 2vw;
     }
 }
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    .homepage {
+        gap: 4vw;
+        padding: 4vw;
+    }
+
+    .navigation_tile {
+        width: 20vw;
+        height: 20vw;
+        font-size: 3.5vw;
+        padding: 2vw;
+    }
+}
+
+
+@media only screen and (min-width: 1025px) and (max-width: 1280px) {
+    .homepage {
+        gap: 5vw;
+        padding: 5vw;
+    }
+
+    .navigation_tile {
+        width: 14vw;
+        height: 14vw;
+        font-size: 2vw;
+        padding: 2vw;
+    }
+}
+
+@media only screen and (min-width: 1281px) {
+    .homepage {
+        gap: 3vw;
+        padding: 3vw;
+    }
+
+    .shortcuts {
+        display: flex;
+    }
+
+    .navigation_tile {
+        width: 14vw;
+        height: 14vw;
+        font-size: 2vw;
+        padding: 2vw;
+    }
+}
+
