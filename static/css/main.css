@@ -44,3 +44,19 @@
         padding: 2vw;
     }
 }
+
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    .homepage {
+        gap: 4vw;
+        padding: 4vw;
+    }
+
+    .navigation_tile {
+        background-color: chocolate;
+        width: 28vw;
+        height: 28vw;
+        font-size: 5vw;
+        padding: 2vw;
+    }
+}
