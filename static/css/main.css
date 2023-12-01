@@ -1,5 +1,5 @@
 .main {
-    margin-top: 10vw;
+    margin-top: 10vmin;
     display: flex;
 }
 
@@ -56,7 +56,7 @@
 }
 
 
-@media only screen and (min-width: 481px) and (max-width: 768px) {
+@media only screen and (min-width: 481px) and (max-width: 810px) {
     .homepage {
         gap: 4vw;
         padding: 4vw;
@@ -70,25 +70,10 @@
     }
 }
 
-@media only screen and (min-width: 769px) and (max-width: 1024px) {
+@media only screen and (min-width: 811px) and (max-width: 1024px) {
     .homepage {
         gap: 4vw;
-        padding: 4vw;
-    }
-
-    .navigation_tile {
-        width: 20vw;
-        height: 20vw;
-        font-size: 3.5vw;
-        padding: 2vw;
-    }
-}
-
-
-@media only screen and (min-width: 1025px) and (max-width: 1280px) {
-    .homepage {
-        gap: 5vw;
-        padding: 5vw;
+        padding: 4vw 7vw 4vw 7vw;
     }
 
     .navigation_tile {
@@ -99,20 +84,40 @@
     }
 }
 
-@media only screen and (min-width: 1281px) {
+
+@media only screen and (min-width: 1025px) and (max-width: 1279px) {
+    .homepage {
+        gap: 4vw;
+        padding: 3vw 7vw 3vw 7vw;
+    }
+
+    .navigation_tile {
+        width: 14vw;
+        height: 14vw;
+        font-size: 2vw;
+        padding: 2vw;
+    }
+}
+
+@media only screen and (min-width: 1280px) {
     .homepage {
         gap: 3vw;
-        padding: 3vw;
+        padding: 3vw 3vw 3vw 4vw;
+        width: 65vw;
     }
 
     .shortcuts {
         display: flex;
+        gap: 3vw;
+        padding: 3vw 3vw 3vw 4vw;
+        width: 35vw;
+        align-content: flex-start;
     }
 
     .navigation_tile {
-        width: 14vw;
-        height: 14vw;
-        font-size: 2vw;
+        width: 12vw;
+        height: 12vw;
+        font-size: 1.6vw;
         padding: 2vw;
     }
 }
