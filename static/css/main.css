@@ -1,6 +1,8 @@
 .main {
-    margin-top: 10vmin;
+    margin-top: 10vh;
+    margin-bottom: 5vh;
     display: flex;
+    justify-content: center;
 }
 
 .homepage {
@@ -9,16 +11,18 @@
     justify-content: left;
     flex-wrap: wrap;
     gap: 3vw;
-    padding: 4vw;
+    padding: 0 4vw 4vw 4vw;
 }
 
 .shortcuts {
     display: none;
-    box-sizing: border-box;
     justify-content: left;
     flex-wrap: wrap;
+    box-sizing: border-box;
     gap: 3vw;
     padding: 4vw;
+    border-left: 1px solid gray;
+
 }
 
 .navigation_tile {
@@ -42,7 +46,7 @@
 @media only screen and (max-width: 480px) {
     .homepage {
         gap: 5vw;
-        padding: 5vw;
+        padding: 0 5vw;
     }
 
     .navigation_tile {
@@ -57,7 +61,7 @@
 @media only screen and (min-width: 481px) and (max-width: 810px) {
     .homepage {
         gap: 4vw;
-        padding: 4vw;
+        padding: 0 4vw;
     }
 
     .navigation_tile {
@@ -71,7 +75,7 @@
 @media only screen and (min-width: 811px) and (max-width: 1024px) {
     .homepage {
         gap: 4vw;
-        padding: 2vw 4vw 2vw 4vw;
+        padding: 0 4vw;
     }
 
     .navigation_tile {
@@ -84,9 +88,13 @@
 
 
 @media only screen and (min-width: 1025px) and (max-width: 1279px) {
+    .main {
+        margin-top: 11vh;
+    }
+
     .homepage {
         gap: 4vw;
-        padding: 3vw 7vw 3vw 7vw;
+        padding: 0vw 7vw;
     }
 
     .navigation_tile {
@@ -98,17 +106,22 @@
 }
 
 @media only screen and (min-width: 1280px) and (max-width: 1439px) {
+
+    .main {
+        margin-top: 12vh;
+    }
+
     .homepage {
         gap: 3vw;
-        padding: 3vw 3vw 3vw 4vw;
-        width: 65vw;
+        padding: 0vw 3vw;
+        width: 63vw;
     }
 
     .shortcuts {
         display: flex;
-        gap: 3vw;
-        padding: 3vw 3vw 3vw 4vw;
-        width: 35vw;
+        gap: 2.9vw;
+        padding: 0vw 3vw;
+        width: 33vw;
         align-content: flex-start;
     }
 
@@ -122,18 +135,24 @@
 
 
 @media only screen and (min-width: 1440px) {
+
+    .main {
+        margin-top: 12vh;
+    }
+
     .homepage {
         gap: 3vw;
-        padding: 3vw 3vw 3vw 4vw;
-        width: 69vw;
+        padding: 0vw 3vw;
+        width: 68vw;
     }
 
     .shortcuts {
         display: flex;
-        gap: 3vw;
-        padding: 3vw 3vw 3vw 4vw;
-        width: 30vw;
+        gap: 2.9vw;
+        padding: 0vw 3vw;
+        width: 29vw;
         align-content: flex-start;
+
     }
 
     .navigation_tile {
