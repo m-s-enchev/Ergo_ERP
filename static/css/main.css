@@ -1,3 +1,13 @@
+body {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.content {
+    background-image: linear-gradient(to bottom right, #c617cc, #2886ea);
+}
+
 .main {
     margin-top: 10vh;
     margin-bottom: 5vh;
@@ -12,6 +22,7 @@
     flex-wrap: wrap;
     gap: 3vw;
     padding: 0 4vw 4vw 4vw;
+
 }
 
 .shortcuts {
@@ -22,7 +33,11 @@
     gap: 3vw;
     padding: 4vw;
     border-left: 1px solid gray;
+}
 
+.homepage a, .shortcuts a {
+    text-decoration: none;
+    color: white;
 }
 
 .navigation_tile {
@@ -34,14 +49,18 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-radius: 1vw;
-    background-color: chocolate;
+    border-radius: 1vmax;
+    border: 2px solid white;
+    background-color: rgba(0, 0, 0, 0.2);
 }
+
 
 .navigation_tile p:nth-child(1) {
     flex-grow: 1;
     text-align: center;
 }
+
+
 
 @media only screen and (max-width: 480px) {
     .homepage {
@@ -70,6 +89,10 @@
         font-size: 4vw;
         padding: 2vw;
     }
+
+    .navigation_tile i {
+        font-size: 6vw;
+    }
 }
 
 @media only screen and (min-width: 811px) and (max-width: 1024px) {
@@ -83,6 +106,10 @@
         height: 20vw;
         font-size: 3vw;
         padding: 2vw;
+    }
+
+    .navigation_tile i {
+        font-size: 4vw;
     }
 }
 
@@ -102,6 +129,10 @@
         height: 14vw;
         font-size: 2vw;
         padding: 1.8vw;
+    }
+
+    .navigation_tile i {
+        font-size: 3vw;
     }
 }
 
@@ -130,6 +161,10 @@
         height: 12vw;
         font-size: 1.6vw;
         padding: 1.7vw;
+    }
+
+    .navigation_tile i {
+        font-size: 2.2vw;
     }
 }
 
@@ -160,6 +195,10 @@
         height: 10vw;
         font-size: 1.4vw;
         padding: 1.3vw;
+    }
+
+    .navigation_tile i {
+        font-size: 2vw;
     }
 }
 
