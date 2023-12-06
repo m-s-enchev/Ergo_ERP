@@ -16,22 +16,25 @@
             <a href="#"><i class="fa-solid fa-house"></i></a>
         </div>
         <div class="back_button">
-            <a href="#">Back</a>
+            <a href="#"><i class="fa-solid fa-left-long"></i></a>
         </div>
         <div class="navigation_display">
-            <p>This is home</p>
+            <p>Main menu</p>
         </div>
         <div class="next_button">
-            <button>Next</button>
+            <button><i class="fa-solid fa-check"></i></button>
         </div>
         <div class="page_setting">
             <a href="#"><i class="fa-solid fa-gear"></i></a>
         </div>
     </header>
 
-    <div class="main">
-        {% block content%}
-        {% endblock %}
+    <div class="content">
+        <div class="main">
+            {% block content%}
+            {% endblock %}
+        </div>
     </div>
+
 </body>
 </html>
