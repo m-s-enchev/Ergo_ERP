@@ -5,7 +5,8 @@ body {
 }
 
 .content {
-    background-image: linear-gradient(to bottom right, #c617cc, #2886ea);
+    background-image: url("/static/images/background_2.png");
+    background-size: cover;
 }
 
 .main {
