@@ -1,12 +1,14 @@
 body {
     display: flex;
     flex-direction: column;
-
 }
 
 .content {
-    background-image: url("/static/images/background_2.png");
+    background-image: url("/static/images/background_7.png");
     background-size: cover;
+    background-position: center center;
+    min-height: 100vh;
+    height: fit-content;
 }
 
 .main {
