@@ -1,9 +1,7 @@
-body {
-    display: flex;
-    flex-direction: column;
-}
 
 .content {
+    display: flex;
+    flex-direction: column;
     background-image: url("/static/images/background_7.png");
     background-size: cover;
     background-position: center center;
@@ -11,14 +9,14 @@ body {
     height: fit-content;
 }
 
-.main {
+.main_homepage {
     margin-top: 10vh;
     margin-bottom: 5vh;
     display: flex;
     justify-content: center;
 }
 
-.homepage {
+.main_menu {
     box-sizing: border-box;
     display: flex;
     justify-content: left;
@@ -38,7 +36,7 @@ body {
     border-left: 1px solid gray;
 }
 
-.homepage a, .shortcuts a {
+.main_menu a, .shortcuts a {
     text-decoration: none;
     color: white;
 }
@@ -66,7 +64,7 @@ body {
 
 
 @media only screen and (max-width: 480px) {
-    .homepage {
+    .main_menu {
         gap: 5vw;
         padding: 0 5vw;
     }
@@ -81,7 +79,7 @@ body {
 
 
 @media only screen and (min-width: 481px) and (max-width: 810px) {
-    .homepage {
+    .main_menu {
         gap: 4vw;
         padding: 0 4vw;
     }
@@ -99,7 +97,7 @@ body {
 }
 
 @media only screen and (min-width: 811px) and (max-width: 1024px) {
-    .homepage {
+    .main_menu {
         gap: 4vw;
         padding: 0 4vw;
     }
@@ -118,11 +116,11 @@ body {
 
 
 @media only screen and (min-width: 1025px) and (max-width: 1279px) {
-    .main {
+    .main_homepage {
         margin-top: 11vh;
     }
 
-    .homepage {
+    .main_menu {
         gap: 4vw;
         padding: 0vw 7vw;
     }
@@ -141,11 +139,11 @@ body {
 
 @media only screen and (min-width: 1280px) and (max-width: 1439px) {
 
-    .main {
+    .main_homepage {
         margin-top: 12vh;
     }
 
-    .homepage {
+    .main_menu {
         gap: 3vw;
         padding: 0vw 3vw;
         width: 63vw;
@@ -174,11 +172,11 @@ body {
 
 @media only screen and (min-width: 1440px) {
 
-    .main {
+    .main_homepage {
         margin-top: 12vh;
     }
 
-    .homepage {
+    .main_menu {
         gap: 3vw;
         padding: 0vw 3vw;
         width: 68vw;
