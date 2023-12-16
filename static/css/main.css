@@ -33,7 +33,7 @@
     box-sizing: border-box;
     gap: 3vw;
     padding: 4vw;
-    border-left: 1px solid gray;
+    border-left: 1px solid white;
 }
 
 .main_menu a, .shortcuts a {
