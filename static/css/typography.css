@@ -1,0 +1,7 @@
+html {
+    font-family: Nunito, sans-serif;
+}
+
+body, table, input, button {
+    font-family: inherit;
+}
