@@ -1,18 +1,21 @@
-
-
-
-header {
+nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
     color: white;
     box-sizing: border-box;
     width: 100%;
     height: 8vh;
-    background-color: #0181a9;
+    background-color: var(--nav_bar_background);
+    font-size: calc(20px + 0.4vw);
+    gap: calc(20px + 0.4vw);
+    padding: calc(15px + 0.4vw)
+
+    
 }
 
-header button, a {
+nav button, a {
     font-size: inherit;
     color: inherit;
 
@@ -23,40 +26,4 @@ header button, a {
 .navigation_display {
     flex-grow: 2;
     text-align: center;
-}
-
-
-@media only screen and (max-width: 480px) {
-    header {
-        gap: 5vw;
-        padding: 4vw;
-        font-size: 6vw;
-    }
-}
-
-
-@media only screen and (min-width: 481px) and (max-width: 810px) {
-    header {
-        gap: 4vw;
-        padding: 3vw;
-        font-size: 4vw;
-
-    }
-}
-
-
-@media only screen and (min-width: 811px) and (max-width: 1024px) {
-    header {
-        gap: 4vw;
-        padding: 3vw;
-        font-size: 3vw;
-    }
-}
-
-@media only screen and (min-width: 1025px){
-    header {
-        gap: 4vw;
-        padding: 3vw;
-        font-size: 2vw;
-    }
 }
