@@ -1,8 +1,8 @@
 
-.content {
+.wrapper {
     display: flex;
     flex-direction: column;
-    background-image: url("/static/images/background_7.png");
+    background-image: url("/static/images/background_8.png");
     background-size: cover;
     background-position: center center;
     min-height: 100vh;
@@ -43,7 +43,7 @@
 
 .navigation_tile {
     flex-shrink: 0;
-    font-size: 5vw;
+    font-size: 120%;
     text-align: center;
     box-sizing: border-box;
     padding: 1vw;
@@ -52,7 +52,17 @@
     justify-content: space-between;
     border-radius: 1vmax;
     border: 2px solid white;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--buttons_background);
+}
+
+
+.navigation_tile:hover {
+    box-shadow: var(--buttons-hover);
+}
+
+
+.navigation_tile:active {
+    box-shadow: var(--buttons-active);
 }
 
 
@@ -145,14 +155,14 @@
 
     .main_menu {
         gap: 3vw;
-        padding: 0vw 3vw;
+        padding: 0 3vw;
         width: 63vw;
     }
 
     .shortcuts {
         display: flex;
         gap: 2.9vw;
-        padding: 0vw 3vw;
+        padding: 0 3vw;
         width: 33vw;
         align-content: flex-start;
     }
@@ -178,14 +188,14 @@
 
     .main_menu {
         gap: 3vw;
-        padding: 0vw 3vw;
+        padding: 0 3vw;
         width: 68vw;
     }
 
     .shortcuts {
         display: flex;
         gap: 2.9vw;
-        padding: 0vw 3vw;
+        padding: 0 3vw;
         width: 29vw;
         align-content: flex-start;
 
