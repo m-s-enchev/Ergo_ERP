@@ -1,0 +1,48 @@
+
+{% extends 'base.html' %}
+
+{% block content%}
+    <h1 style="margin-top: 200px">Your form, sir.</h1>
+    <div id="sales_wrapper">
+        <form>
+            {% csrf_token %}
+            <section id="paper">
+                <div id="paper_header">
+                    <div id="operator_data">
+                        {{ form.department }}
+                        {{ form.warehouse }}
+                        {{ form.operator }}
+                    </div>
+                    <div id="invoice">
+                        <h3>Invoice</h3>
+
+                    </div>
+                    <div id="seller_and_buyer">
+                        <div id="seller_data">
+                            {{ form.seller_name }}
+                            {{ form.seller_identification_number}}
+                            {{ form.seller_address }}
+                            {{ form.seller_accountable_person }}
+                            {{ form.seller_iban }}
+                        </div>
+                        <div id="buyer_data">
+                            {{ form.buyer_name }}
+                            {{ form.buyer_identification_number }}
+                            {{ form.buyer_address }}
+                            {{ form.buyer_accountable_person }}
+                            {{ form.buyer_representative }}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+        <section id="quick_product_select">
+            <div id="quick_select_tile">
+                <p></p>
+            </div>
+        </section>
+    </div>
+
+
+
+{% endblock %}
