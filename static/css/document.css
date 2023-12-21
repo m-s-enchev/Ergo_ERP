@@ -1,0 +1,45 @@
+#sales_wrapper {
+    display: flex;
+}
+
+#quick_product_select {
+    display: flex;
+    flex: 1 1 25vw;
+}
+
+#paper {
+    display:flex;
+    flex-direction: column;
+    padding: 2vw;
+    margin: 5vw;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
+    justify-content: space-between;
+    background-color: cornsilk;
+    flex: 2 1 55vw;
+
+}
+
+#paper_header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap:1vh;
+}
+
+#operator_data {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1vw;
+}
+
+#seller_and_buyer {
+    display: flex;
+    justify-content: space-between;
+}
+
+#seller_data, #buyer_data {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap:0.5vh;
+}
