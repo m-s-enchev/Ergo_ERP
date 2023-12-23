@@ -1,5 +1,5 @@
 
-.wrapper {
+#main_wrapper {
     display: flex;
     flex-direction: column;
     background-image: url("/static/images/background_8.png");
@@ -9,14 +9,14 @@
     height: fit-content;
 }
 
-.main_homepage {
+#main_homepage {
     margin-top: 10vh;
     margin-bottom: 5vh;
     display: flex;
     justify-content: center;
 }
 
-.main_menu {
+#main_menu {
     box-sizing: border-box;
     display: flex;
     justify-content: left;
@@ -26,7 +26,7 @@
 
 }
 
-.shortcuts {
+#shortcuts {
     display: none;
     justify-content: left;
     flex-wrap: wrap;
@@ -36,7 +36,7 @@
     border-left: 1px solid white;
 }
 
-.main_menu a, .shortcuts a {
+#main_menu a, #shortcuts a {
     text-decoration: none;
     color: white;
 }
@@ -74,7 +74,7 @@
 
 
 @media only screen and (max-width: 480px) {
-    .main_menu {
+    #main_menu {
         gap: 5vw;
         padding: 0 5vw;
     }
@@ -89,7 +89,7 @@
 
 
 @media only screen and (min-width: 481px) and (max-width: 810px) {
-    .main_menu {
+    #main_menu {
         gap: 4vw;
         padding: 0 4vw;
     }
@@ -107,7 +107,7 @@
 }
 
 @media only screen and (min-width: 811px) and (max-width: 1024px) {
-    .main_menu {
+    #main_menu {
         gap: 4vw;
         padding: 0 4vw;
     }
@@ -126,13 +126,13 @@
 
 
 @media only screen and (min-width: 1025px) and (max-width: 1279px) {
-    .main_homepage {
+    #main_homepage {
         margin-top: 11vh;
     }
 
-    .main_menu {
+    #main_menu {
         gap: 4vw;
-        padding: 0vw 7vw;
+        padding: 0 7vw;
     }
 
     .navigation_tile {
@@ -149,17 +149,17 @@
 
 @media only screen and (min-width: 1280px) and (max-width: 1439px) {
 
-    .main_homepage {
+    #main_homepage {
         margin-top: 12vh;
     }
 
-    .main_menu {
+    #main_menu {
         gap: 3vw;
         padding: 0 3vw;
         width: 63vw;
     }
 
-    .shortcuts {
+    #shortcuts {
         display: flex;
         gap: 2.9vw;
         padding: 0 3vw;
@@ -182,17 +182,17 @@
 
 @media only screen and (min-width: 1440px) {
 
-    .main_homepage {
+    #main_homepage {
         margin-top: 12vh;
     }
 
-    .main_menu {
+    #main_menu {
         gap: 3vw;
         padding: 0 3vw;
         width: 68vw;
     }
 
-    .shortcuts {
+    #shortcuts {
         display: flex;
         gap: 2.9vw;
         padding: 0 3vw;
@@ -212,4 +212,3 @@
         font-size: 2vw;
     }
 }
-
