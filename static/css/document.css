@@ -1,21 +1,32 @@
 #sales_wrapper {
     display: flex;
+    margin-top: 10vh;
+}
+
+#sales_form {
+    flex: 1 1 55vw;
+
 }
 
 #quick_product_select {
     display: flex;
     flex: 1 1 25vw;
+    flex-wrap: wrap;
+    padding: 2vw 2vw 2vw 0;
+    font-size: 1.2vw;
+    justify-content: flex-start;
+    color: white;
+    gap: 4%;
 }
 
 #paper {
     display:flex;
     flex-direction: column;
     padding: 2vw;
-    margin: 5vw;
+    margin: 2vw;
     box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
     justify-content: space-between;
-    background-color: cornsilk;
-    flex: 2 1 55vw;
+    background-color: #ececec;
 
 }
 
@@ -42,4 +53,34 @@
     flex-direction: column;
     justify-content: space-between;
     gap:0.5vh;
+    padding: 1vw;
+    border: 1px solid black;
+    border-radius: 3px;
 }
+
+.form-group {
+    display: flex;
+    gap: 0.5vw;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+
+.quick_select_tile {
+    padding: 0.5vw 1vw;
+    background-color: rgba(0, 119, 119, 0.5);
+    border: 1px solid white;
+    border-radius: 5px;
+    width: 48%;
+    height: auto;
+}
+
+.quick_select_tile:hover {
+    box-shadow: var(--buttons-hover);
+}
+
+.quick_select_tile:active {
+    box-shadow: var(--buttons-active);
+}
+
