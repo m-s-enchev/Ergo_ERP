@@ -2,9 +2,8 @@
 {% extends 'base.html' %}
 
 {% block content%}
-    <h1 style="margin-top: 200px">Your form, sir.</h1>
     <div id="sales_wrapper">
-        <form>
+        <form id="sales_form">
             {% csrf_token %}
             <section id="paper">
                 <div id="paper_header">
@@ -14,31 +13,72 @@
                         {{ form.operator }}
                     </div>
                     <div id="invoice">
-                        <h3>Invoice</h3>
-
+                        <h2>Invoice</h2>
                     </div>
                     <div id="seller_and_buyer">
                         <div id="seller_data">
-                            {{ form.seller_name }}
-                            {{ form.seller_identification_number}}
-                            {{ form.seller_address }}
-                            {{ form.seller_accountable_person }}
-                            {{ form.seller_iban }}
+                            <div class="form-group">
+                                <label for="{{ form.seller_name.id_for_label }}">{{ form.seller_name.label }}: </label>
+                                {{ form.seller_name }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.seller_identification_number.id_for_label }}">{{ form.seller_identification_number.label }}: </label>
+                                {{ form.seller_identification_number }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.seller_address.id_for_label }}">{{ form.seller_address.label }}: </label>
+                                {{ form.seller_address }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.seller_accountable_person_for_label }}">{{ form.seller_accountable_person.label }}: </label>
+                                {{ form.seller_accountable_person }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.seller_iban.id_for_label }}">{{ form.seller_iban.label }}: </label>
+                                {{ form.seller_iban }}
+                            </div>
                         </div>
                         <div id="buyer_data">
-                            {{ form.buyer_name }}
-                            {{ form.buyer_identification_number }}
-                            {{ form.buyer_address }}
-                            {{ form.buyer_accountable_person }}
-                            {{ form.buyer_representative }}
+                            <div class="form-group">
+                                <label for="{{ form.buyer_name.id_for_label }}">{{ form.buyer_name.label }}: </label>
+                                {{ form.buyer_name }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.buyer_identification_number.id_for_label }}">{{ form.buyer_identification_number.label }}: </label>
+                                {{ form.buyer_identification_number }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.buyer_address.id_for_label }}">{{ form.buyer_address.label }}: </label>
+                                {{ form.buyer_address }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.buyer_accountable_person_for_label }}">{{ form.buyer_accountable_person.label }}: </label>
+                                {{ form.buyer_accountable_person }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.buyer_representative.id_for_label }}">{{ form.buyer_representative.label }}: </label>
+                                {{ form.buyer_representative }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
         </form>
         <section id="quick_product_select">
-            <div id="quick_select_tile">
-                <p></p>
+            <div class="quick_select_tile">
+                <p>Creppes</p>
+            </div>
+            <div class="quick_select_tile">
+                <p>Croissant</p>
+            </div>
+                <div class="quick_select_tile">
+                <p>B12</p>
+            </div>
+                 <div class="quick_select_tile">
+                <p>Crack</p>
+            </div>
+                 <div class="quick_select_tile">
+                <p>Red bull</p>
             </div>
         </section>
     </div>
