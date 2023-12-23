@@ -24,19 +24,21 @@ class SalesDocument(models.Model):
     seller_name = models.CharField(max_length=100, verbose_name='Seller')
     seller_identification_number = models.CharField(max_length=20, verbose_name='Identification number')
     seller_address = models.CharField(max_length=200, verbose_name='Address')
-    seller_accountable_person = models.CharField(max_length=100)
+    seller_accountable_person = models.CharField(max_length=100, verbose_name='accountable person')
     seller_iban = models.CharField(max_length=34, verbose_name='IBAN')
     seller_representative = models.CharField(max_length=100)
     buyer_name = models.CharField(max_length=100, verbose_name='Buyer')
     buyer_identification_number = models.CharField(max_length=20, verbose_name='Identification number')
     buyer_address = models.CharField(max_length=200, verbose_name='Address')
-    buyer_accountable_person = models.CharField(max_length=100)
-    buyer_representative = models.CharField(max_length=100)
-    due_date = models.DateField()
+    buyer_accountable_person = models.CharField(max_length=100, verbose_name='accountable person')
+    buyer_representative = models.CharField(max_length=100, verbose_name='representative')
     sale_total_before_tax = models.FloatField(verbose_name='Subtotal')
     sale_total_tax = models.FloatField(verbose_name='VAT')
     sale_total_final = models.FloatField(verbose_name='TOTAL')
+    payment_method = models.CharField(max_length=30)
+    due_date = models.DateField()
     products_sold = models.ForeignKey(SoldProducts, on_delete=models.CASCADE)
+
 
 
 
