@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Ergo_ERP.sales'
+    'Ergo_ERP.sales',
+    'Ergo_ERP.products',
 ]
 
 MIDDLEWARE = [
