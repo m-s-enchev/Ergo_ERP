@@ -30,14 +30,14 @@ class ProductRecipeOrPartsList (models.Model):
     ingredient_or_part_quantity = models.DecimalField(decimal_places=2, max_digits=10)
 
 
-class ProductTags(models.Model):
-    tag_name = models.CharField(max_length=100)
+
 
 
 class ProductsModel(models.Model):
     product_type_choices = [
         ('product', 'Product'),
         ('service', 'Service'),
+        ('voucher', 'Voucher'),
     ]
 
     product_measuring_unit_choices = [
@@ -64,6 +64,11 @@ class ProductsModel(models.Model):
     product_notes = models.CharField(max_length=500)
     product_has_lot_and_exp_date = models.BooleanField()
     product_has_serial_number = models.BooleanField()
-    product_recipie_or_parts_list = models.ForeignKey(ProductRecipeOrPartsList, on_delete=models.CASCADE)
+    # product_recipie_or_parts_list = models.ForeignKey(ProductRecipeOrPartsList, on_delete=models.CASCADE)
+    # В кой модел трябва да е ForeignKey?
     product_made_in_department = models.CharField(max_length=100, verbose_name='manufacturing department')
-    product_tags = models.ForeignKey(ProductTags, on_delete=models.CASCADE)
+
+
+class ProductTags(models.Model):
+    tag_name = models.CharField(max_length=100)
+    tagged_product = models.ForeignKey(ProductsModel, on_delete=models.CASCADE)
