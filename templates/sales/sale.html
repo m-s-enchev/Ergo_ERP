@@ -62,6 +62,13 @@
                         </div>
                     </div>
                 </div>
+                <div id="sold-products">
+                    {{ sold_products_formset.management_form }}
+                    {% for form in sold_products_formset %}
+                        {{ form.as_table }}
+                    {% endfor %}
+
+                </div>
             </section>
         </form>
         <section id="quick_product_select">
