@@ -17,6 +17,9 @@ class SoldProductsForm(ModelForm):
 
 
 SoldProductsFormSet = inlineformset_factory(
-    SalesDocument, SoldProducts,
-    form=SoldProductsForm, extra=1,
+    SalesDocument,
+    SoldProducts,
+    form=SoldProductsForm,
+    extra=1,
+    can_delete=False
 )
