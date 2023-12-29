@@ -7,10 +7,10 @@ from Ergo_ERP.sales.forms import SalesDocumentForm, SoldProductsFormSet
 
 # Create your views here.
 
-class SalesDocumentView(FormView):
-    template_name = "sales/sale.html"
-    form_class = SalesDocumentForm
-    success_url = "/"
+# class SalesDocumentView(FormView):
+#     template_name = "sales/sale.html"
+#     form_class = SalesDocumentForm
+#     success_url = "/"
 
 
 def sales_document(request):
@@ -24,10 +24,11 @@ def sales_document(request):
             for form in sold_products_formset:
                 if form.cleaned_data:
                     sold_product = form.save(commit=False)
-                    sold_product.sales_document = sales_document
+                    sold_product.sales_document_in_which_sold = sales_document
                     sold_product.save()
 
-            return redirect(reverse('create_sales_document'))
+            return redirect(reverse('sale_new'))
+
     else:
         sales_document_form = SalesDocumentForm()
         sold_products_formset = SoldProductsFormSet(prefix='sold_products')
