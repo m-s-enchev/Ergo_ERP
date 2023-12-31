@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.views.generic import FormView
 
 from Ergo_ERP.sales.forms import SalesDocumentForm, SoldProductsFormSet
+from django.core import serializers
 
 
 # Create your views here.
@@ -34,7 +35,7 @@ def sales_document(request):
         sold_products_formset = SoldProductsFormSet(prefix='sold_products')
     context = {
         'sales_document_form': sales_document_form,
-        'sold_products_formset': sold_products_formset
+        'sold_products_formset': sold_products_formset,
+        'empty_formset': empty_formset,
     }
-
     return render(request, 'sales/sale.html', context)

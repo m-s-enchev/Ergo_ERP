@@ -64,11 +64,15 @@
                 </div>
                 <div id="sold-products">
                     {{ sold_products_formset.management_form }}
-                    {% for form in sold_products_formset %}
-                        {{ form.product_name }}
-                    {% endfor %}
+                    {{ sold_products_formset}}
+                    <input id="empty_row" type="hidden" value="{{ sold_products_formset.empty_form }}" >
+
+
+                <button id="add-sold-product">Add Sold Product</button>
 
                 </div>
+
+
             </section>
          <input type="submit" value="Submit">
         </form>
@@ -90,7 +94,7 @@
             </div>
         </section>
     </div>
-
     <script src="{% static 'js/sale_document.js' %}"></script>
+
 
 {% endblock %}
