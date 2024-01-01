@@ -15,6 +15,7 @@ from django.core import serializers
 
 
 def sales_document(request):
+
     if request.method == 'POST':
         sales_document_form = SalesDocumentForm(request.POST)
         sold_products_formset = SoldProductsFormSet(request.POST, prefix='sold_products')
@@ -36,6 +37,5 @@ def sales_document(request):
     context = {
         'sales_document_form': sales_document_form,
         'sold_products_formset': sold_products_formset,
-        'empty_formset': empty_formset,
     }
     return render(request, 'sales/sale.html', context)
