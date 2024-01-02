@@ -64,12 +64,26 @@
                 </div>
 
                  <div id="sold-products">
+                 <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Qty</th>
+                        <th>Price before VAT</th>
+                        <th>Price</th>
+                        <th>Discount</th>
+                        <th>Amount before VAT</th>
+                        <th>Amount</th>
+                        <th>LOT</th>
+                        <th>Exp. date</th>
+                    </tr>
                     {{ sold_products_formset.management_form }}
                     {% for form in sold_products_formset %}
                         <div class="product-form">
                             {{form}}
                         </div>
                     {% endfor %}
+                 
+                 </table>
                      <button id="add-row">Click</button>
                 </div>
 

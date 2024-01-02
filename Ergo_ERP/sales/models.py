@@ -35,7 +35,7 @@ class SalesDocument(models.Model):
 
 
 class SoldProducts (models.Model):
-    product_name = models.CharField(max_length=200)
+    product_name = models.CharField(max_length=200, verbose_name='Name')
     product_quantity = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Qty')
     product_price_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price before VAT')
     product_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price')
