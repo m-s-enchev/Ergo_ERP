@@ -15,10 +15,6 @@ class SoldProductsForm(ModelForm):
         model = SoldProducts
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.label_suffix = ''
-
 
 SoldProductsFormSet = inlineformset_factory(
     SalesDocument,
