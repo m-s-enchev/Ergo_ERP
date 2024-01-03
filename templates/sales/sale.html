@@ -63,28 +63,43 @@
                     </div>
                 </div>
 
-                 <div id="sold-products">
-{#                 <table>#}
-{#                    <tr>#}
-{#                        <th>Name</th>#}
-{#                        <th>Qty</th>#}
-{#                        <th>Price before VAT</th>#}
-{#                        <th>Price</th>#}
-{#                        <th>Discount</th>#}
-{#                        <th>Amount before VAT</th>#}
-{#                        <th>Amount</th>#}
-{#                        <th>LOT</th>#}
-{#                        <th>Exp. date</th>#}
-{#                    </tr>#}
+                <div id="sold-products">
                     {{ sold_products_formset.management_form }}
-                    {% for form in sold_products_formset %}
-                        <div class="product-form">
-                            {{ form }}
-                        </div>
-                    {% endfor %}
+                    <table>
+                      <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Qty</th>
+                            <th>Price before VAT</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Amount before VAT</th>
+                            <th>Amount</th>
+                            <th>LOT</th>
+                            <th>Exp. date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for form in sold_products_formset %}
+                            <tr class="product-form">
+                                <td>{{ form.product_name }}</td>
+                                <td>{{ form.product_quantity }}</td>
+                                <td>{{ form.product_price_before_tax }}</td>
+                                <td>{{ form.product_price }}</td>
+                                <td>{{ form.product_discount }}</td>
+                                <td>{{ form.product_total_before_tax }}</td>
+                                <td>{{ form.product_total }}</td>
+                                <td>{{ form.product_lot_number }}</td>
+                                <td>{{ form.product_exp_date }}</td>
+                            </tr>
+                        {% endfor %}
 
-{#                 </table>#}
-                     <button id="add-row">Click</button>
+                      </tbody>
+
+                    </table>
+
+                        <button id="add-row">Click</button>
+
                 </div>
 
             </section>

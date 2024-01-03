@@ -1,5 +1,5 @@
 let productForm = document.querySelectorAll(".product-form");
-let container = document.querySelector("#sold-products");
+let container = document.querySelector("#sold-products tbody");
 let addButton = document.querySelector("#add-row");
 let totalForms = document.querySelector("#id_sold_products-TOTAL_FORMS");
 
@@ -15,7 +15,8 @@ function addForm(e) {
 
     formNum++
     newForm.innerHTML = newForm.innerHTML.replace(formRegex, `sold_products-${formNum}-`);
-    container.insertBefore(newForm, addButton);
+    // container.insertBefore(newForm, addButton);
+    container.appendChild(newForm)
 
     totalForms.setAttribute('value', `${formNum+1}`);
 }
