@@ -12,10 +12,12 @@ function addForm(e) {
 
     let newForm = productForm[0].cloneNode(true);
     let formRegex = /sold_products-0-/g;
+    let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
+
 
     formNum++
     newForm.innerHTML = newForm.innerHTML.replace(formRegex, `sold_products-${formNum}-`);
-    // container.insertBefore(newForm, addButton);
+    newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex, `<td class="numerator">${formNum+1}</td>`);
     container.appendChild(newForm)
 
     totalForms.setAttribute('value', `${formNum+1}`);
