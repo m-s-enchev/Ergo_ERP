@@ -25,7 +25,16 @@ function addForm(e) {
 
 
 
+let invoiceCheckbox = document.getElementById('invoice-checkbox');
+let invoiceMainHeading = document.querySelector('label[for="invoice-checkbox"]');
 
+invoiceCheckbox.addEventListener('change', displayHandler);
+
+function displayHandler () {
+    if (invoiceCheckbox.checked) {
+        invoiceMainHeading.style.fontSize = '2vw';
+    }
+}
 
 
 
