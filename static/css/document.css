@@ -4,7 +4,7 @@
 }
 
 #sales_form {
-    flex: 1 1 55vw;
+    flex: 1 1 73vw;
 
 }
 
@@ -30,7 +30,7 @@
 
 }
 
-#paper_header {
+#paper-header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -43,12 +43,12 @@
     gap: 1vw;
 }
 
-#seller_and_buyer {
-    display: flex;
+#seller-and-buyer {
+    display: none;
     justify-content: space-between;
 }
 
-#seller_data, #buyer_data {
+#seller-data, #buyer-data {
     display:flex;
     flex-direction: column;
     justify-content: space-between;
@@ -83,3 +83,68 @@
 .quick_select_tile:active {
     box-shadow: var(--buttons-active);
 }
+
+#sold-products table th{
+    font-size: 1vw;
+    border: 1px solid red;
+}
+
+
+.product-form .numerator {
+    width: 2%;
+}
+
+.product-form td:nth-child(2) {
+    width: 30%;
+}
+
+.product-form td:nth-child(3) {
+    width: 4%;
+}
+
+.product-form td:nth-child(4) {
+    width: 10%;
+}
+
+.product-form td:nth-child(5) {
+    width: 10%;
+}
+
+.product-form td:nth-child(6) {
+    width: 9%;
+}
+
+.product-form td:nth-child(7) {
+    width: 9%;
+}
+
+.product-form td:nth-child(8) {
+    width: 6%;
+}
+
+.product-form td:nth-child(9) {
+    width: 10%;
+}
+
+.product-form td:nth-child(10) {
+    width: 10%;
+}
+
+.product-form input {
+    width: 100%;
+}
+
+
+
+
+/*.product-form td:nth-child(9), thead th:nth-child(9), #id_sold_products-0-product_lot_number {*/
+/*    display: none;*/
+/*}*/
+
+/*.product-form td:nth-child(10), thead th:nth-child(10), #id_sold_products-0-product_exp_date {*/
+/*    display: none;*/
+/*}*/
+
+
+
+

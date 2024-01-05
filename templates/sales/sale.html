@@ -1,22 +1,22 @@
 
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 {% block content%}
     <div id="sales_wrapper">
         <form id="sales_form" method="post" action="{% url 'sale_new' %}">
             {% csrf_token %}
             <section id="paper">
-                <div id="paper_header">
+                <div id="paper-header">
                     <div id="operator_data">
                         {{ sales_document_form.department }}
                         {{ sales_document_form.warehouse }}
                         {{ sales_document_form.operator }}
+                        <label for="invoice-checkbox">Invoice</label>
+                        <input type="checkbox" id="invoice-checkbox">
                     </div>
-                    <div id="invoice">
-                        <h2>Invoice</h2>
-                    </div>
-                    <div id="seller_and_buyer">
-                        <div id="seller_data">
+                    <div id="seller-and-buyer">
+                        <div id="seller-data">
                             <div class="form-group">
                                 <label for="{{ sales_document_form.seller_name.id_for_label }}">{{ sales_document_form.seller_name.label }}: </label>
                                 {{ sales_document_form.seller_name }}
@@ -38,7 +38,7 @@
                                 {{ sales_document_form.seller_iban }}
                             </div>
                         </div>
-                        <div id="buyer_data">
+                        <div id="buyer-data">
                             <div class="form-group">
                                 <label for="{{ sales_document_form.buyer_name.id_for_label }}">{{ sales_document_form.buyer_name.label }}: </label>
                                 {{ sales_document_form.buyer_name }}
@@ -68,31 +68,37 @@
                     <table>
                       <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Qty</th>
-                            <th>Price before VAT</th>
-                            <th>Price</th>
-                            <th>Discount</th>
-                            <th>Amount before VAT</th>
-                            <th>Amount</th>
-                            <th>LOT</th>
-                            <th>Exp. date</th>
+                            <th>#</th>
+                            <th>{% translate 'Name' %}</th>
+                            <th>{% translate 'Qty' %}</th>
+                            <th>{% translate 'LOT' %}</th>
+                            <th>{% translate 'Exp. date' %}</th>
+                            <th>{% translate 'Price before VAT' %}</th>
+                            <th>{% translate 'Price' %}</th>
+                            <th>{% translate 'Discount %' %}</th>
+                            <th>{% translate 'Amount before VAT' %}</th>
+                            <th>{% translate 'Amount' %}</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {% for form in sold_products_formset %}
-                            <tr class="product-form">
-                                <td>{{ form.product_name }}</td>
-                                <td>{{ form.product_quantity }}</td>
-                                <td>{{ form.product_price_before_tax }}</td>
-                                <td>{{ form.product_price }}</td>
-                                <td>{{ form.product_discount }}</td>
-                                <td>{{ form.product_total_before_tax }}</td>
-                                <td>{{ form.product_total }}</td>
-                                <td>{{ form.product_lot_number }}</td>
-                                <td>{{ form.product_exp_date }}</td>
-                            </tr>
-                        {% endfor %}
+
+                            {% for form in sold_products_formset %}
+
+                                <tr class="product-form">
+                                    <td class="numerator">{{ forloop.counter }}</td>
+                                    <td>{{ form.product_name }}</td>
+                                    <td>{{ form.product_quantity }}</td>
+                                    <td>{{ form.product_lot_number }}</td>
+                                    <td>{{ form.product_exp_date }}</td>
+                                    <td>{{ form.product_price_before_tax }}</td>
+                                    <td>{{ form.product_price }}</td>
+                                    <td>{{ form.product_discount }}</td>
+                                    <td>{{ form.product_total_before_tax }}</td>
+                                    <td>{{ form.product_total }}</td>
+                                </tr>
+
+                            {% endfor %}
+
 
                       </tbody>
 
@@ -107,7 +113,7 @@
         </form>
         <section id="quick_product_select">
             <div class="quick_select_tile">
-                <p>Creppes</p>
+                <p>Crepes</p>
             </div>
             <div class="quick_select_tile">
                 <p>Croissant</p>
