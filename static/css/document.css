@@ -44,7 +44,7 @@
 }
 
 #seller-and-buyer {
-    display: none;
+    display: flex;
     justify-content: space-between;
 }
 

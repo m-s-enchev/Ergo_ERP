@@ -1,5 +1,5 @@
 
-#main_wrapper {
+#main-wrapper {
     display: flex;
     flex-direction: column;
     background-image: url("/static/images/background_8.png");
@@ -9,14 +9,14 @@
     height: fit-content;
 }
 
-#main_homepage {
+#main-homepage {
     margin-top: 10vh;
     margin-bottom: 5vh;
     display: flex;
     justify-content: center;
 }
 
-#main_menu {
+#main-menu {
     box-sizing: border-box;
     display: flex;
     justify-content: left;
@@ -36,12 +36,12 @@
     border-left: 1px solid white;
 }
 
-#main_menu a, #shortcuts a {
+#main-menu a, #shortcuts a {
     text-decoration: none;
     color: white;
 }
 
-.navigation_tile {
+.navigation-tile {
     flex-shrink: 0;
     font-size: 120%;
     text-align: center;
@@ -56,17 +56,17 @@
 }
 
 
-.navigation_tile:hover {
+.navigation-tile:hover {
     box-shadow: var(--buttons-hover);
 }
 
 
-.navigation_tile:active {
+.navigation-tile:active {
     box-shadow: var(--buttons-active);
 }
 
 
-.navigation_tile p:nth-child(1) {
+.navigation-tile p:nth-child(1) {
     flex-grow: 1;
     text-align: center;
 }
@@ -74,12 +74,12 @@
 
 
 @media only screen and (max-width: 480px) {
-    #main_menu {
+    #main-menu {
         gap: 5vw;
         padding: 0 5vw;
     }
 
-    .navigation_tile {
+    .navigation-tile {
         width: 42.5vw;
         height: 30vw;
         font-size: 6vw;
@@ -89,71 +89,71 @@
 
 
 @media only screen and (min-width: 481px) and (max-width: 810px) {
-    #main_menu {
+    #main-menu {
         gap: 4vw;
         padding: 0 4vw;
     }
 
-    .navigation_tile {
+    .navigation-tile {
         width: 28vw;
         height: 28vw;
         font-size: 4vw;
         padding: 2vw;
     }
 
-    .navigation_tile i {
+    .navigation-tile i {
         font-size: 6vw;
     }
 }
 
 @media only screen and (min-width: 811px) and (max-width: 1024px) {
-    #main_menu {
+    #main-menu {
         gap: 4vw;
         padding: 0 4vw;
     }
 
-    .navigation_tile {
+    .navigation-tile {
         width: 20vw;
         height: 20vw;
         font-size: 3vw;
         padding: 2vw;
     }
 
-    .navigation_tile i {
+    .navigation-tile i {
         font-size: 4vw;
     }
 }
 
 
 @media only screen and (min-width: 1025px) and (max-width: 1279px) {
-    #main_homepage {
+    #main-homepage {
         margin-top: 11vh;
     }
 
-    #main_menu {
+    #main-menu {
         gap: 4vw;
         padding: 0 7vw;
     }
 
-    .navigation_tile {
+    .navigation-tile {
         width: 14vw;
         height: 14vw;
         font-size: 2vw;
         padding: 1.8vw;
     }
 
-    .navigation_tile i {
+    .navigation-tile i {
         font-size: 3vw;
     }
 }
 
 @media only screen and (min-width: 1280px) and (max-width: 1439px) {
 
-    #main_homepage {
+    #main-homepage {
         margin-top: 12vh;
     }
 
-    #main_menu {
+    #main-menu {
         gap: 3vw;
         padding: 0 3vw;
         width: 63vw;
@@ -167,14 +167,14 @@
         align-content: flex-start;
     }
 
-    .navigation_tile {
+    .navigation-tile {
         width: 12vw;
         height: 12vw;
         font-size: 1.6vw;
         padding: 1.7vw;
     }
 
-    .navigation_tile i {
+    .navigation-tile i {
         font-size: 2.2vw;
     }
 }
@@ -182,11 +182,11 @@
 
 @media only screen and (min-width: 1440px) {
 
-    #main_homepage {
+    #main-homepage {
         margin-top: 12vh;
     }
 
-    #main_menu {
+    #main-menu {
         gap: 3vw;
         padding: 0 3vw;
         width: 68vw;
@@ -201,14 +201,14 @@
 
     }
 
-    .navigation_tile {
+    .navigation-tile {
         width: 10vw;
         height: 10vw;
         font-size: 1.4vw;
         padding: 1.3vw;
     }
 
-    .navigation_tile i {
+    .navigation-tile i {
         font-size: 2vw;
     }
 }
