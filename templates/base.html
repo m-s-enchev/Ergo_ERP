@@ -12,25 +12,25 @@
     <title>ERGO</title>
 </head>
 <body>
-    <nav>
-        <div class="home_button">
+    <nav id="main-navigation">
+        <div id="home-button">
             <a href="/"><i class="fa-solid fa-house"></i></a>
         </div>
-        <div class="back_button">
+        <div id="back-button">
             <a href="#"><i class="fa-solid fa-left-long"></i></a>
         </div>
-        <div class="navigation_display">
+        <div id="navigation-display">
             <p>Main menu</p>
         </div>
-        <div class="next_button">
+        <div id="next-button">
             <button><i class="fa-solid fa-check"></i></button>
         </div>
-        <div class="settings">
+        <div id="settings">
             <a href="/settings/"><i class="fa-solid fa-gear"></i></a>
         </div>
     </nav>
 
-    <main id="main_wrapper">
+    <main id="main-wrapper">
         {% block content%}
         {% endblock %}
     </main>
