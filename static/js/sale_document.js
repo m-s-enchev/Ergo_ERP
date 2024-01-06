@@ -52,7 +52,10 @@ function tableColumnShow(table, priceColumnIndex, amountColumnIndex) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    tableColumnHide(productsTable, 5, 8)})
+    tableColumnHide(productsTable, 5, 8);
+    sellerAndBuyer.style.display = 'none';
+});
+
 
 function displayHandler () {
     if (invoiceCheckbox.checked) {
