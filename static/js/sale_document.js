@@ -3,7 +3,7 @@ let container = document.querySelector("#sold-products tbody");
 let addButton = document.querySelector("#add-row");
 let totalForms = document.querySelector("#id_sold_products-TOTAL_FORMS");
 
-let formNum = productForm.length-1;
+let formNum = productForm.length;
 
 addButton.addEventListener('click', addForm);
 
@@ -15,12 +15,11 @@ function addForm(e) {
     let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
 
 
-    formNum++
     newForm.innerHTML = newForm.innerHTML.replace(formRegex, `sold_products-${formNum}-`);
-    newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex, `<td class="numerator">${formNum+1}</td>`);
+    formNum++
+    newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex, `<td class="numerator">${formNum}</td>`);
     container.appendChild(newForm)
-
-    totalForms.setAttribute('value', `${formNum+1}`);
+    totalForms.setAttribute('value', `${formNum}`);
 }
 
 
@@ -31,7 +30,6 @@ let invoiceMainHeading = document.querySelector('label[for="invoice-checkbox"]')
 let sellerAndBuyer = document.getElementById('seller-and-buyer');
 let productsTable = document.querySelector('#sold-products table');
 
-invoiceCheckbox.addEventListener('change', displayHandler);
 
 function tableColumnHide(table, priceColumnIndex, amountColumnIndex) {
     let rows = table.rows
@@ -56,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sellerAndBuyer.style.display = 'none';
 });
 
+invoiceCheckbox.addEventListener('change', displayHandler);
 
 function displayHandler () {
     if (invoiceCheckbox.checked) {
