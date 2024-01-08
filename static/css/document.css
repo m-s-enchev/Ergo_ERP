@@ -1,6 +1,6 @@
 #sales_wrapper {
     display: flex;
-    margin-top: 10vh;
+    margin-top: 8vh;
 }
 
 #sales_form {
@@ -83,6 +83,12 @@
 .quick_select_tile:active {
     box-shadow: var(--buttons-active);
 }
+
+
+#sold-products {
+    margin-top: 2vh;
+}
+
 
 #sold-products table th{
     font-size: 1vw;
