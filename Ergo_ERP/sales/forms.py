@@ -1,6 +1,12 @@
 from django.forms import ModelForm, inlineformset_factory
 
-from Ergo_ERP.sales.models import SalesDocument, SoldProducts
+from Ergo_ERP.sales.models import SalesDocument, SoldProducts, InvoiceData
+
+
+class InvoiceDataForm(ModelForm):
+    class Meta:
+        model = InvoiceData
+        fields = '__all__'
 
 
 class SalesDocumentForm(ModelForm):
@@ -22,4 +28,12 @@ SoldProductsFormSet = inlineformset_factory(
     form=SoldProductsForm,
     extra=1,
     can_delete=False
+)
+
+InvoiceDataFormSet = inlineformset_factory(
+    SalesDocument,
+    InvoiceData,
+    form=InvoiceDataForm,
+    extra=1,
+    can_delete=False,
 )

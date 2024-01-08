@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class SalesDocument(models.Model):
     payment_method_choices = [
@@ -15,17 +13,6 @@ class SalesDocument(models.Model):
     operator = models.CharField(max_length=100)
     department = models.CharField(max_length=100)
     warehouse = models.CharField(max_length=100)
-    seller_name = models.CharField(max_length=100, verbose_name='Seller')
-    seller_identification_number = models.CharField(max_length=20, verbose_name='Identification number')
-    seller_address = models.CharField(max_length=200, verbose_name='Address')
-    seller_accountable_person = models.CharField(max_length=100, verbose_name='accountable person')
-    seller_iban = models.CharField(max_length=34, verbose_name='IBAN')
-    seller_representative = models.CharField(null=True, blank=True, max_length=100)
-    buyer_name = models.CharField(max_length=100, verbose_name='Buyer')
-    buyer_identification_number = models.CharField(max_length=20, verbose_name='Identification number')
-    buyer_address = models.CharField(max_length=200, verbose_name='Address')
-    buyer_accountable_person = models.CharField(max_length=100, verbose_name='accountable person')
-    buyer_representative = models.CharField(max_length=100, verbose_name='representative')
 
     sale_total_before_tax = models.DecimalField(null=True, blank=True, decimal_places=2, max_digits=10, verbose_name='Subtotal')
     sale_total_tax = models.DecimalField(null=True,  blank=True,decimal_places=2, max_digits=10, verbose_name='VAT')
@@ -47,6 +34,20 @@ class SoldProducts (models.Model):
     sales_document_in_which_sold = models.ForeignKey(SalesDocument, on_delete=models.CASCADE)
 
 
+class InvoiceData(models.Model):
+    invoice_number = models.IntegerField(blank=True, null=True)
+    buyer_name = models.CharField(max_length=100, verbose_name='Buyer')
+    buyer_identification_number = models.CharField(max_length=20, verbose_name='Identification number')
+    buyer_address = models.CharField(max_length=200, verbose_name='Address')
+    buyer_accountable_person = models.CharField(max_length=100, verbose_name='accountable person')
+    buyer_representative = models.CharField(max_length=100, verbose_name='representative')
+    sales_document_for_invoice = models.OneToOneField(SalesDocument, on_delete=models.CASCADE)
 
+# seller_name = models.CharField(max_length=100, verbose_name='Seller')
+# seller_identification_number = models.CharField(max_length=20, verbose_name='Identification number')
+# seller_address = models.CharField(max_length=200, verbose_name='Address')
+# seller_accountable_person = models.CharField(max_length=100, verbose_name='accountable person')
+# seller_iban = models.CharField(max_length=34, verbose_name='IBAN')
+# seller_representative = models.CharField(null=True, blank=True, max_length=100)
 
 
