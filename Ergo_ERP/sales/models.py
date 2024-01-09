@@ -24,12 +24,12 @@ class SalesDocument(models.Model):
 class SoldProducts (models.Model):
     product_name = models.CharField(max_length=200, verbose_name='Name')
     product_quantity = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Qty')
-    product_price_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price before VAT')
-    product_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price')
-    product_discount = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Discount')
-    product_total_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Amount before VAT')
-    product_total = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Amount')
-    product_lot_number = models.CharField(max_length=100, verbose_name='LOT', null=True, blank=True,)
+    product_price_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price before VAT', null=True, blank=True)
+    product_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price', null=True, blank=True)
+    product_discount = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Discount', null=True, blank=True)
+    product_total_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Amount before VAT', null=True, blank=True)
+    product_total = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Amount', null=True, blank=True)
+    product_lot_number = models.CharField(max_length=100, verbose_name='LOT', null=True, blank=True)
     product_exp_date = models.DateField(verbose_name='Exp. date', null=True,  blank=True,)
     sales_document_in_which_sold = models.ForeignKey(SalesDocument, on_delete=models.CASCADE)
 

@@ -43,13 +43,13 @@
     gap: 1vw;
 }
 
-#seller-and-buyer {
+#invoice-data {
     display: flex;
     justify-content: space-between;
 }
 
 #seller-data, #buyer-data {
-    display:flex;
+    display:none;
     flex-direction: column;
     justify-content: space-between;
     gap:0.5vh;
