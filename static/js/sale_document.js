@@ -27,7 +27,8 @@ function addForm(e) {
 
 let invoiceCheckbox = document.getElementById('invoice-checkbox');
 let invoiceMainHeading = document.querySelector('label[for="invoice-checkbox"]');
-let sellerAndBuyer = document.getElementById('seller-and-buyer');
+let invoiceData = document.getElementById('invoice-data');
+let buyerData = document.getElementById('buyer-data');
 let productsTable = document.querySelector('#sold-products table');
 
 
@@ -51,7 +52,7 @@ function tableColumnShow(table, priceColumnIndex, amountColumnIndex) {
 
 document.addEventListener('DOMContentLoaded', function () {
     tableColumnHide(productsTable, 5, 8);
-    sellerAndBuyer.style.display = 'none';
+    invoiceData.removeChild(buyerData);
 });
 
 invoiceCheckbox.addEventListener('change', displayHandler);
@@ -59,12 +60,14 @@ invoiceCheckbox.addEventListener('change', displayHandler);
 function displayHandler () {
     if (invoiceCheckbox.checked) {
         invoiceMainHeading.style.fontWeight = 'bold';
-        sellerAndBuyer.style.display = 'flex';
+        buyerData.style.display = 'flex';
+        invoiceData.appendChild(buyerData);
         tableColumnShow(productsTable,5,8)
         tableColumnHide(productsTable,6,9)
+
     } else {
         invoiceMainHeading.style.fontWeight = 'normal';
-        sellerAndBuyer.style.display = 'none';
+        invoiceData.removeChild(buyerData);
         tableColumnShow(productsTable,6,9)
         tableColumnHide(productsTable,5,8)
     }
