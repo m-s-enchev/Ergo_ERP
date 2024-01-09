@@ -1,17 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import FormView
 
 from Ergo_ERP.sales.forms import SalesDocumentForm, SoldProductsFormSet, InvoiceDataFormSet
-from django.core import serializers
-
-
-# Create your views here.
-
-# class SalesDocumentView(FormView):
-#     template_name = "sales/sale.html"
-#     form_class = SalesDocumentForm
-#     success_url = "/"
 
 
 def sales_document(request):
@@ -19,8 +9,14 @@ def sales_document(request):
         sales_document_form = SalesDocumentForm(request.POST)
         sold_products_formset = SoldProductsFormSet(request.POST, prefix='sold_products')
         invoice_data_formset = InvoiceDataFormSet(request.POST, prefix='invoice_data')
+        print(invoice_data_formset)
 
-        if sales_document_form.is_valid() and sold_products_formset.is_valid() and invoice_data_formset.is_valid():
+        if (
+                sales_document_form.is_valid()
+                and sold_products_formset.is_valid()
+                and (not invoice_data_formset.forms or invoice_data_formset.is_valid())
+        ):
+            print('forms are valid bro')
             sales_document = sales_document_form.save()
             sold_products_instances = sold_products_formset.save(commit=False)
 
@@ -28,15 +24,15 @@ def sales_document(request):
                 if form.cleaned_data:
                     sold_product.sales_document_in_which_sold = sales_document
                     sold_product.save()
+            if invoice_data_formset.forms:
+                invoice_data_instances = invoice_data_formset.save(commit=False)
+                for invoice_data_instance, form in zip(invoice_data_instances, invoice_data_formset):
+                    if form.cleaned_data:
+                        invoice_data_instance.sales_document = sales_document
+                        invoice_data_instance.save()
 
-            invoice_data_instances = invoice_data_formset.save(commit=False)
-            for invoice_data_instance, form in zip(invoice_data_instances, invoice_data_formset):
-                if form.cleaned_data:
-                    invoice_data_instance.sales_document = sales_document
-                    invoice_data_instance.save()
-
-            sold_products_formset.save_m2m()
-            invoice_data_formset.save_m2m()
+                sold_products_formset.save_m2m()
+                invoice_data_formset.save_m2m()
 
             return redirect(reverse('sale_new'))
 
