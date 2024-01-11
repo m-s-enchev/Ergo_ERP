@@ -1,4 +1,4 @@
-from django.forms import ModelForm, inlineformset_factory, forms
+from django.forms import ModelForm, inlineformset_factory, forms, BaseInlineFormSet
 
 from Ergo_ERP.sales.models import SalesDocument, SoldProducts, InvoiceData
 
@@ -22,12 +22,20 @@ class SoldProductsForm(ModelForm):
         fields = '__all__'
 
 
+class InlineFormSetWithNoEmptyForms(BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for form in self.forms:
+            form.empty_permitted = False
+
+
 SoldProductsFormSet = inlineformset_factory(
     SalesDocument,
     SoldProducts,
     form=SoldProductsForm,
     extra=1,
-    can_delete=False
+    can_delete=False,
+    formset=InlineFormSetWithNoEmptyForms
 )
 
 InvoiceDataFormSet = inlineformset_factory(
@@ -36,4 +44,5 @@ InvoiceDataFormSet = inlineformset_factory(
     form=InvoiceDataForm,
     extra=1,
     can_delete=False,
+    formset=InlineFormSetWithNoEmptyForms
 )
