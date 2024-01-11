@@ -23,12 +23,14 @@ function addForm(e) {
 }
 
 
-// Hide and show different columns depending on weather it's an invoice or not
+// Toggle columns depending on weather it's an invoice or not
 
 let invoiceCheckbox = document.getElementById('invoice-checkbox');
 let invoiceMainHeading = document.querySelector('label[for="invoice-checkbox"]');
 let invoiceData = document.getElementById('invoice-data');
 let buyerData = document.getElementById('buyer-data');
+let invoiceNumberAndDates = document.getElementById('invoice-number-and-dates');
+let invoiceToggledFields = document.getElementById('invoice-toggled-fields');
 let productsTable = document.querySelector('#sold-products table');
 
 
@@ -53,6 +55,7 @@ function tableColumnShow(table, priceColumnIndex, amountColumnIndex) {
 document.addEventListener('DOMContentLoaded', function () {
     tableColumnHide(productsTable, 5, 8);
     invoiceData.removeChild(buyerData);
+    invoiceNumberAndDates.removeChild(invoiceToggledFields);
 });
 
 invoiceCheckbox.addEventListener('change', displayHandler);
@@ -62,12 +65,14 @@ function displayHandler () {
         invoiceMainHeading.style.fontWeight = 'bold';
         buyerData.style.display = 'flex';
         invoiceData.appendChild(buyerData);
+        invoiceNumberAndDates.appendChild(invoiceToggledFields);
         tableColumnShow(productsTable,5,8)
         tableColumnHide(productsTable,6,9)
 
     } else {
         invoiceMainHeading.style.fontWeight = 'normal';
         invoiceData.removeChild(buyerData);
+        invoiceNumberAndDates.removeChild(invoiceToggledFields);
         tableColumnShow(productsTable,6,9)
         tableColumnHide(productsTable,5,8)
     }

@@ -48,14 +48,20 @@
     justify-content: space-between;
 }
 
-#seller-data, #buyer-data {
-    display:none;
+#invoice-number-and-dates, #buyer-data {
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap:0.5vh;
     padding: 1vw;
     border: 1px solid black;
     border-radius: 3px;
+}
+
+
+#invoice-toggled-fields {
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group {

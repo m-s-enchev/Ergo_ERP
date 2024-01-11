@@ -14,28 +14,29 @@
                         {{ sales_document_form.operator }}
                     </div>
 
-
-
                     <div id="invoice-data">
                         <div id="invoice-number-and-dates">
+                            <span>
                             <label for="invoice-checkbox">Invoice</label>
                             <input type="checkbox" id="invoice-checkbox">
-                            <div class="form-group">
-                                <label for="{{ invoice_data_formset.forms.0.invoice_number }}">{{ invoice_data_formset.forms.0.invoice_number.label }}: </label>
-                                {{ invoice_data_formset.forms.0.invoice_number }}
+                                </span>
+                            <div id="invoice-toggled-fields">
+                                {{ invoice_data_formset.management_form }}
+                                <div class="form-group">
+                                    <label for="{{ invoice_data_formset.forms.0.invoice_number }}">{{ invoice_data_formset.forms.0.invoice_number.label }}: </label>
+                                    {{ invoice_data_formset.forms.0.invoice_number }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="{{ invoice_data_formset.forms.0.invoice_date }}">{{ invoice_data_formset.forms.0.invoice_date.label }}: </label>
+                                    {{ invoice_data_formset.forms.0.invoice_date }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="{{ invoice_data_formset.forms.0.invoice_due_date }}">{{ invoice_data_formset.forms.0.invoice_due_date.label }}: </label>
+                                    {{ invoice_data_formset.forms.0.invoice_due_date }}
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="{{ invoice_data_formset.forms.0.invoice_date }}">{{ invoice_data_formset.forms.0.invoice_date.label }}: </label>
-                                {{ invoice_data_formset.forms.0.invoice_date }}
-                            </div>
-                            <div class="form-group">
-                                <label for="{{ invoice_data_formset.forms.0.invoice_due_date }}">{{ invoice_data_formset.forms.0.invoice_due_date.label }}: </label>
-                                {{ invoice_data_formset.forms.0.invoice_due_date }}
-                            </div>
-
                         </div>
                         <div id="buyer-data">
-                            {{ invoice_data_formset.management_form }}
                             <div class="form-group">
                                 <label for="{{ invoice_data_formset.forms.0.buyer_name.id_for_label }}">{{ invoice_data_formset.forms.0.buyer_name.label }}: </label>
                                 {{ invoice_data_formset.forms.0.buyer_name }}
