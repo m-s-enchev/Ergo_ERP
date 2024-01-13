@@ -17,19 +17,22 @@
                     <div id="client-and-invoice-data">
                         <div id="invoice-number-and-dates">
                             <div>
-                                <label for="invoice-checkbox">Invoice</label>
-                                <input type="checkbox" id="invoice-checkbox">
+                                <label for="id_is_linked_to_invoice">Invoice</label>
+                                {{ sales_document_form.is_linked_to_invoice }}
                             </div>
                             <div id="invoice-toggled-fields">
                                 {{ invoice_data_formset.management_form }}
+                                {{ invoice_data_formset.forms.0.invoice_number.errors }}
                                 <div class="form-group">
                                     <label for="{{ invoice_data_formset.forms.0.invoice_number.id_for_label }}">{{ invoice_data_formset.forms.0.invoice_number.label }}: </label>
                                     {{ invoice_data_formset.forms.0.invoice_number }}
                                 </div>
+                                {{ invoice_data_formset.forms.0.invoice_date.errors }}
                                 <div class="form-group">
                                     <label for="{{ invoice_data_formset.forms.0.invoice_date.id_for_label }}">{{ invoice_data_formset.forms.0.invoice_date.label }}: </label>
                                     {{ invoice_data_formset.forms.0.invoice_date }}
                                 </div>
+                                {{ invoice_data_formset.forms.0.invoice_due_date.errors }}
                                 <div class="form-group">
                                     <label for="{{ invoice_data_formset.forms.0.invoice_due_date.id_for_label }}">{{ invoice_data_formset.forms.0.invoice_due_date.label }}: </label>
                                     {{ invoice_data_formset.forms.0.invoice_due_date }}
@@ -42,18 +45,22 @@
                                 {{ sales_document_form.buyer_name }}
                             </div>
                             <div id="buyer-data-toggle-fields">
+                                {{ invoice_data_formset.forms.0.buyer_identification_number.errors }}
                                 <div class="form-group">
                                     <label for="{{ invoice_data_formset.forms.0.buyer_identification_number.id_for_label }}">{{ invoice_data_formset.forms.0.buyer_identification_number.label }}: </label>
                                     {{ invoice_data_formset.forms.0.buyer_identification_number }}
                                 </div>
+                                 {{ invoice_data_formset.forms.0.buyer_address.errors }}
                                 <div class="form-group">
                                     <label for="{{ invoice_data_formset.forms.0.buyer_address.id_for_label }}">{{ invoice_data_formset.forms.0.buyer_address.label }}: </label>
                                     {{ invoice_data_formset.forms.0.buyer_address }}
                                 </div>
+                                {{ invoice_data_formset.forms.0.buyer_accountable_person.errors }}
                                 <div class="form-group">
-                                    <label for="{{ invoice_data_formset.forms.0.buyer_accountable_person_for_label }}">{{ invoice_data_formset.forms.0.buyer_accountable_person.label }}: </label>
+                                    <label for="{{ invoice_data_formset.forms.0.buyer_accountable_person.id_for_label }}">{{ invoice_data_formset.forms.0.buyer_accountable_person.label }}: </label>
                                     {{ invoice_data_formset.forms.0.buyer_accountable_person }}
                                 </div>
+                                {{ invoice_data_formset.forms.0.buyer_representative.errors }}
                                 <div class="form-group">
                                     <label for="{{ invoice_data_formset.forms.0.buyer_representative.id_for_label }}">{{ invoice_data_formset.forms.0.buyer_representative.label }}: </label>
                                     {{ invoice_data_formset.forms.0.buyer_representative }}
