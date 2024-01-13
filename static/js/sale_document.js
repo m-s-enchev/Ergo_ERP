@@ -1,3 +1,5 @@
+
+// Add row at end of product table
 let productForm = document.querySelectorAll(".product-form");
 let container = document.querySelector("#sold-products tbody");
 let addButton = document.querySelector("#add-row");
@@ -27,8 +29,8 @@ function addForm(e) {
 
 let invoiceCheckbox = document.getElementById('invoice-checkbox');
 let invoiceMainHeading = document.querySelector('label[for="invoice-checkbox"]');
-let invoiceData = document.getElementById('invoice-data');
 let buyerData = document.getElementById('buyer-data');
+let buyerDataToggleFields = document.getElementById('buyer-data-toggle-fields');
 let invoiceNumberAndDates = document.getElementById('invoice-number-and-dates');
 let invoiceToggledFields = document.getElementById('invoice-toggled-fields');
 let productsTable = document.querySelector('#sold-products table');
@@ -54,8 +56,8 @@ function tableColumnShow(table, priceColumnIndex, amountColumnIndex) {
 
 document.addEventListener('DOMContentLoaded', function () {
     tableColumnHide(productsTable, 5, 8);
-    invoiceData.removeChild(buyerData);
     invoiceNumberAndDates.removeChild(invoiceToggledFields);
+    buyerData.removeChild(buyerDataToggleFields);
 });
 
 invoiceCheckbox.addEventListener('change', displayHandler);
@@ -63,16 +65,15 @@ invoiceCheckbox.addEventListener('change', displayHandler);
 function displayHandler () {
     if (invoiceCheckbox.checked) {
         invoiceMainHeading.style.fontWeight = 'bold';
-        buyerData.style.display = 'flex';
-        invoiceData.appendChild(buyerData);
         invoiceNumberAndDates.appendChild(invoiceToggledFields);
+        buyerData.appendChild(buyerDataToggleFields);
         tableColumnShow(productsTable,5,8)
         tableColumnHide(productsTable,6,9)
 
     } else {
         invoiceMainHeading.style.fontWeight = 'normal';
-        invoiceData.removeChild(buyerData);
         invoiceNumberAndDates.removeChild(invoiceToggledFields);
+        buyerData.removeChild(buyerDataToggleFields);
         tableColumnShow(productsTable,6,9)
         tableColumnHide(productsTable,5,8)
     }
