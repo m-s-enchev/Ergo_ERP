@@ -25,13 +25,11 @@ function addForm(e) {
 }
 
 
-// Toggle columns depending on weather it's an invoice or not
+// Toggle columns and fields depending on whether it's an invoice or not
 
-let invoiceCheckbox = document.getElementById('invoice-checkbox');
-let invoiceMainHeading = document.querySelector('label[for="invoice-checkbox"]');
-let buyerData = document.getElementById('buyer-data');
+let invoiceCheckbox = document.getElementById('id_is_linked_to_invoice');
+let invoiceMainHeading = document.querySelector('label[for="id_is_linked_to_invoice"]');
 let buyerDataToggleFields = document.getElementById('buyer-data-toggle-fields');
-let invoiceNumberAndDates = document.getElementById('invoice-number-and-dates');
 let invoiceToggledFields = document.getElementById('invoice-toggled-fields');
 let productsTable = document.querySelector('#sold-products table');
 
@@ -56,8 +54,8 @@ function tableColumnShow(table, priceColumnIndex, amountColumnIndex) {
 
 document.addEventListener('DOMContentLoaded', function () {
     tableColumnHide(productsTable, 5, 8);
-    invoiceNumberAndDates.removeChild(invoiceToggledFields);
-    buyerData.removeChild(buyerDataToggleFields);
+    invoiceToggledFields.style.display = 'none';
+    buyerDataToggleFields.style.display = 'none';
 });
 
 invoiceCheckbox.addEventListener('change', displayHandler);
@@ -65,15 +63,17 @@ invoiceCheckbox.addEventListener('change', displayHandler);
 function displayHandler () {
     if (invoiceCheckbox.checked) {
         invoiceMainHeading.style.fontWeight = 'bold';
-        invoiceNumberAndDates.appendChild(invoiceToggledFields);
-        buyerData.appendChild(buyerDataToggleFields);
+        invoiceToggledFields.style.display = 'flex';
+        buyerDataToggleFields.style.display = 'flex';
         tableColumnShow(productsTable,5,8)
         tableColumnHide(productsTable,6,9)
 
     } else {
         invoiceMainHeading.style.fontWeight = 'normal';
-        invoiceNumberAndDates.removeChild(invoiceToggledFields);
-        buyerData.removeChild(buyerDataToggleFields);
+        invoiceToggledFields.style.display = 'none';
+        buyerDataToggleFields.style.display = 'none';
+        // invoiceNumberAndDates.removeChild(invoiceToggledFields);
+        // buyerData.removeChild(buyerDataToggleFields);
         tableColumnShow(productsTable,6,9)
         tableColumnHide(productsTable,5,8)
     }
