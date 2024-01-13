@@ -1,15 +1,22 @@
-from django.forms import ModelForm, inlineformset_factory, forms, BaseInlineFormSet
+from django import forms
+from django.forms import inlineformset_factory, BaseInlineFormSet, ModelForm
 
 from Ergo_ERP.sales.models import SalesDocument, SoldProducts, InvoiceData
 
+from datetime import date
 
-class InvoiceDataForm(ModelForm):
+
+class InvoiceDataForm(forms.ModelForm):
+    invoice_date = forms.DateField(initial=date.today())
+    invoice_due_date = forms.DateField(initial=date.today())
+
     class Meta:
         model = InvoiceData
         fields = '__all__'
 
 
 class SalesDocumentForm(ModelForm):
+    date = forms.DateField(initial=date.today(), required=False)
 
     class Meta:
         model = SalesDocument
