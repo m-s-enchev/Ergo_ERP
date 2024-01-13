@@ -7,8 +7,16 @@ from datetime import date
 
 
 class InvoiceDataForm(forms.ModelForm):
-    invoice_date = forms.DateField(initial=date.today())
-    invoice_due_date = forms.DateField(initial=date.today())
+    invoice_date = forms.DateField(
+        initial=date.today(),
+        input_formats=['%d.%m.%Y'],
+        widget=forms.DateInput(format='%d.%m.%Y', attrs={'type': 'date'})
+    )
+    invoice_due_date = forms.DateField(
+        initial=date.today(),
+        input_formats=['%d.%m.%Y'],
+        widget=forms.DateInput(format='%d.%m.%Y')
+    )
 
     class Meta:
         model = InvoiceData
@@ -16,7 +24,11 @@ class InvoiceDataForm(forms.ModelForm):
 
 
 class SalesDocumentForm(ModelForm):
-    date = forms.DateField(initial=date.today(), required=False)
+    date = forms.DateField(
+        initial=date.today(),
+        input_formats=['%d.%m.%Y'],
+        widget=forms.DateInput(format='%d.%m.%Y')
+    )
 
     class Meta:
         model = SalesDocument
