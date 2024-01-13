@@ -1,3 +1,5 @@
+
+
 from django.forms import forms
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -10,6 +12,11 @@ def sales_document(request):
         sales_document_form = SalesDocumentForm(request.POST)
         sold_products_formset = SoldProductsFormSet(request.POST, prefix='sold_products')
         invoice_data_formset = InvoiceDataFormSet(request.POST, prefix='invoice_data')
+
+        if invoice_data_formset.is_valid():
+            print('valid')
+        else:
+            print('not valid')
 
         if sales_document_form.is_valid() and sold_products_formset.is_valid() and sold_products_formset.has_changed():
             sales_document_instance = sales_document_form.save()
