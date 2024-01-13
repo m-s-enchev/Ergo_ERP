@@ -39,11 +39,11 @@
 
 #operator_data {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: 1vw;
 }
 
-#invoice-data {
+#client-and-invoice-data {
     display: flex;
     justify-content: space-between;
 }
@@ -59,10 +59,11 @@
 }
 
 
-#invoice-toggled-fields {
+#invoice-toggled-fields, #buyer-data-toggle-fields {
     display: flex;
     flex-direction: column;
 }
+
 
 .form-group {
     display: flex;
