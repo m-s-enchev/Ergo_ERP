@@ -21,7 +21,8 @@ class SalesDocument(models.Model):
     sale_total_tax = models.DecimalField(null=True,  blank=True,decimal_places=2, max_digits=10, verbose_name='VAT')
     sale_total_final = models.DecimalField(null=True,  blank=True,decimal_places=2, max_digits=10, verbose_name='TOTAL')
     payment_method = models.CharField(null=True, blank=True, max_length=30)
-    due_date = models.DateField(null=True, blank=True)
+    is_linked_to_invoice = models.BooleanField(default=False)
+
 
 
 class SoldProducts (models.Model):
@@ -41,7 +42,6 @@ class InvoiceData(models.Model):
     invoice_number = models.IntegerField(blank=True, null=True, verbose_name='Number')
     invoice_date = models.DateField(verbose_name='Date')
     invoice_due_date = models.DateField(verbose_name='Due date')
-    buyer_name = models.CharField(max_length=100, verbose_name='Buyer')
     buyer_identification_number = models.CharField(max_length=20, verbose_name='Identification number')
     buyer_address = models.CharField(max_length=200, verbose_name='Address')
     buyer_accountable_person = models.CharField(max_length=100, verbose_name='accountable person')
