@@ -44,13 +44,13 @@ class SoldProducts (SoldProductsBaseModel):
 
 
 class InvoiceData(models.Model):
-    invoice_number = models.IntegerField(blank=True, null=True, verbose_name='Number')
-    invoice_date = models.DateField(blank=True, null=True, verbose_name='Date')
-    invoice_due_date = models.DateField(blank=True, null=True, verbose_name='Due date')
-    buyer_identification_number = models.CharField(blank=True, null=True, max_length=20, verbose_name='Identification number')
-    buyer_address = models.CharField(blank=True, null=True, max_length=200, verbose_name='Address')
-    buyer_accountable_person = models.CharField(blank=True, null=True, max_length=100, verbose_name='accountable person')
-    buyer_representative = models.CharField(blank=True, null=True, max_length=100, verbose_name='representative')
+    invoice_number = models.IntegerField(verbose_name='Number')
+    invoice_date = models.DateField(verbose_name='Date')
+    invoice_due_date = models.DateField(verbose_name='Due date')
+    buyer_identification_number = models.CharField(max_length=20, verbose_name='Identification number')
+    buyer_address = models.CharField(max_length=200, verbose_name='Address')
+    buyer_accountable_person = models.CharField(max_length=100, verbose_name='accountable person')
+    buyer_representative = models.CharField(max_length=100, verbose_name='representative')
     sales_document_for_invoice = models.OneToOneField(SalesDocument, on_delete=models.CASCADE)
 
 
