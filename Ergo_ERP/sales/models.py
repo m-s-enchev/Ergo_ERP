@@ -57,6 +57,20 @@ class InvoiceData(models.Model):
 class InvoicedProducts (SoldProductsBaseModel):
     invoice_document_in_which_included = models.ForeignKey(InvoiceData, on_delete=models.CASCADE)
 
+    @staticmethod
+    def get_fields_to_copy():
+        return [
+                'product_name',
+                'product_quantity',
+                'product_price_before_tax',
+                'product_price',
+                'product_discount',
+                'product_total_before_tax',
+                'product_total',
+                'product_lot_number',
+                'product_exp_date'
+                ]
+
 
 # seller_name = models.CharField(max_length=100, verbose_name='Seller')
 # seller_identification_number = models.CharField(max_length=20, verbose_name='Identification number')
