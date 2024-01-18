@@ -6,58 +6,101 @@ from Ergo_ERP.sales.forms import SalesDocumentForm, SoldProductsFormSet, Invoice
 from Ergo_ERP.sales.models import InvoicedProducts
 
 
-def at_least_one_form_in_formset_not_empty(formset):
+def is_formset_nonempty(formset):
+    """
+    Checks if there is at least one nonempty form in the formset.
+    """
     for form in formset:
         if form.cleaned_data:
             return True
     return False
 
 
-def sold_products_save(sold_products_formset, sales_document_instance):
+def products_list_save_to_document(products_formset, document_instance, name_of_foreignkey_field: str):
+    """
+    Handles products form and links their instances to the document instance.
+    """
     saved_product_instances = []
-    for sold_products_form in sold_products_formset:
-        if sold_products_form.cleaned_data:
-            sold_products_instance = sold_products_form.save(commit=False)
-            sold_products_instance.sales_document_in_which_sold = sales_document_instance
-            sold_products_instance.save()
-            saved_product_instances.append(sold_products_instance)
+    for products_form in products_formset:
+        if products_form.cleaned_data:
+            products_instance = products_form.save(commit=False)
+            setattr(products_instance, name_of_foreignkey_field, document_instance)
+            products_instance.save()
+            saved_product_instances.append(products_instance)
     return saved_product_instances
 
 
-def invoice_data_save(invoice_data_form, sales_document_instance, sold_products_instances: list):
-    invoice_data_instance = invoice_data_form.save(commit=False)
-    invoice_data_instance.sales_document_for_invoice = sales_document_instance
-    invoice_data_instance.save()
-    for product_instance in sold_products_instances:
-        invoiced_product_instance = InvoicedProducts()
-        for field in product_instance._meta.fields:
-            if field.name != 'id' and field.name != 'sales_document_in_which_sold':
-                setattr(invoiced_product_instance, field.name, getattr(product_instance, field.name))
-        invoiced_product_instance.invoice_document_in_which_included = invoice_data_instance
-        invoiced_product_instance.save()
+def products_copy_to_document(
+        document_instance,
+        products_instances: list,
+        fields_to_copy: list,
+        products_model_in_which_to_copy,
+        name_of_foreignkey_field: str
+):
+    """
+    Creates copies of product instances, with specified fields
+    and associates them to a specified document model instance.
+    """
+    field_names = [
+        field.name
+        for field in products_model_in_which_to_copy._meta.fields
+        if field.name in fields_to_copy
+    ]
+    for products_instance in products_instances:
+        copied_product_instance = products_model_in_which_to_copy()
+        for field_name in field_names:
+            setattr(copied_product_instance, field_name, getattr(products_instance, field_name))
+        setattr(copied_product_instance, name_of_foreignkey_field, document_instance)
+        copied_product_instance.save()
 
 
-def sales_document(request):
+def handle_sales_document_form_only(sales_document_form, sold_products_formset):
+    with transaction.atomic():
+        sales_document_instance = sales_document_form.save()
+        products_list_save_to_document(
+            sold_products_formset,
+            sales_document_instance,
+            'sales_document_in_which_sold'
+        )
+
+
+def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form ):
+    with transaction.atomic():
+        sales_document_instance = sales_document_form.save()
+        sold_product_instances = products_list_save_to_document(
+            sold_products_formset,
+            sales_document_instance,
+            'sales_document_in_which_sold'
+        )
+        fields_to_copy = InvoicedProducts.get_fields_to_copy()
+        invoice_document_instance = invoice_data_form.save(commit=False)
+        invoice_document_instance.sales_document_for_invoice = sales_document_instance
+        invoice_document_instance.save()
+        products_copy_to_document(
+            invoice_document_instance,
+            sold_product_instances,
+            fields_to_copy,
+            InvoicedProducts,
+            'invoice_document_in_which_included'
+        )
+
+
+def sales_document_create(request):
     sales_document_form = SalesDocumentForm(request.POST or None)
     sold_products_formset = SoldProductsFormSet(request.POST or None, prefix='sold_products')
     invoice_data_form = InvoiceDataForm(request.POST or None)
 
     if request.method == 'POST':
         if (
-            sales_document_form.is_valid()
-            and sold_products_formset.is_valid()
-            and at_least_one_form_in_formset_not_empty(sold_products_formset)
+                sales_document_form.is_valid()
+                and sold_products_formset.is_valid()
+                and is_formset_nonempty(sold_products_formset)
         ):
             if not sales_document_form.cleaned_data['is_linked_to_invoice']:
-                with transaction.atomic():
-                    sales_document_instance = sales_document_form.save()
-                    sold_products_save(sold_products_formset, sales_document_instance)
+                handle_sales_document_form_only(sales_document_form, sold_products_formset)
                 return redirect(reverse('sale_new'))
             elif sales_document_form.cleaned_data['is_linked_to_invoice'] and invoice_data_form.is_valid():
-                with transaction.atomic():
-                    sales_document_instance = sales_document_form.save()
-                    sold_product_instances = sold_products_save(sold_products_formset, sales_document_instance)
-                    invoice_data_save(invoice_data_form, sales_document_instance, sold_product_instances)
+                handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form)
                 return redirect(reverse('sale_new'))
 
     context = {
@@ -68,70 +111,3 @@ def sales_document(request):
     return render(request, 'sales/sale.html', context)
 
 
-
-################################               OLD      #################################################
-
-
-
-#
-# def at_least_one_form_in_formset_not_empty(formset):
-#     for form in formset:
-#         if form.cleaned_data:
-#             return True
-#     return False
-#
-#
-# def sold_products_save(sold_products_formset, sales_document_instance):
-#     for sold_products_form in sold_products_formset:
-#         if sold_products_form.cleaned_data:
-#             sold_products_instance = sold_products_form.save(commit=False)
-#             sold_products_instance.sales_document_in_which_sold = sales_document_instance
-#             sold_products_instance.save()
-#
-#
-# def invoice_data_save(invoice_data_form, sales_document_instance, sold_products_formset):
-#     invoice_data_instance = invoice_data_form.save(commit=False)
-#     invoice_data_instance.sales_document_for_invoice = sales_document_instance
-#     invoice_data_instance.save()
-#     for sold_products_form in sold_products_formset:
-#         if sold_products_form.cleaned_data:
-#             sold_products_instance = sold_products_form.save(commit=False)
-#             sold_products_instance.sales_document_in_which_sold = sales_document_instance
-#             sold_products_instance.save()
-#             invoiced_product_instance = InvoicedProducts()
-#             for field in sold_products_instance._meta.fields:
-#                 if field.name != 'id' and field.name != 'sales_document_in_which_sold':
-#                     setattr(invoiced_product_instance, field.name, getattr(sold_products_instance, field.name))
-#             invoiced_product_instance.invoice_document_in_which_included = invoice_data_instance
-#             invoiced_product_instance.save()
-#
-#
-# def sales_document(request):
-#     sales_document_form = SalesDocumentForm(request.POST or None)
-#     sold_products_formset = SoldProductsFormSet(request.POST or None, prefix='sold_products')
-#     invoice_data_form = InvoiceDataForm(request.POST or None)
-#
-#     if request.method == 'POST':
-#         if (
-#             sales_document_form.is_valid()
-#             and sold_products_formset.is_valid()
-#             and at_least_one_form_in_formset_not_empty(sold_products_formset)
-#         ):
-#             if not sales_document_form.cleaned_data['is_linked_to_invoice']:
-#                 with transaction.atomic():
-#                     sales_document_instance = sales_document_form.save()
-#                     sold_products_save(sold_products_formset, sales_document_instance)
-#                 return redirect(reverse('sale_new'))
-#             elif sales_document_form.cleaned_data['is_linked_to_invoice'] and invoice_data_form.is_valid():
-#                 with transaction.atomic():
-#                     sales_document_instance = sales_document_form.save()
-#                     # sold_products_save(sold_products_formset, sales_document_instance)
-#                     invoice_data_save(invoice_data_form, sales_document_instance, sold_products_formset)
-#                 return redirect(reverse('sale_new'))
-#
-#     context = {
-#         'sales_document_form': sales_document_form,
-#         'sold_products_formset': sold_products_formset,
-#         'invoice_data_form': invoice_data_form
-#     }
-#     return render(request, 'sales/sale.html', context)
