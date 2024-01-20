@@ -64,7 +64,11 @@ def handle_sales_document_form_only(sales_document_form, sold_products_formset):
         )
 
 
-def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form ):
+def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form):
+    """
+    A separate InvoiceData instance with linked InvoicedProducts instances are created,
+    since the date and included products might be different from sales_document instance
+    """
     with transaction.atomic():
         sales_document_instance = sales_document_form.save()
         sold_product_instances = products_list_save_to_document(
@@ -86,6 +90,9 @@ def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, i
 
 
 def sales_document_create(request):
+    """
+    View function handling a new sales event in two cases - with or without an invoice
+    """
     sales_document_form = SalesDocumentForm(request.POST or None)
     sold_products_formset = SoldProductsFormSet(request.POST or None, prefix='sold_products')
     invoice_data_form = InvoiceDataForm(request.POST or None)
