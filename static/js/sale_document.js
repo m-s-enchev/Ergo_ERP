@@ -2,14 +2,9 @@
 // Add row at end of product table
 let productForm = document.querySelectorAll(".product-form");
 let container = document.querySelector("#sold-products tbody");
-let addButton = document.querySelector("#add-row");
 let totalForms = document.querySelector("#id_sold_products-TOTAL_FORMS");
 let formNum = productForm.length;
-
-addButton.addEventListener('click', addForm);
-
-function addForm(e) {
-    e.preventDefault()
+function addForm() {
     let newForm = productForm[0].cloneNode(true);
     let formRegex = /sold_products-0-/g;
     let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
@@ -18,11 +13,23 @@ function addForm(e) {
     newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex, `<td class="numerator">${formNum}</td>`);
     container.appendChild(newForm)
     totalForms.setAttribute('value', `${formNum}`);
+    attachBlurEventToLastField();
 }
+
+function attachBlurEventToLastField() {
+    let lastFirstField = document.getElementById(`id_sold_products-${formNum - 1}-product_name`);
+
+    lastFirstField.addEventListener('blur', function(e) {
+        if (e.target.value && e.target === lastFirstField) {
+            addForm();
+        }
+    });
+}
+
+attachBlurEventToLastField();
 
 
 // Toggle columns and fields depending on whether an invoice is needed
-
 let invoiceCheckbox = document.getElementById('id_is_linked_to_invoice');
 let invoiceMainHeading = document.querySelector('label[for="id_is_linked_to_invoice"]');
 let invoiceData = document.getElementById('invoice-number-and-dates');
