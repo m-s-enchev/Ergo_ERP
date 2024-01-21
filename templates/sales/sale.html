@@ -88,9 +88,7 @@
                         </tr>
                       </thead>
                       <tbody>
-
                             {% for form in sold_products_formset %}
-
                                 <tr class="product-form">
                                     <td class="numerator">{{ forloop.counter }}</td>
                                     <td>{{ form.product_name }}</td>
@@ -103,18 +101,10 @@
                                     <td>{{ form.product_total_before_tax }}</td>
                                     <td>{{ form.product_total }}</td>
                                 </tr>
-
                             {% endfor %}
-
-
                       </tbody>
-
                     </table>
-
-                        <button id="add-row">Click</button>
-
                 </div>
-
             </section>
          <input type="submit" value="Submit">
         </form>
