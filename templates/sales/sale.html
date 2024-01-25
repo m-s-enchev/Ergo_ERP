@@ -6,8 +6,8 @@
     <div id="sales_wrapper">
         <form id="sales_form" method="post" action="{% url 'sale_new' %}">
             {% csrf_token %}
-            <section id="paper">
-                <div id="paper-header">
+            <section id="sale-document">
+                <div id="sale-document-header">
                     <div id="operator_data">
                         {{ sales_document_form.department }}
                         {{ sales_document_form.warehouse }}

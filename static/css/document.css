@@ -19,7 +19,7 @@
     gap: 4%;
 }
 
-#paper {
+#sale-document {
     display:flex;
     flex-direction: column;
     padding: 2vw;
@@ -30,7 +30,7 @@
 
 }
 
-#paper-header {
+#sale-document-header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
