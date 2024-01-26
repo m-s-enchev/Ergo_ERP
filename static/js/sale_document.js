@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     productFormManager.attachBlurEventToLastField();
     setupInvoiceToggle();
     setupEnterKeyBehavior();
+    disableArrowKeys();
 });
 
 
@@ -54,8 +55,8 @@ class ProductFormManager {
  * to product_quantity and from there to the next row. The purpose is to make its use intuitive
  * for the user and speed up product entry.*/
 function setupEnterKeyBehavior() {
-    const tableContainer = document.querySelector("#sold-products tbody");
-    tableContainer.addEventListener('keydown', function (e) {
+    const tableBodyContainer = document.querySelector("#sold-products tbody");
+    tableBodyContainer.addEventListener('keydown', function (e) {
         if (e.target.tagName === 'INPUT' && e.key === 'Enter') {
             e.preventDefault();
             const currentId = e.target.id;
@@ -74,6 +75,17 @@ function setupEnterKeyBehavior() {
     });
 }
 
+/** Prevents the ArrowUp and ArrowDown keys from incrementing and decrementing number fields.
+ * A users intuitive expectation in a table would be from those key to navigate,
+ * so when pressed the change of value in a field may not be noticed.*/
+function disableArrowKeys () {
+    const saleDocument = document.getElementById('sale-document');
+    saleDocument.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault();
+        }
+        });
+}
 
 /** Adds or removes from the html the fields necessary for an invoice,
  * depending on whether an invoice will be issued */
