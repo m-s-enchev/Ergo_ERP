@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class IngredientOrPart (models.Model):
     ingredient_measuring_unit_choices = [
@@ -23,14 +21,6 @@ class IngredientOrPart (models.Model):
     ingredient_manufacturer = models.CharField(max_length=100, verbose_name='manufacturer')
     ingredient_price_per_unit_with_vat = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='price')
     ingredient_vat = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='vat')
-
-
-class ProductRecipeOrPartsList (models.Model):
-    ingredient_or_part = models.ForeignKey(IngredientOrPart, on_delete=models.CASCADE)
-    ingredient_or_part_quantity = models.DecimalField(decimal_places=2, max_digits=10)
-
-
-
 
 
 class ProductsModel(models.Model):
@@ -63,12 +53,19 @@ class ProductsModel(models.Model):
     product_unit = models.CharField(max_length=20, verbose_name='unit', choices=product_measuring_unit_choices)
     product_notes = models.CharField(max_length=500)
     product_has_lot_and_exp_date = models.BooleanField()
-    product_has_serial_number = models.BooleanField()
-    # product_recipie_or_parts_list = models.ForeignKey(ProductRecipeOrPartsList, on_delete=models.CASCADE)
-    # В кой модел трябва да е ForeignKey?
     product_made_in_department = models.CharField(max_length=100, verbose_name='manufacturing department')
+    product_parts = models.ManyToManyField(IngredientOrPart, through='RecipeOrPartsList')
+
+
+class RecipeOrPartsList (models.Model):
+    product = models.ForeignKey(ProductsModel, on_delete=models.CASCADE)
+    ingredient_or_part = models.ForeignKey(IngredientOrPart, on_delete=models.CASCADE)
+    ingredient_or_part_quantity = models.DecimalField(decimal_places=2, max_digits=10)
 
 
 class ProductTags(models.Model):
     tag_name = models.CharField(max_length=100)
     tagged_product = models.ForeignKey(ProductsModel, on_delete=models.CASCADE)
+
+
+
