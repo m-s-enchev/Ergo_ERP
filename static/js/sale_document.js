@@ -122,7 +122,9 @@ function setupInvoiceToggle() {
         if (invoiceCheckbox.checked) {
             invoiceMainHeading.style.fontWeight = 'bold';
             invoiceData.appendChild(invoiceToggledFields);
+            initializeDatepicker ()
             buyerData.appendChild(buyerDataToggleFields);
+            initializeDatepicker ()
             tableColumnShow(productsTable, priceBeforeTax, productTotalBeforeTax);
             tableColumnHide(productsTable, price, productTotal);
         } else {
