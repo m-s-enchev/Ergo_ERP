@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import inlineformset_factory, BaseInlineFormSet, ModelForm
 
+from Ergo_ERP.products.models import ProductsModel
 from Ergo_ERP.sales.models import SalesDocument, SoldProducts, InvoiceData, InvoicedProducts
 
 from datetime import date
@@ -37,6 +38,11 @@ class SalesDocumentForm(ModelForm):
 
 
 class SoldProductsForm(ModelForm):
+    product_name = forms.ModelChoiceField(
+        queryset=ProductsModel.objects.all(),
+        empty_label="Enter name or choose from menu"
+    )
+
     class Meta:
         model = SoldProducts
         fields = '__all__'
