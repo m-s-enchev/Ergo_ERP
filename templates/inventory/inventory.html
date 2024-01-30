@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 style="margin-top:100px">Inventory List</h2>
+<ul>
+    {% for item in inventory_list %}
+        <li>
+            Product: {{ item.product_name }}, Batch Number: {{ item.product_lot_number }}, Expiration Date: {{ item.product_exp_date }}, Quantity: {{ item.product_quantity }}
+            <!-- Add other fields as needed -->
+        </li>
+    {% empty %}
+        <li>No items in inventory.</li>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}
