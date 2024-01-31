@@ -38,10 +38,6 @@ class SalesDocumentForm(ModelForm):
 
 
 class SoldProductsForm(ModelForm):
-    product_name = forms.ModelChoiceField(
-        queryset=ProductsModel.objects.all(),
-        empty_label="Enter name or choose from menu"
-    )
 
     class Meta:
         model = SoldProducts
