@@ -3,6 +3,11 @@
 {% block content %}
 
 <h2 style="margin-top:100px">Inventory List</h2>
+
+<form method="get" action="">
+    <input type="text" name="search_query" placeholder="Search for product" value="{{ request.GET.search_query }}">
+    <button type="submit">Search</button>
+</form>
 <ul>
     {% for item in inventory_list %}
         <li>
