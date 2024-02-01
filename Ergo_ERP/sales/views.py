@@ -2,6 +2,7 @@ from django.db import transaction
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.sales.forms import SalesDocumentForm, SoldProductsFormSet, InvoiceDataForm
 from Ergo_ERP.sales.models import InvoicedProducts
 
@@ -89,6 +90,13 @@ def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, i
         )
 
 
+# trying some stuff
+def products_dict_dropdown():
+    products = Inventory.objects.all()
+    products_dict = {product.product_name: str(product.product_quantity) for product in products}
+    return products_dict
+
+
 def sales_document_create(request):
     """
     View function handling a new sales event in two cases - with or without an invoice
@@ -96,6 +104,7 @@ def sales_document_create(request):
     sales_document_form = SalesDocumentForm(request.POST or None)
     sold_products_formset = SoldProductsFormSet(request.POST or None, prefix='sold_products')
     invoice_data_form = InvoiceDataForm(request.POST or None)
+    products_dropdown = products_dict_dropdown()  # trying some stuff
 
     if request.method == 'POST':
         if (
@@ -113,7 +122,8 @@ def sales_document_create(request):
     context = {
         'sales_document_form': sales_document_form,
         'sold_products_formset': sold_products_formset,
-        'invoice_data_form': invoice_data_form
+        'invoice_data_form': invoice_data_form,
+        'products_dropdown': products_dropdown,  # trying some stuff
     }
     return render(request, 'sales/sale.html', context)
 
