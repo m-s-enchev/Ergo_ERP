@@ -139,6 +139,28 @@ function setupInvoiceToggle() {
 
 
 
+/** Dropdown menu with product matches, based on dictionary
+ * created by view and loaded in template */
+$(function() {
+    let productNames = Object.keys(productNamesDict);
+    $("#id_sold_products-0-product_name").autocomplete({
+        source: function(request, response) {
+            let results = $.ui.autocomplete.filter(productNames, request.term);
+
+            // Implement the delay. Only show results after 500ms
+            setTimeout(function() {
+                response(results);
+            }, 500);
+        },
+        select: function(event, ui) {
+            // This gets triggered when a user selects an option from the suggestions.
+            $("#id_sold_products-0-product_name").val(ui.item.value);
+            return false;
+        }
+    });
+});
+
+
 
 
 
