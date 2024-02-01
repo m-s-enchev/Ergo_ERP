@@ -4,7 +4,7 @@
 {% load static %}
 {% block content%}
     <div id="sales_wrapper">
-        <form id="sales_form" method="post" action="{% url 'sale_new' %}">
+        <form id="sales_form" method="post" action="{% url 'sale_new' %}" autocomplete="off">
             {% csrf_token %}
             <section id="sale-document">
                 <div id="sale-document-header">
@@ -126,6 +126,14 @@
             </div>
         </section>
     </div>
+
+    <script type="text/javascript">
+        let productNamesDict = {{ products_dropdown | safe }};
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{% static 'js/date_picker.js' %}"></script>
     <script src="{% static 'js/sale_document.js' %}"></script>
 
 
