@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setupInvoiceToggle();
     setupEnterKeyBehavior();
     disableArrowKeys();
+    bindAutocomplete("#id_sold_products-0-product_name");
 });
 
 
@@ -46,6 +47,7 @@ class ProductFormManager {
         lastFirstField.addEventListener('blur', (e) => {
             if (e.target.value && e.target === lastFirstField && needsRowAfter === true) {
                 this.addForm();
+                bindAutocomplete(`#id_sold_products-${this.formNum - 1}-product_name`);
             }
         });
     }
@@ -138,28 +140,74 @@ function setupInvoiceToggle() {
 }
 
 
+/** dropdown table with values for 3 columns */
 
-/** Dropdown menu with product matches, based on dictionary
- * created by view and loaded in template */
-$(function() {
+
+// $(function() {
+//     let productNames = Object.keys(productNamesDict);
+//
+//     $("#id_sold_products-0-product_name").autocomplete({
+//         source: productNames,
+//         select: function(event, ui) {
+//             // Set the product name field value
+//             $("#id_sold_products-0-product_name").val(ui.item.value);
+//
+//             // Assuming the value is the product name, use it to retrieve the additional details
+//             let details = productNamesDict[ui.item.value];
+//
+//             // Set the values of the other form fields
+//             $("#id_sold_products-0-product_lot_number").val(details[1]);     // lot
+//             $("#id_sold_products-0-product_exp_date").val(details[2]); // expiration date
+//
+//             return false;
+//         }
+//     }).autocomplete("instance")._renderItem = function(ul, item) {
+//         // Retrieve the additional details
+//         let details = productNamesDict[item.value];
+//
+//         // Construct the label to be displayed, combining the product name and its details
+//         let label = `${item.value} | ${details[0]} | ${details[1]} | ${details[2]}`;
+//
+//         // Return the formatted list item for display in the dropdown menu
+//         return $("<li>")
+//             .append(`<div>${label}</div>`)
+//             .appendTo(ul);
+//     };
+// });
+
+
+
+
+
+function bindAutocomplete(selector) {
     let productNames = Object.keys(productNamesDict);
-    $("#id_sold_products-0-product_name").autocomplete({
-        source: function(request, response) {
-            let results = $.ui.autocomplete.filter(productNames, request.term);
-
-            // Implement the delay. Only show results after 500ms
-            setTimeout(function() {
-                response(results);
-            }, 500);
-        },
+    $(selector).autocomplete({
+        source: productNames,
         select: function(event, ui) {
-            // This gets triggered when a user selects an option from the suggestions.
-            $("#id_sold_products-0-product_name").val(ui.item.value);
+            let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
+
+            // Assuming the value is the product name, use it to retrieve the additional details
+            let details = productNamesDict[ui.item.value];
+
+            // Set the values of the other form fields using the idPrefix
+            $(`#${idPrefix}product_lot_number`).val(details[1]); // lot
+            $(`#${idPrefix}product_exp_date`).val(details[2]); // expiration date
+
             return false;
         }
-    });
-});
+    }).autocomplete("instance")._renderItem = function(ul, item) {
+        // Retrieve the additional details
+        let details = productNamesDict[item.value];
 
+        // Construct the label to be displayed, combining the product name and its details
+        let label = `${item.value} - Quantity: ${details[0]}, Lot: ${details[1]}, Exp: ${details[2]}`;
+
+        // Return the formatted list item for display in the dropdown menu
+        return $("<li>")
+            .append(`<div>${label}</div>`)
+            .appendTo(ul);
+    };
+}
 
 
 
