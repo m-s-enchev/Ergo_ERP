@@ -176,7 +176,10 @@ function setupInvoiceToggle() {
 // });
 
 
-
+function getRowWidth() {
+    // Assuming there's only one element with this class or you're targeting the first
+    return $(".product-form").outerWidth(true); // include margin (true), if any
+}
 
 
 function bindAutocomplete(selector) {
@@ -185,26 +188,26 @@ function bindAutocomplete(selector) {
         source: productNames,
         select: function(event, ui) {
             let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
-
-            // Assuming the value is the product name, use it to retrieve the additional details
             let details = productNamesDict[ui.item.value];
-
-            // Set the values of the other form fields using the idPrefix
             $(`#${idPrefix}product_lot_number`).val(details[1]); // lot
             $(`#${idPrefix}product_exp_date`).val(details[2]); // expiration date
 
             return false;
+        },
+        open: function() {
+        let rowWidth = getRowWidth();
+        let dropdownWidth = rowWidth * 0.66;
+        $(this).autocomplete("widget").css({
+            "width": dropdownWidth + "px"
+        });
         }
+
     }).autocomplete("instance")._renderItem = function(ul, item) {
         // Retrieve the additional details
         let details = productNamesDict[item.value];
-
-        // Construct the label to be displayed, combining the product name and its details
-        let label = `${item.value} - Quantity: ${details[0]}, Lot: ${details[1]}, Exp: ${details[2]}`;
-
-        // Return the formatted list item for display in the dropdown menu
+        let label = `<tr><td>${item.value}</td><td>${details[0]}</td><td>${details[1]}</td><td>${details[2]}</td></tr>`;
         return $("<li>")
-            .append(`<div>${label}</div>`)
+            .append(`${label}`)
             .appendTo(ul);
     };
 }
