@@ -26,4 +26,5 @@ urlpatterns = [
     path('settings/', TemplateView.as_view(template_name='settings.html'), name='settings'),
     path('sales/', include('Ergo_ERP.sales.urls')),
     path('inventory/', InventoryView.as_view(), name='inventory'),
+    path('products/', include('Ergo_ERP.products.urls')),
 ]
