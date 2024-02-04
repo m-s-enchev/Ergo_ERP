@@ -13,6 +13,44 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+function getRowWidth(selector) {
+    return $(selector).outerWidth(true);
+}
+
+/** A multicolumn dropdown menu that displays choice of products, their lot and exp. date
+ * and available quantity in inventory. After selection name, lot and exp. date fields get filled */
+function bindAutocomplete(selector) {
+    let productNames = Object.keys(productNamesDict);
+    $(selector).autocomplete({
+        source: productNames,
+        select: function(event, ui) {
+            let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
+            let details = productNamesDict[ui.item.value];
+            $(`#${idPrefix}product_lot_number`).val(details[1]);
+            $(`#${idPrefix}product_exp_date`).val(details[2]);
+
+            return false;
+        },
+        open: function() {
+        let rowWidth = getRowWidth(".product-form");
+        let dropdownWidth = rowWidth * 0.66;
+        $(this).autocomplete("widget").css({
+            "width": dropdownWidth + "px"
+        });
+        }
+
+    }).autocomplete("instance")._renderItem = function(ul, item) {
+        // Retrieve the additional details
+        let details = productNamesDict[item.value];
+        let label = `<div><span>${item.value}</span><span>${details[0]}</span><span>${details[1]}</span><span>${details[2]}</span></div>`;
+
+        // let label = `<tr><td>${item.value}</td><td>${details[0]}</td><td>${details[1]}</td><td>${details[2]}</td></tr>`;
+        return $("<li>")
+            .append(`${label}`)
+            .appendTo(ul);
+    };
+}
+
 /** Handles the adding of a new products row in table, which is a SoldProductsForm instance.
  * If the product_name field of the last row is filled and focus is shifted to another field,
  * a new row is added for the next product */
@@ -176,41 +214,7 @@ function setupInvoiceToggle() {
 // });
 
 
-function getRowWidth() {
-    // Assuming there's only one element with this class or you're targeting the first
-    return $(".product-form").outerWidth(true); // include margin (true), if any
-}
 
-
-function bindAutocomplete(selector) {
-    let productNames = Object.keys(productNamesDict);
-    $(selector).autocomplete({
-        source: productNames,
-        select: function(event, ui) {
-            let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
-            let details = productNamesDict[ui.item.value];
-            $(`#${idPrefix}product_lot_number`).val(details[1]); // lot
-            $(`#${idPrefix}product_exp_date`).val(details[2]); // expiration date
-
-            return false;
-        },
-        open: function() {
-        let rowWidth = getRowWidth();
-        let dropdownWidth = rowWidth * 0.66;
-        $(this).autocomplete("widget").css({
-            "width": dropdownWidth + "px"
-        });
-        }
-
-    }).autocomplete("instance")._renderItem = function(ul, item) {
-        // Retrieve the additional details
-        let details = productNamesDict[item.value];
-        let label = `<tr><td>${item.value}</td><td>${details[0]}</td><td>${details[1]}</td><td>${details[2]}</td></tr>`;
-        return $("<li>")
-            .append(`${label}`)
-            .appendTo(ul);
-    };
-}
 
 
 
