@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 style="margin-top:100px">Products / Services</h2>
+
+{#<form method="get" action="">#}
+{#    <input type="text" name="search_query" placeholder="Search for product" value="{{ request.GET.search_query }}">#}
+{#    <button type="submit">Search</button>#}
+{#</form>#}
+
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Manufacturer</th>
+            <th>Retail price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products_list %}
+            <tr>
+                <td>{{ product.product_name }}</td>
+                <td>{{ product.product_manufacturer }}</td>
+                <td>{{ product.product_retail_price }}</td>
+
+            </tr>
+        {% empty %}
+            <div>No items in inventory.</div>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+
+{% endblock %}
