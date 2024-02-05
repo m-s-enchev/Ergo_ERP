@@ -54,8 +54,6 @@ class ProductsModel(models.Model):
     # for UPC an EAN barcodes:
     product_barcode = models.CharField(max_length=13, verbose_name='barcode', blank=True, null=True)
     product_qrcode = models.CharField(max_length=100, verbose_name='QR code', blank=True, null=True)
-    product_price_per_unit_with_vat = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='price')
-    product_vat = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='vat')
     product_unit = models.CharField(max_length=20, verbose_name='unit', choices=product_measuring_unit_choices)
     product_notes = models.CharField(max_length=500,  blank=True, null=True)
     product_has_lot_and_exp_date = models.BooleanField()
@@ -67,6 +65,11 @@ class ProductsModel(models.Model):
                                                     )
     product_parts = models.ManyToManyField(IngredientOrPart, through='RecipeOrPartsList', blank=True)
     product_tags = models.ManyToManyField(ProductTags, through='ProductTagList', blank=True)
+    # all prices are per unit with vat if there is one
+    product_vat = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='vat')
+    product_retail_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='price')
+    product_wholesale_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='price')
+    product_employee_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='price')
 
 
 class RecipeOrPartsList (models.Model):
