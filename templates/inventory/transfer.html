@@ -1,0 +1,118 @@
+
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% block content%}
+    <div id="sales_wrapper">
+        <form id="sales_form" method="post" action="{% url 'sale_new' %}" autocomplete="off">
+            {% csrf_token %}
+            <section id="sale-document">
+                <div id="sale-document-header">
+                    <div id="operator_data">
+                        {{ sales_document_form.department }}
+                        {{ sales_document_form.warehouse }}
+                        {{ sales_document_form.operator }}
+                        {{ sales_document_form.date }}
+                    </div>
+                    <div id="client-and-invoice-data">
+                        <div id="invoice-number-and-dates">
+                            <div>
+                                <label for="id_is_linked_to_invoice">Invoice</label>
+                                {{ sales_document_form.is_linked_to_invoice }}
+                            </div>
+                            <div id="invoice-toggled-fields">
+
+                                {{ invoice_data_form.invoice_number.errors }}
+                                <div class="form-group">
+                                    <label for="{{ invoice_data_form.invoice_number.id_for_label }}">{{ invoice_data_form.invoice_number.label }}: </label>
+                                    {{ invoice_data_form.invoice_number }}
+                                </div>
+                                {{ invoice_data_form.invoice_date.errors }}
+                                <div class="form-group">
+                                    <label for="{{ invoice_data_form.invoice_date.id_for_label }}">{{ invoice_data_form.invoice_date.label }}: </label>
+                                    {{ invoice_data_form.invoice_date }}
+                                </div>
+                                {{ invoice_data_form.invoice_due_date.errors }}
+                                <div class="form-group">
+                                    <label for="{{ invoice_data_form.invoice_due_date.id_for_label }}">{{ invoice_data_form.invoice_due_date.label }}: </label>
+                                    {{ invoice_data_form.invoice_due_date }}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="buyer-data">
+                            <div class="form-group">
+                                <label for="{{ sales_document_form.buyer_name.id_for_label }}">{{ sales_document_form.buyer_name.label }}: </label>
+                                {{ sales_document_form.buyer_name }}
+                            </div>
+                            <div id="buyer-data-toggle-fields">
+                                {{ invoice_data_form.buyer_identification_number.errors }}
+                                <div class="form-group">
+                                    <label for="{{ invoice_data_form.buyer_identification_number.id_for_label }}">{{ invoice_data_form.buyer_identification_number.label }}: </label>
+                                    {{ invoice_data_form.buyer_identification_number }}
+                                </div>
+                                 {{ invoice_data_form.buyer_address.errors }}
+                                <div class="form-group">
+                                    <label for="{{ invoice_data_form.buyer_address.id_for_label }}">{{ invoice_data_form.buyer_address.label }}: </label>
+                                    {{ invoice_data_form.buyer_address }}
+                                </div>
+                                {{ invoice_data_form.buyer_accountable_person.errors }}
+                                <div class="form-group">
+                                    <label for="{{ invoice_data_form.buyer_accountable_person.id_for_label }}">{{ invoice_data_form.buyer_accountable_person.label }}: </label>
+                                    {{ invoice_data_form.buyer_accountable_person }}
+                                </div>
+                                {{ invoice_data_form.buyer_representative.errors }}
+                                <div class="form-group">
+                                    <label for="{{ invoice_data_form.buyer_representative.id_for_label }}">{{ invoice_data_form.buyer_representative.label }}: </label>
+                                    {{ invoice_data_form.buyer_representative }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sold-products">
+                    {{ transfered_products_formset.management_form }}
+                    <table>
+                      <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{% translate 'Name' %}</th>
+                            <th>{% translate 'Qty' %}</th>
+                            <th>{% translate 'LOT' %}</th>
+                            <th>{% translate 'Exp. date' %}</th>
+                            <th>{% translate 'Purchase price' %}</th>
+                            <th>{% translate 'Product value' %}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                            {% for form in sold_products_formset %}
+                                <tr class="product-form">
+                                    <td class="numerator">{{ forloop.counter }}</td>
+                                    <td>{{ form.product_name }}</td>
+                                    <td>{{ form.product_quantity }}</td>
+                                    <td>{{ form.product_lot_number }}</td>
+                                    <td>{{ form.product_exp_date }}</td>
+                                    <td>{{ form.product_purchase_price }}</td>
+                                    <td>{{ form.product_value }}</td>
+                                </tr>
+                            {% endfor %}
+                      </tbody>
+                    </table>
+                </div>
+            </section>
+         <input type="submit" value="Submit">
+        </form>
+
+    </div>
+
+    <script type="text/javascript">
+        let productNamesDict = {{ products_dropdown | safe }};
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{% static 'js/date_picker.js' %}"></script>
+    <script src="{% static 'js/sale_document.js' %}"></script>
+
+
+{% endblock %}
