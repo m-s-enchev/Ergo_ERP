@@ -92,48 +92,25 @@ def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, i
         )
 
 
-# trying some stuff
-# def products_dict_dropdown():
-#     products = Inventory.objects.all()
-#     products_dict = {
-#         product.product_name: [
-#             format(product.product_quantity.normalize(), 'f'),  # Convert Decimal to string and remove trailing zeros
-#             product.product_lot_number,
-#             str(product.product_exp_date)
-#         ]
-#         for product in products
-#     }
-#     print(products_dict)
-#     return products_dict
-
-
 def products_dict_dropdown():
     products = Inventory.objects.all()
     products_dict = {}
     for product in products:
-        print(f"Debug: product_name={product.product_name}, product_exp_date={product.product_exp_date}")  # Debug line
+
+        # Needs to be fixed (removed) when there are valid dates in the Inventory model        ##############
         exp_date_formatted = None
         if product.product_exp_date:
             timestamp_in_seconds = product.product_exp_date / 1000  # Convert from milliseconds to seconds
             exp_date_formatted = datetime.datetime.fromtimestamp(timestamp_in_seconds).strftime('%Y-%m-%d')
         else:
             exp_date_formatted = "No date"
-
+        ######################################################################################################
         products_dict[product.product_name] = [
-            format(product.product_quantity.normalize(), 'f'),
-            product.product_lot_number,
-            exp_date_formatted
-        ]
+                                                format(product.product_quantity.normalize(), 'f'),
+                                                product.product_lot_number,
+                                                exp_date_formatted
+                                                ]
     return products_dict
-
-
-
-
-
-
-
-
-
 
 
 def sales_document_create(request):
@@ -143,7 +120,7 @@ def sales_document_create(request):
     sales_document_form = SalesDocumentForm(request.POST or None)
     sold_products_formset = SoldProductsFormSet(request.POST or None, prefix='sold_products')
     invoice_data_form = InvoiceDataForm(request.POST or None)
-    products_dropdown = products_dict_dropdown()  # trying some stuff
+    products_dropdown = products_dict_dropdown()
 
     if request.method == 'POST':
         if (
@@ -162,7 +139,7 @@ def sales_document_create(request):
         'sales_document_form': sales_document_form,
         'sold_products_formset': sold_products_formset,
         'invoice_data_form': invoice_data_form,
-        'products_dropdown': products_dropdown,  # trying some stuff
+        'products_dropdown': products_dropdown,
     }
     return render(request, 'sales/sale.html', context)
 

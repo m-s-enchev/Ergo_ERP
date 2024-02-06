@@ -18,13 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
-from Ergo_ERP.inventory.views import InventoryView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='homepage.html'), name='homepage'),
     path('settings/', TemplateView.as_view(template_name='settings.html'), name='settings'),
     path('sales/', include('Ergo_ERP.sales.urls')),
-    path('inventory/', InventoryView.as_view(), name='inventory'),
+    path('inventory/', include('Ergo_ERP.inventory.urls')),
     path('products/', include('Ergo_ERP.products.urls')),
 ]
