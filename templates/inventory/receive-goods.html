@@ -1,0 +1,104 @@
+
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% block content%}
+    <div id="sales_wrapper">
+        <form id="sales_form" method="post" action="{% url 'receive-goods' %}" autocomplete="off">
+            {% csrf_token %}
+            <section id="sale-document">
+                <div id="sale-document-header">
+                    <div id="operator_data">
+
+                        <div class="form-group">
+                            <label for="{{ warehouse_document_form.date.id_for_label }}">{{ warehouse_document_form.date.label }}: </label>
+                            {{ warehouse_document_form.date }}
+                        </div>
+                        {{ warehouse_document_form.date.errors }}
+
+                    </div>
+                    <div id="client-and-invoice-data">
+                        <div id="invoice-number-and-dates">
+                            {{ warehouse_document_form.errors }}
+                            <div id="invoice-toggled-fields">
+                                <div class="form-group">
+                                    <label for="{{ warehouse_document_form.shipping_department.id_for_label }}">{{ warehouse_document_form.shipping_department.label }}: </label>
+                                    {{ warehouse_document_form.shipping_department }}
+                                </div>
+                                {{ warehouse_document_form.shipping_department.errors }}
+                                <div class="form-group">
+                                    <label for="{{ warehouse_document_form.shipping_warehouse.id_for_label }}">{{ warehouse_document_form.shipping_warehouse.label }}: </label>
+                                    {{ warehouse_document_form.shipping_warehouse }}
+                                </div>
+                                {{ warehouse_document_form.shipping_warehouse.errors }}
+                            </div>
+                        </div>
+                        <div id="buyer-data">
+                            <div id="buyer-data-toggle-fields">
+                                <div class="form-group">
+                                    <label for="{{ warehouse_document_form.receiving_department.id_for_label }}">{{ warehouse_document_form.receiving_department.label }}: </label>
+                                    {{ warehouse_document_form.receiving_department }}
+                                </div>
+                                 {{ warehouse_document_form.receiving_department.errors }}
+                                <div class="form-group">
+                                    <label for="{{ warehouse_document_form.receiving_warehouse.id_for_label }}">{{ warehouse_document_form.receiving_warehouse.label }}: </label>
+                                    {{ warehouse_document_form.receiving_warehouse }}
+                                </div>
+                                {{ warehouse_document_form.receiving_warehouse.errors }}
+
+                                <div class="form-group">
+                                    <label for="{{ warehouse_document_form.operator.id_for_label }}">{{ warehouse_document_form.operator.label }}: </label>
+                                    {{ warehouse_document_form.operator }}
+                                </div>
+                                {{ warehouse_document_form.operator.errors }}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sold-products">
+                    {{ transferred_products_formset.management_form }}
+                    <table>
+                      <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{% translate 'Name' %}</th>
+                            <th>{% translate 'Qty' %}</th>
+                            <th>{% translate 'LOT' %}</th>
+                            <th>{% translate 'Exp. date' %}</th>
+                            <th>{% translate 'Purchase price' %}</th>
+                            <th>{% translate 'Product value' %}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                            {% for form in transferred_products_formset %}
+                                <tr class="product-form">
+                                    <td class="numerator">{{ forloop.counter }}</td>
+                                    <td>{{ form.product_name }}</td>
+                                    <td>{{ form.product_quantity }}</td>
+                                    <td>{{ form.product_lot_number }}</td>
+                                    <td>{{ form.product_exp_date }}</td>
+                                    <td>{{ form.product_purchase_price }}</td>
+                                    <td>{{ form.product_value }}</td>
+                                </tr>
+                            {% endfor %}
+                      </tbody>
+                    </table>
+                </div>
+            </section>
+         <input type="submit" value="Submit">
+        </form>
+
+    </div>
+
+    <script type="text/javascript">
+        let productNamesDict = {{ products_dropdown | safe }};
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{% static 'js/date_picker.js' %}"></script>
+
+
+{% endblock %}
