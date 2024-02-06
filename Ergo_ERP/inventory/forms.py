@@ -17,6 +17,11 @@ class WarehouseDocumentForm(forms.ModelForm):
 
 
 class TransferredProductsForm(forms.ModelForm):
+    product_exp_date = forms.DateField(
+        input_formats=['%d.%m.%Y'],
+        widget=forms.DateInput(format='%d.%m.%Y', attrs={'class': 'datepicker'})
+    )
+
     class Meta:
         model = TransferredProducts
         fields = '__all__'
