@@ -21,12 +21,6 @@ class InventoryView(ListView):
             queryset = queryset.filter(product_name__icontains=search_query)
         return queryset
 
-def update_inventory(warehouse_document_form, transferred_products_formset):
-    products = Inventory.objects.all()
-    for product in products:
-        if product.product_name == document_product_name and product.product_lot_number == document_product_lot:
-            if document_receiving:
-                product.product_quantity
 
 def receive_products_dropdown():
     products = ProductsModel.objects.all()
@@ -41,11 +35,36 @@ def handle_receive_document_forms(warehouse_document_form, transferred_products_
         warehouse_document_instance = warehouse_document_form.save(commit=False)
         warehouse_document_instance.receiving = True
         warehouse_document_instance.save()
-        products_list_save_to_document(
+        product_instances = products_list_save_to_document(
             transferred_products_formset,
             warehouse_document_instance,
             'warehouse_document_in_which_included'
             )
+        return product_instances, warehouse_document_instance.receiving
+
+
+def create_inventory_instance(product_instance):
+    new_inventory_instance = Inventory()
+    field_names = [field.name for field in new_inventory_instance._meta.fields if field.name != 'id']
+    for field_name in field_names:
+        setattr(new_inventory_instance, field_name, getattr(product_instance, field_name))
+    new_inventory_instance.save()
+
+
+def update_inventory(product_instances, is_receiving):
+    inventory_instances = Inventory.objects.all()
+    found_in_inventory = False
+    for product_instance in product_instances:
+        for inv_instance in inventory_instances:
+            if not is_receiving:
+                if product_instance.product_name == inv_instance.product_name and product_instance.product_lot_number == inv_instance.product_lot_number:
+                    #inv_instance.product_quantity -= product_instance.product_quantity
+            elif product_instance.product_name == inv_instance.product_name and product_instance.product_lot_number == inv_instance.product_lot_number:
+                print('update quantity')
+                #setattr(inv_instance, 'product_quantity', getattr(product_instance, 'product_quantity')+inv_instance.product_quantity)
+                found_in_inventory = True
+        if not found_in_inventory or not inventory_instances:
+            create_inventory_instance(product_instance)
 
 
 def receiving_document_create(request):
@@ -62,7 +81,8 @@ def receiving_document_create(request):
                 and transferred_products_formset.is_valid()
                 and is_formset_nonempty(transferred_products_formset)
         ):
-            handle_receive_document_forms(warehouse_document_form, transferred_products_formset)
+            [product_instances, is_receiving] = handle_receive_document_forms(warehouse_document_form, transferred_products_formset)
+            update_inventory(product_instances, is_receiving)
             return redirect(reverse('receive-goods'))
 
     context = {
