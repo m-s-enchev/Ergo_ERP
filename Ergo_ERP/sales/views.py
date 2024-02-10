@@ -96,18 +96,15 @@ def products_dict_dropdown():
     products = Inventory.objects.all()
     products_dict = {}
     for product in products:
-
-        # Needs to be fixed (removed) when there are valid dates in the Inventory model        ##############
-        exp_date_formatted = None
         if product.product_exp_date:
-            timestamp_in_seconds = product.product_exp_date / 1000  # Convert from milliseconds to seconds
-            exp_date_formatted = datetime.datetime.fromtimestamp(timestamp_in_seconds).strftime('%Y-%m-%d')
+            exp_date_formatted = product.product_exp_date.strftime('%d.%m.%Y')
+            lot_number = product.product_lot_number
         else:
-            exp_date_formatted = "No date"
-        ######################################################################################################
+            exp_date_formatted = ""
+            lot_number = ""
         products_dict[product.product_name] = [
                                                 format(product.product_quantity.normalize(), 'f'),
-                                                product.product_lot_number,
+                                                lot_number,
                                                 exp_date_formatted
                                                 ]
     return products_dict
