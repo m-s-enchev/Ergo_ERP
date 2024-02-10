@@ -1,4 +1,6 @@
+from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.db.models import F
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import ListView
@@ -51,19 +53,42 @@ def create_inventory_instance(product_instance):
     new_inventory_instance.save()
 
 
+# def update_inventory(product_instances, is_receiving):
+#     inventory_instances = Inventory.objects.all()
+#     found_in_inventory = False
+#     for product_instance in product_instances:
+#         for inv_instance in inventory_instances:
+#             if not is_receiving:
+#                 if product_instance.product_name == inv_instance.product_name and product_instance.product_lot_number == inv_instance.product_lot_number:
+#                     # inv_instance.product_quantity -= product_instance.product_quantity
+#             elif product_instance.product_name == inv_instance.product_name and product_instance.product_lot_number == inv_instance.product_lot_number:
+#                 print('update quantity')
+#                 # setattr(inv_instance, 'product_quantity', getattr(product_instance, 'product_quantity')+inv_instance.product_quantity)
+#                 found_in_inventory = True
+#         if not found_in_inventory or not inventory_instances:
+#             create_inventory_instance(product_instance)
+
+
+
 def update_inventory(product_instances, is_receiving):
-    inventory_instances = Inventory.objects.all()
-    found_in_inventory = False
     for product_instance in product_instances:
-        for inv_instance in inventory_instances:
-            if not is_receiving:
-                if product_instance.product_name == inv_instance.product_name and product_instance.product_lot_number == inv_instance.product_lot_number:
-                    #inv_instance.product_quantity -= product_instance.product_quantity
-            elif product_instance.product_name == inv_instance.product_name and product_instance.product_lot_number == inv_instance.product_lot_number:
-                print('update quantity')
-                #setattr(inv_instance, 'product_quantity', getattr(product_instance, 'product_quantity')+inv_instance.product_quantity)
-                found_in_inventory = True
-        if not found_in_inventory or not inventory_instances:
+        matching_inventory = Inventory.objects.filter(
+            product_name=product_instance.product_name,
+            product_lot_number=product_instance.product_lot_number
+        )
+        if matching_inventory.exists():
+            if is_receiving:
+                matching_inventory.update(product_quantity=F('product_quantity') + product_instance.product_quantity)
+            else:
+                for inv_instance in matching_inventory:
+                    new_quantity = inv_instance.product_quantity - product_instance.product_quantity
+                    if new_quantity < 0:
+                        raise ValidationError(f"There is not enough of product {inv_instance.product_name} "
+                                              f"with lot {inv_instance.product_lot_number}.")
+                    else:
+                        inv_instance.product_quantity = new_quantity
+                        inv_instance.save()
+        else:
             create_inventory_instance(product_instance)
 
 
