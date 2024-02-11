@@ -53,23 +53,6 @@ def create_inventory_instance(product_instance):
     new_inventory_instance.save()
 
 
-# def update_inventory(product_instances, is_receiving):
-#     inventory_instances = Inventory.objects.all()
-#     found_in_inventory = False
-#     for product_instance in product_instances:
-#         for inv_instance in inventory_instances:
-#             if not is_receiving:
-#                 if product_instance.product_name == inv_instance.product_name and product_instance.product_lot_number == inv_instance.product_lot_number:
-#                     # inv_instance.product_quantity -= product_instance.product_quantity
-#             elif product_instance.product_name == inv_instance.product_name and product_instance.product_lot_number == inv_instance.product_lot_number:
-#                 print('update quantity')
-#                 # setattr(inv_instance, 'product_quantity', getattr(product_instance, 'product_quantity')+inv_instance.product_quantity)
-#                 found_in_inventory = True
-#         if not found_in_inventory or not inventory_instances:
-#             create_inventory_instance(product_instance)
-
-
-
 def update_inventory(product_instances, is_receiving):
     for product_instance in product_instances:
         matching_inventory = Inventory.objects.filter(
