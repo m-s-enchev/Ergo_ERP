@@ -5,10 +5,10 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import ListView
 
+from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document
 from Ergo_ERP.inventory.forms import WarehouseDocumentForm, TransferredProductsFormSet
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.products.models import ProductsModel
-from Ergo_ERP.sales.views import is_formset_nonempty, products_list_save_to_document
 
 
 class InventoryView(ListView):

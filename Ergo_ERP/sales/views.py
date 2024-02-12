@@ -4,33 +4,11 @@ from django.db import transaction
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document
 from Ergo_ERP.inventory.models import Inventory
+from Ergo_ERP.inventory.views import update_inventory
 from Ergo_ERP.sales.forms import SalesDocumentForm, SoldProductsFormSet, InvoiceDataForm
 from Ergo_ERP.sales.models import InvoicedProducts
-
-
-def is_formset_nonempty(formset):
-    """
-    Checks if there is at least one nonempty form in the formset.
-    """
-    for form in formset:
-        if form.cleaned_data:
-            return True
-    return False
-
-
-def products_list_save_to_document(products_formset, document_instance, name_of_foreignkey_field: str):
-    """
-    Handles products form and links their instances to the document instance.
-    """
-    saved_product_instances = []
-    for products_form in products_formset:
-        if products_form.cleaned_data:
-            products_instance = products_form.save(commit=False)
-            setattr(products_instance, name_of_foreignkey_field, document_instance)
-            products_instance.save()
-            saved_product_instances.append(products_instance)
-    return saved_product_instances
 
 
 def products_copy_to_document(
@@ -60,11 +38,12 @@ def products_copy_to_document(
 def handle_sales_document_form_only(sales_document_form, sold_products_formset):
     with transaction.atomic():
         sales_document_instance = sales_document_form.save()
-        products_list_save_to_document(
-            sold_products_formset,
-            sales_document_instance,
-            'sales_document_in_which_sold'
-        )
+        sold_product_instances = products_list_save_to_document(
+                                    sold_products_formset,
+                                    sales_document_instance,
+                                    'sales_document_in_which_sold'
+                                 )
+        update_inventory(sold_product_instances, False)
 
 
 def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form):
@@ -75,10 +54,11 @@ def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, i
     with transaction.atomic():
         sales_document_instance = sales_document_form.save()
         sold_product_instances = products_list_save_to_document(
-            sold_products_formset,
-            sales_document_instance,
-            'sales_document_in_which_sold'
-        )
+                                    sold_products_formset,
+                                    sales_document_instance,
+                                    'sales_document_in_which_sold'
+                                 )
+        update_inventory(sold_product_instances, False)
         fields_to_copy = InvoicedProducts.get_fields_to_copy()
         invoice_document_instance = invoice_data_form.save(commit=False)
         invoice_document_instance.sales_document_for_invoice = sales_document_instance
@@ -125,6 +105,7 @@ def sales_document_create(request):
                 and sold_products_formset.is_valid()
                 and is_formset_nonempty(sold_products_formset)
         ):
+
             if not sales_document_form.cleaned_data['is_linked_to_invoice']:
                 handle_sales_document_form_only(sales_document_form, sold_products_formset)
                 return redirect(reverse('sale_new'))
