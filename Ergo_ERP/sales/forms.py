@@ -35,10 +35,17 @@ class SalesDocumentForm(ModelForm):
 
 
 class SoldProductsForm(ModelForm):
+    product_exp_date = forms.DateField(
+        input_formats=['%d.%m.%Y']
+    )
 
     class Meta:
         model = SoldProducts
         fields = '__all__'
+
+    def clean_event_date(self):
+        data = self.cleaned_data['date']
+        return data
 
 
 class InvoicedProductsForm(ModelForm):
