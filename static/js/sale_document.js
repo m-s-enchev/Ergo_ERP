@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     setupInvoiceToggle();
     setupEnterKeyBehavior();
     disableArrowKeys();
-    bindAutocomplete("#id_sold_products-0-product_name");
+    multicolumnDropdown("#id_sold_products-0-product_name");
+    getProductPrice(0)
 });
 
 
@@ -17,9 +18,10 @@ function getRowWidth(selector) {
     return $(selector).outerWidth(true);
 }
 
+
 /** A multicolumn dropdown menu that displays choice of products, their lot and exp. date
  * and available quantity in inventory. After selection name, lot and exp. date fields get filled */
-function bindAutocomplete(selector) {
+function multicolumnDropdown(selector) {
     let productNames = Object.keys(productNamesDict);
     $(selector).autocomplete({
         source: productNames,
@@ -28,7 +30,6 @@ function bindAutocomplete(selector) {
             let details = productNamesDict[ui.item.value];
             $(`#${idPrefix}product_lot_number`).val(details[1]);
             $(`#${idPrefix}product_exp_date`).val(details[2]);
-
             return false;
         },
         open: function() {
@@ -43,8 +44,6 @@ function bindAutocomplete(selector) {
         // Retrieve the additional details
         let details = productNamesDict[item.value];
         let label = `<div><span>${item.value}</span><span>${details[0]}</span><span>${details[1]}</span><span>${details[2]}</span></div>`;
-
-        // let label = `<tr><td>${item.value}</td><td>${details[0]}</td><td>${details[1]}</td><td>${details[2]}</td></tr>`;
         return $("<li>")
             .append(`${label}`)
             .appendTo(ul);
@@ -85,7 +84,8 @@ class ProductFormManager {
         lastFirstField.addEventListener('blur', (e) => {
             if (e.target.value && e.target === lastFirstField && needsRowAfter === true) {
                 this.addForm();
-                bindAutocomplete(`#id_sold_products-${this.formNum - 1}-product_name`);
+                multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
+                getProductPrice(this.formNum - 1)
             }
         });
     }
@@ -176,49 +176,6 @@ function setupInvoiceToggle() {
         }
     });
 }
-
-
-/** dropdown table with values for 3 columns */
-
-
-// $(function() {
-//     let productNames = Object.keys(productNamesDict);
-//
-//     $("#id_sold_products-0-product_name").autocomplete({
-//         source: productNames,
-//         select: function(event, ui) {
-//             // Set the product name field value
-//             $("#id_sold_products-0-product_name").val(ui.item.value);
-//
-//             // Assuming the value is the product name, use it to retrieve the additional details
-//             let details = productNamesDict[ui.item.value];
-//
-//             // Set the values of the other form fields
-//             $("#id_sold_products-0-product_lot_number").val(details[1]);     // lot
-//             $("#id_sold_products-0-product_exp_date").val(details[2]); // expiration date
-//
-//             return false;
-//         }
-//     }).autocomplete("instance")._renderItem = function(ul, item) {
-//         // Retrieve the additional details
-//         let details = productNamesDict[item.value];
-//
-//         // Construct the label to be displayed, combining the product name and its details
-//         let label = `${item.value} | ${details[0]} | ${details[1]} | ${details[2]}`;
-//
-//         // Return the formatted list item for display in the dropdown menu
-//         return $("<li>")
-//             .append(`<div>${label}</div>`)
-//             .appendTo(ul);
-//     };
-// });
-
-
-
-
-
-
-
 
 
 
