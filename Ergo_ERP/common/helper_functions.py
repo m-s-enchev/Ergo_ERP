@@ -20,3 +20,4 @@ def products_list_save_to_document(products_formset, document_instance, name_of_
             products_instance.save()
             saved_product_instances.append(products_instance)
     return saved_product_instances
+
