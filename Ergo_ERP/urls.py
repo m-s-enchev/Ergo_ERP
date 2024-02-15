@@ -26,4 +26,5 @@ urlpatterns = [
     path('sales/', include('Ergo_ERP.sales.urls')),
     path('inventory/', include('Ergo_ERP.inventory.urls')),
     path('products/', include('Ergo_ERP.products.urls')),
+    path('common/', include('Ergo_ERP.common.urls')),
 ]
