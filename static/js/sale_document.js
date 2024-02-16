@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEnterKeyBehavior();
     disableArrowKeys();
     multicolumnDropdown("#id_sold_products-0-product_name");
-    getProductPrice(0)
+    getProductPrice(0, "product")
 });
 
 
@@ -85,7 +85,7 @@ class ProductFormManager {
             if (e.target.value && e.target === lastFirstField && needsRowAfter === true) {
                 this.addForm();
                 multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
-                getProductPrice(this.formNum - 1)
+                getProductPrice(this.formNum - 1, "product")
             }
         });
     }
@@ -114,6 +114,7 @@ function setupEnterKeyBehavior() {
         }
     });
 }
+
 
 /** Prevents the ArrowUp and ArrowDown keys from incrementing and decrementing number fields.
  * A users intuitive expectation in a table would be from those key to navigate,
