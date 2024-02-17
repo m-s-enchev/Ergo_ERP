@@ -5,7 +5,7 @@ function getProductPrice(index, modelType) {
 
     productNameInput.addEventListener('change', function() {
         const productName = this.value;
-        // Include the modelType in the fetch URL
+
         fetch(`/common/get-product-price/?product_name=${encodeURIComponent(productName)}&model_type=${modelType}`)
             .then(response => {
                 if (response.ok) {
