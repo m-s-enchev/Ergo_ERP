@@ -6,19 +6,21 @@ from Ergo_ERP.products.models import ProductsModel
 
 def get_product_price(request):
     product_name = request.GET.get('product_name', None)
-    model_type = request.GET.get('model_type', None)
+    model_name = request.GET.get('model_name', None)
+    product_lot = request.GET.get('product_lot', None)  # Optional parameter for product_lot
 
-    if product_name and model_type:
-        if model_type == 'product':
+    if product_name and model_name:
+        if model_name == 'product':
             model = ProductsModel
             price_field_name = 'product_retail_price'
-        elif model_type == 'inventory':
+            product = model.objects.filter(product_name=product_name).first()
+        elif model_name == 'inventory':
             model = Inventory
             price_field_name = 'product_purchase_price'
+            product = model.objects.filter(product_name=product_name, product_lot=product_lot).first()
         else:
             return JsonResponse({'error': 'Invalid model name in request'}, status=400)
 
-        product = model.objects.filter(product_name=product_name).first()
         if product:
             return JsonResponse({'product_price': getattr(product, price_field_name, None)})
         else:
