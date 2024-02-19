@@ -1,12 +1,17 @@
 
-function getProductPrice(index, modelType) {
-    const productNameInput = document.getElementById(`id_sold_products-${index}-product_name`);
-    const productPriceInput = document.getElementById(`id_sold_products-${index}-product_price`);
+function getProductPrice(index, modelName, formsetPrefix, priceFieldSuffix) {
+    const productNameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
+    const productLotInput = document.getElementById(`${formsetPrefix}-${index}-product_lot_number`);
+    const productPriceInput = document.getElementById(`${formsetPrefix}-${index}-${priceFieldSuffix}`);
 
     productNameInput.addEventListener('change', function() {
         const productName = this.value;
+        let fetchUrl = `/common/get-product-price/?product_name=${encodeURIComponent(productName)}&model_name=${modelName}`;
+        if (productLotInput) {
+            fetchUrl += `&product_lot=${encodeURIComponent(productLotInput.value)}`;
+        }
 
-        fetch(`/common/get-product-price/?product_name=${encodeURIComponent(productName)}&model_type=${modelType}`)
+        fetch(fetchUrl)
             .then(response => {
                 if (response.ok) {
                     return response.json();
