@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEnterKeyBehavior();
     disableArrowKeys();
     multicolumnDropdown("#id_sold_products-0-product_name");
-    getProductPrice(0, "product")
+    getProductPrice(0, "product", "id_sold_products", "product_price")
 });
 
 
@@ -85,7 +85,7 @@ class ProductFormManager {
             if (e.target.value && e.target === lastFirstField && needsRowAfter === true) {
                 this.addForm();
                 multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
-                getProductPrice(this.formNum - 1, "product")
+                getProductPrice(this.formNum - 1, "product", "id_sold_products", "product_price")
             }
         });
     }
