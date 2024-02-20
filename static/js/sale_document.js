@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     disableArrowKeys();
     multicolumnDropdown("#id_sold_products-0-product_name");
     getProductPrice(0, "product", "id_sold_products", "product_price")
+    rowTotal(0,"id_sold_products", "product_price", "product_total")
 });
 
 
@@ -86,10 +87,13 @@ class ProductFormManager {
                 this.addForm();
                 multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
                 getProductPrice(this.formNum - 1, "product", "id_sold_products", "product_price")
+                rowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total")
             }
         });
     }
 }
+
+
 
 /** Prevents the default behavior of "Enter" key and instead uses it to switch from product_name
  * to product_quantity and from there to the next row. The purpose is to make its use intuitive
