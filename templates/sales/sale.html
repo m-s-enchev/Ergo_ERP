@@ -3,8 +3,8 @@
 {% load i18n %}
 {% load static %}
 {% block content%}
-    <div id="sales_wrapper">
-        <form id="sales_form" method="post" action="{% url 'sale_new' %}" autocomplete="off">
+    <div id="sales-wrapper">
+        <form id="sales-form" method="post" action="{% url 'sale_new' %}" autocomplete="off">
             {% csrf_token %}
             <section id="sale-document">
                 <div id="sale-document-header">
@@ -106,7 +106,6 @@
                     </table>
                 </div>
             </section>
-         <input type="submit" value="Submit">
         </form>
         <section id="quick_product_select">
             <div class="quick_select_tile">
@@ -126,6 +125,42 @@
             </div>
         </section>
     </div>
+
+    <footer>
+        <div id="payment-display">
+            <p>Payment method:</p>
+            <div>
+                <label for="cash">{% translate 'Cash' %}</label>
+                <input id="cash" type="checkbox">
+            </div>
+            <div>
+                <label for="card">{% translate 'Card' %}</label>
+                <input id="card" type="checkbox">
+            </div>
+            <div>
+                <label for="bank">{% translate 'Bank' %}</label>
+                <input id="bank" type="checkbox">
+            </div>
+            <div>
+                <label for="add-to-bill">{% translate 'To bill' %}</label>
+                <input id="add-to-bill" type="checkbox">
+            </div>
+        </div>
+
+        <div id="sums-and-button">
+            <div>
+                <label for="sum-before-tax">{% translate 'Total before tax:' %}</label>
+                <input id="sum-before-tax" type="number">
+            </div>
+            <div>
+                <label for="total-sum">{% translate 'TOTAL:' %}</label>
+                <input id="total-sum" type="number">
+            </div>
+            <button id="footer-ok-button" ><i class="fa-solid fa-check"></i></button>
+        </div>
+
+    </footer>
+
 
     <script type="text/javascript">
         let productNamesDict = {{ products_dropdown | safe }};

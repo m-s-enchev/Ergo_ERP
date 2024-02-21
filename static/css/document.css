@@ -1,9 +1,9 @@
-#sales_wrapper {
+#sales-wrapper {
     display: flex;
     margin-top: 8vh;
 }
 
-#sales_form {
+#sales-form {
     flex: 1 1 73vw;
 
 }
