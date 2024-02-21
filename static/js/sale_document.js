@@ -10,8 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEnterKeyBehavior();
     disableArrowKeys();
     multicolumnDropdown("#id_sold_products-0-product_name");
-    getProductPrice(0, "product", "id_sold_products", "product_price")
-    rowTotal(0,"id_sold_products", "product_price", "product_total")
+    getProductPrice(0, "product", "id_sold_products", "product_price");
+    rowTotal(0,"id_sold_products", "product_price", "product_total");
+    footerOkButton('sales-form');
 });
 
 

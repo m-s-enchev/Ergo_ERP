@@ -52,3 +52,12 @@ function rowTotal(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix) {
         updateRowSum(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix))
 }
 
+
+
+function footerOkButton (formId) {
+    const okButton = document.getElementById('footer-ok-button');
+    const formToSubmit = document.getElementById(formId);
+    okButton.addEventListener('click', () => {
+        formToSubmit.submit();
+    });
+};
