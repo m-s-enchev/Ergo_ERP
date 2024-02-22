@@ -45,13 +45,34 @@ function updateRowSum(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix) {
 }
 
 
+function updateTotalSum (index, totalSumId, formsetPrefix, sumFieldSuffix) {
+    const totalSumField = document.getElementById(totalSumId);
+    let totalSum = 0;
+    for (let i= 0; i<=index; i++) {
+        let productSumField = document.getElementById(`${formsetPrefix}-${i}-${sumFieldSuffix}`);
+        totalSum += parseFloat(productSumField.value);
+        console.log(productSumField.value)
+    }
+    totalSumField.value = totalSum;
+}
 
-function rowTotal(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix) {
+
+function rowTotal(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix, totalSumId) {
     const rowProductForm = document.querySelector(`.product-form:nth-child(${index+1})`);
     rowProductForm.addEventListener('input', () =>
         updateRowSum(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix))
+        updateTotalSum (index, totalSumId, formsetPrefix, sumFieldSuffix)
 }
 
+
+
+
+// function updateTotalSum (index, totalSumId, formsetPrefix, fieldsToSumSuffix) {
+//     const productSumField = document.getElementById(`id_sold_products-0-product_total`)
+//     productSumField.addEventListener('change', () => {
+//         updatetotalSum(index, totalSumId, formsetPrefix, fieldsToSumSuffix)
+//     })
+// }
 
 
 function footerOkButton (formId) {
@@ -60,4 +81,4 @@ function footerOkButton (formId) {
     okButton.addEventListener('click', () => {
         formToSubmit.submit();
     });
-};
+}

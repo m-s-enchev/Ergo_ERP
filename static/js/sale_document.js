@@ -11,8 +11,9 @@ document.addEventListener('DOMContentLoaded', function () {
     disableArrowKeys();
     multicolumnDropdown("#id_sold_products-0-product_name");
     getProductPrice(0, "product", "id_sold_products", "product_price");
-    rowTotal(0,"id_sold_products", "product_price", "product_total");
+    rowTotal(0,"id_sold_products", "product_price", "product_total", "total-sum");
     footerOkButton('sales-form');
+
 });
 
 
@@ -87,8 +88,8 @@ class ProductFormManager {
             if (e.target.value && e.target === lastFirstField && needsRowAfter === true) {
                 this.addForm();
                 multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
-                getProductPrice(this.formNum - 1, "product", "id_sold_products", "product_price")
-                rowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total")
+                getProductPrice(this.formNum - 1, "product", "id_sold_products", "product_price");
+                rowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total", "total-sum");
             }
         });
     }
