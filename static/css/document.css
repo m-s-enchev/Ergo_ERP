@@ -4,19 +4,22 @@
 }
 
 #sales-form {
-    flex: 1 1 73vw;
+    flex: 0 1 73vw;
 
 }
 
 #quick_product_select {
     display: flex;
-    flex: 1 1 25vw;
+    width: 23vw;
+    height: 85vh;
     flex-wrap: wrap;
     padding: 2vw 2vw 2vw 0;
     font-size: 1.2vw;
     justify-content: flex-start;
     color: white;
     gap: 4%;
+    position: fixed;
+    right: 0
 }
 
 #sale-document {
