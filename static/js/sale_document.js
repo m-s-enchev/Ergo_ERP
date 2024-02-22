@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     disableArrowKeys();
     multicolumnDropdown("#id_sold_products-0-product_name");
     getProductPrice(0, "product", "id_sold_products", "product_price");
-    rowTotal(0,"id_sold_products", "product_price", "product_total", "total-sum");
+    rowTotal(0,"id_sold_products", "product_price", "product_total");
     footerOkButton('sales-form');
 
 });
@@ -62,6 +62,8 @@ class ProductFormManager {
         this.totalForms = document.querySelector("#id_sold_products-TOTAL_FORMS");
         this.productForms = document.querySelectorAll(".product-form");
         this.formNum = this.productForms.length;
+        this.soldProductsTable = document.getElementById('sold-products');
+        this.updateTotalSum();
     }
 
     addForm() {
@@ -89,10 +91,18 @@ class ProductFormManager {
                 this.addForm();
                 multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
                 getProductPrice(this.formNum - 1, "product", "id_sold_products", "product_price");
-                rowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total", "total-sum");
+                rowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total");
             }
         });
     }
+
+       updateTotalSum() {
+        this.soldProductsTable.addEventListener('change', (event) => {
+            totalSum(this.formNum, "total-sum", "id_sold_products", "product_total");
+
+        });
+    }
+
 }
 
 
