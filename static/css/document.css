@@ -29,7 +29,7 @@
     margin: 2vw;
     box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
     justify-content: space-between;
-    background-color: #ececec;
+    background-color: #efefef;
 
 }
 
@@ -102,7 +102,8 @@
 
 #sold-products table th{
     font-size: 1vw;
-    border: 1px solid red;
+    border: 1px solid #5c949f;
+    background-color: #e3f1ed;
 }
 
 
