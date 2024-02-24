@@ -1,4 +1,5 @@
-
+/** Fetches product price from either Products or Inventory models.
+ * In case of Inventory ot matches both by name and lot */
 function getProductPrice(index, modelName, formsetPrefix, priceFieldSuffix) {
     const productNameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
     const productLotInput = document.getElementById(`${formsetPrefix}-${index}-product_lot_number`);
@@ -20,15 +21,15 @@ function getProductPrice(index, modelName, formsetPrefix, priceFieldSuffix) {
             })
             .then(data => {
                 productPriceInput.value = data.product_price;
-                updateRowSum(index, formsetPrefix, priceFieldSuffix, 'product_total');
+                rowTotal(index, formsetPrefix, priceFieldSuffix, 'product_total');
             })
             .catch(error => console.error('There has been a problem with your fetch operation:', error));
     });
 }
 
 
-
-function updateRowSum(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix) {
+/** Calculates quantity*price*discount for every row */
+function rowTotal(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix) {
     const quantityField = document.getElementById(`${formsetPrefix}-${index}-product_quantity`);
     const priceField = document.getElementById(`${formsetPrefix}-${index}-${priceFieldSuffix}`);
     const discountField = document.getElementById(`${formsetPrefix}-${index}-product_discount`);
@@ -45,15 +46,15 @@ function updateRowSum(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix) {
 }
 
 
-
-function rowTotal(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix) {
+/** Updates row total */
+function updateRowSum(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix) {
     const rowProductForm = document.querySelector(`.product-form:nth-child(${index+1})`);
     rowProductForm.addEventListener('input', () => {
-        updateRowSum(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix)
+        rowTotal(index, formsetPrefix, priceFieldSuffix, sumFieldSuffix)
     })
 }
 
-
+/** Sums all the values or a specified column and sets that as the value of a specified field */
 function totalSum (formNum, totalSumId, formsetPrefix, sumFieldSuffix) {
     const totalSumField = document.getElementById(totalSumId);
     let totalSum = 0;
@@ -67,6 +68,8 @@ function totalSum (formNum, totalSumId, formsetPrefix, sumFieldSuffix) {
 }
 
 
+
+/** Connects the footer button to the form, so it can be used to submit it */
 function footerOkButton (formId) {
     const okButton = document.getElementById('footer-ok-button');
     const formToSubmit = document.getElementById(formId);

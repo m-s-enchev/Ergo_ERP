@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEnterKeyBehavior();
     disableArrowKeys();
     multicolumnDropdown("#id_sold_products-0-product_name");
-    getProductPrice(0, "product", "id_sold_products", "product_price");
-    rowTotal(0,"id_sold_products", "product_price", "product_total");
+    getProductPrice(0, "product", "id_sold_products", "product_price_before_tax");
+    updateRowSum(0,"id_sold_products", "product_price", "product_total");
     footerOkButton('sales-form');
 
 });
@@ -90,8 +90,8 @@ class ProductFormManager {
             if (e.target.value && e.target === lastFirstField && needsRowAfter === true) {
                 this.addForm();
                 multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
-                getProductPrice(this.formNum - 1, "product", "id_sold_products", "product_price");
-                rowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total");
+                getProductPrice(this.formNum - 1, "product", "id_sold_products", "product_price_before_tax");
+                updateRowSum(this.formNum - 1,"id_sold_products", "product_price", "product_total");
             }
         });
     }
@@ -134,7 +134,7 @@ function setupEnterKeyBehavior() {
 
 /** Prevents the ArrowUp and ArrowDown keys from incrementing and decrementing number fields.
  * A users intuitive expectation in a table would be from those key to navigate,
- * so when pressed the change of value in a field may not be noticed.*/
+ * so when pressed, the change of value in a field may not be noticed.*/
 function disableArrowKeys () {
     const saleDocument = document.getElementById('sale-document');
     saleDocument.addEventListener('keydown', (e) => {
