@@ -149,12 +149,16 @@
 
         <div id="sums-and-button">
             <div>
-                <label for="sum-before-tax">{% translate 'Total before tax:' %}</label>
-                <input id="sum-before-tax" type="number">
+                <label for="id_sale_total_before_tax">{% translate 'Net total:' %}</label>
+                {{ sales_document_form.sale_total_before_tax }}
             </div>
             <div>
-                <label for="total-sum">{% translate 'TOTAL:' %}</label>
-                <input id="total-sum" type="number">
+                <label for="id_sale_total_tax">{% translate 'VAT:' %}</label>
+                {{ sales_document_form.sale_total_tax }}
+            </div>
+            <div>
+                <label for="id_sale_total_final">{% translate 'GROSS TOTAL:' %}</label>
+                {{ sales_document_form.sale_total_final }}
             </div>
             <button id="footer-ok-button" ><i class="fa-solid fa-check"></i></button>
         </div>
