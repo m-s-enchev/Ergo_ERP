@@ -1,9 +1,9 @@
 /** Fetches product price from either Products or Inventory models.
  * In case of Inventory ot matches both by name and lot */
-function getProductPrice(index, modelName, formsetPrefix, priceFieldSuffix) {
+function getProductPrice(index, modelName, formsetPrefix, priceFieldNoVatSuffix) {
     const productNameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
     const productLotInput = document.getElementById(`${formsetPrefix}-${index}-product_lot_number`);
-    const productPriceInput = document.getElementById(`${formsetPrefix}-${index}-${priceFieldSuffix}`);
+    const productPriceInput = document.getElementById(`${formsetPrefix}-${index}-${priceFieldNoVatSuffix}`);
 
     productNameInput.addEventListener('change', function() {
         const productName = this.value;
@@ -21,7 +21,7 @@ function getProductPrice(index, modelName, formsetPrefix, priceFieldSuffix) {
             })
             .then(data => {
                 productPriceInput.value = data.product_price;
-                rowTotal(index, formsetPrefix, priceFieldSuffix, 'product_total');
+                rowTotal(index, formsetPrefix, priceFieldNoVatSuffix, 'product_total');
             })
             .catch(error => console.error('There has been a problem with your fetch operation:', error));
     });

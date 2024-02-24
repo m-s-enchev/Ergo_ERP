@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     disableArrowKeys();
     multicolumnDropdown("#id_sold_products-0-product_name");
     getProductPrice(0, "product", "id_sold_products", "product_price_before_tax");
-    updateRowSum(0,"id_sold_products", "product_price", "product_total");
+    updateRowSum(0,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
     footerOkButton('sales-form');
 
 });
@@ -91,14 +91,14 @@ class ProductFormManager {
                 this.addForm();
                 multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
                 getProductPrice(this.formNum - 1, "product", "id_sold_products", "product_price_before_tax");
-                updateRowSum(this.formNum - 1,"id_sold_products", "product_price", "product_total");
+                updateRowSum(this.formNum - 1,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
             }
         });
     }
 
        updateTotalSum() {
         this.soldProductsTable.addEventListener('change', (event) => {
-            totalSum(this.formNum, "total-sum", "id_sold_products", "product_total");
+            totalSum(this.formNum, "id_sale_total_before_tax", "id_sold_products", "product_total_before_tax");
 
         });
     }
