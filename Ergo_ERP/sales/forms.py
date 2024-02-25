@@ -1,5 +1,8 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory,  ModelForm
+
+from Ergo_ERP.common.forms import DecimalFieldsValidationMixin
 from Ergo_ERP.sales.models import SalesDocument, SoldProducts, InvoiceData, InvoicedProducts
 from datetime import date
 
@@ -34,7 +37,8 @@ class SalesDocumentForm(ModelForm):
         fields = '__all__'
 
 
-class SoldProductsForm(ModelForm):
+class SoldProductsForm(ModelForm, DecimalFieldsValidationMixin):
+    decimal_fields = ["product_price_before_tax", "product_price", "product_discount", "product_total_before_tax", "product_total"]
     product_exp_date = forms.DateField(
         input_formats=['%d.%m.%Y']
     )
