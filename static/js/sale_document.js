@@ -10,8 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEnterKeyBehavior();
     disableArrowKeys();
     multicolumnDropdown("#id_sold_products-0-product_name");
-    getProductPrice(0, "product", "id_sold_products", "product_price_before_tax");
-    updateRowSum(0,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
+    getProductPrice(0,"id_sold_products", "product_price_before_tax","product_price", "product_retail_price");
+    updateRowTotal(0,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
+    updateRowTotal(0,"id_sold_products", "product_price", "product_total");
     footerOkButton('sales-form');
 
 });
@@ -90,16 +91,16 @@ class ProductFormManager {
             if (e.target.value && e.target === lastFirstField && needsRowAfter === true) {
                 this.addForm();
                 multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
-                getProductPrice(this.formNum - 1, "product", "id_sold_products", "product_price_before_tax");
-                updateRowSum(this.formNum - 1,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
+                getProductPrice(this.formNum - 1, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
+                updateRowTotal(this.formNum - 1,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
+                updateRowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total");
             }
         });
     }
 
        updateTotalSum() {
-        this.soldProductsTable.addEventListener('change', (event) => {
+        this.soldProductsTable.addEventListener('change', () => {
             totalSum(this.formNum, "id_sale_total_before_tax", "id_sold_products", "product_total_before_tax");
-
         });
     }
 
