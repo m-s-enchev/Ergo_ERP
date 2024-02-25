@@ -99,7 +99,9 @@ function totalSum (formNum, totalSumId, formsetPrefix, sumFieldSuffix) {
         }
     }
     totalSumField.value = totalSum;
+    return totalSum
 }
+
 
 
 

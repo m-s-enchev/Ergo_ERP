@@ -100,7 +100,10 @@ class ProductFormManager {
 
        updateTotalSum() {
         this.soldProductsTable.addEventListener('change', () => {
-            totalSum(this.formNum, "id_sale_total_before_tax", "id_sold_products", "product_total_before_tax");
+            let sumNoVat = totalSum(this.formNum, "id_sale_total_before_tax", "id_sold_products", "product_total_before_tax");
+            let sumWithVat = totalSum(this.formNum, "id_sale_total_final", "id_sold_products", "product_total");
+            const totalVat = document.getElementById('id_sale_total_tax');
+            totalVat.value = sumWithVat - sumNoVat;
         });
     }
 
