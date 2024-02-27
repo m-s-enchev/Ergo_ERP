@@ -52,7 +52,7 @@ function getProductPrice(index, formsetPrefix, priceNoVatSuffix, priceWithVatSuf
             .then(data => {
                 priceNoVatInput.value = data.product_price;
                 rowTotal(index, formsetPrefix, priceNoVatSuffix, 'product_total_before_tax');
-                priceWithVatInput.value = (data.product_vat*0.01+1)*data.product_price
+                priceWithVatInput.value = ((data.product_vat*0.01+1)*data.product_price).toFixed(2)
                 rowTotal(index, formsetPrefix, priceWithVatSuffix, 'product_total');
             })
             .catch(error => console.error('There has been a problem with your fetch operation:', error));
@@ -71,11 +71,9 @@ function rowTotal(index, formsetPrefix, priceFieldSuffix, totalFieldSuffix) {
     let discount = parseFloat(discountField.value);
 
     if (discount) {
-        rowTotalField.value = quantity * price * (1 - discount*0.01);
-        console.log(rowTotalField.value)
+        rowTotalField.value = (quantity * price * (1 - discount*0.01)).toFixed(2);
     } else {
-        rowTotalField.value = quantity * price;
-        console.log(rowTotalField.value)
+        rowTotalField.value = (quantity * price).toFixed(2);
     }
 }
 
@@ -98,11 +96,9 @@ function totalSum (formNum, totalSumId, formsetPrefix, sumFieldSuffix) {
             totalSum += parseFloat(productSumField.value);
         }
     }
-    totalSumField.value = totalSum;
-    return totalSum
+    totalSumField.value = totalSum.toFixed(2);
+    return totalSum.toFixed(2)
 }
-
-
 
 
 /** Connects the footer button to the form, so it can be used to submit it */
@@ -113,3 +109,5 @@ function footerOkButton (formId) {
         formToSubmit.submit();
     });
 }
+
+

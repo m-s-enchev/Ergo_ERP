@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
     updateRowTotal(0,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
     updateRowTotal(0,"id_sold_products", "product_price", "product_total");
     footerOkButton('sales-form');
-
 });
 
 
@@ -45,7 +44,6 @@ function multicolumnDropdown(selector) {
         }
 
     }).autocomplete("instance")._renderItem = function(ul, item) {
-        // Retrieve the additional details
         let details = productNamesDict[item.value];
         let label = `<div><span>${item.value}</span><span>${details[0]}</span><span>${details[1]}</span><span>${details[2]}</span></div>`;
         return $("<li>")
@@ -103,7 +101,7 @@ class ProductFormManager {
             let sumNoVat = totalSum(this.formNum, "id_sale_total_before_tax", "id_sold_products", "product_total_before_tax");
             let sumWithVat = totalSum(this.formNum, "id_sale_total_final", "id_sold_products", "product_total");
             const totalVat = document.getElementById('id_sale_total_tax');
-            totalVat.value = sumWithVat - sumNoVat;
+            totalVat.value = (sumWithVat - sumNoVat).toFixed(2);
         });
     }
 
