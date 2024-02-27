@@ -4,23 +4,25 @@
 }
 
 #sales-form {
-    flex: 0 1 73vw;
+    flex: 0 1 75vw;
 }
 
 #quick_product_select {
     display: flex;
     width: 23vw;
-    height: 85vh;
+    height: 80vh;
     flex-wrap: wrap;
-    padding: 2vw 2vw 2vw 0;
+    padding-right: 2vw;
+    margin-top: 8vh;
     font-size: 1.2vw;
     justify-content: flex-start;
     color: white;
     gap: 4%;
     position: fixed;
     right: 0;
-    top: 4vw;
+    top: 2vw;
 }
+
 
 #sale-document {
     display:flex;
@@ -107,6 +109,8 @@
 }
 
 
+
+
 .product-form .numerator {
     width: 2%;
 }
@@ -179,9 +183,32 @@
 .ui-menu-item-wrapper span:nth-child(3),
 .ui-menu-item-wrapper span:nth-child(4) {
     text-align: center;
-    flex: 2 0 19%
+    flex: 2 0 19%;
+}
+
+#rotate-screen-prompt {
+    display: none;
+    font-size: 5.5vw;
+    font-weight: bold;
+    width: 80vw;
+    margin-left: 2vw;
+    margin-top: 5vh;
+    padding: 1vw;
+    background-color: cornsilk;
+    border-radius: 1vw;
+    text-align: center;
+
+}
+
+@media only screen and (max-width: 1080px) {
+    #quick_product_select {
+        display: none;
+    }
 }
 
 
-
-
+@media only screen and (max-width: 770px) {
+    #rotate-screen-prompt {
+        display: block;
+    }
+}
