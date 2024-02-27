@@ -3,10 +3,10 @@ from django.db import models
 
 class SalesDocument(models.Model):
     payment_method_choices = [
-        ('cash', 'cash'),
-        ('card', 'card'),
-        ('wire_transfer', 'wire transfer'),
-        ('add_to_bill', 'add to bill')
+        ('cash', 'Cash'),
+        ('card', 'Card'),
+        ('wire_transfer', 'Bank'),
+        ('add_to_bill', 'To bill')
     ]
     date = models.DateField()
     time = models.TimeField(auto_now_add=True)
@@ -14,10 +14,10 @@ class SalesDocument(models.Model):
     department = models.CharField(max_length=100)
     warehouse = models.CharField(max_length=100)
     buyer_name = models.CharField(max_length=100, verbose_name='Client')
-    sale_total_before_tax = models.DecimalField(null=True, blank=True, decimal_places=2, max_digits=10, verbose_name='Subtotal')
-    sale_total_tax = models.DecimalField(null=True,  blank=True,decimal_places=2, max_digits=10, verbose_name='VAT')
-    sale_total_final = models.DecimalField(null=True,  blank=True,decimal_places=2, max_digits=10, verbose_name='TOTAL')
-    payment_method = models.CharField(null=True, blank=True, max_length=30)
+    sale_total_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Subtotal')
+    sale_total_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='VAT')
+    sale_total_final = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='TOTAL')
+    payment_method = models.CharField(max_length=30, choices=payment_method_choices)
     is_linked_to_invoice = models.BooleanField(default=False)
 
 
@@ -75,11 +75,5 @@ class InvoicedProducts (SoldProductsBaseModel):
                 ]
 
 
-# seller_name = models.CharField(max_length=100, verbose_name='Seller')
-# seller_identification_number = models.CharField(max_length=20, verbose_name='Identification number')
-# seller_address = models.CharField(max_length=200, verbose_name='Address')
-# seller_accountable_person = models.CharField(max_length=100, verbose_name='accountable person')
-# seller_iban = models.CharField(max_length=34, verbose_name='IBAN')
-# seller_representative = models.CharField(null=True, blank=True, max_length=100)
 
 
