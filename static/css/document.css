@@ -5,7 +5,6 @@
 
 #sales-form {
     flex: 0 1 73vw;
-
 }
 
 #quick_product_select {
@@ -19,7 +18,8 @@
     color: white;
     gap: 4%;
     position: fixed;
-    right: 0
+    right: 0;
+    top: 4vw;
 }
 
 #sale-document {

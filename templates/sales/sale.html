@@ -106,65 +106,49 @@
                     </table>
                 </div>
             </section>
-        </form>
-        <section id="quick_product_select">
-            <div class="quick_select_tile">
-                <p>Crepes</p>
-            </div>
-            <div class="quick_select_tile">
-                <p>Croissant</p>
-            </div>
+
+            <section id="quick_product_select">
                 <div class="quick_select_tile">
-                <p>B12</p>
-            </div>
-                 <div class="quick_select_tile">
-                <p>Crack</p>
-            </div>
-                 <div class="quick_select_tile">
-                <p>Red bull</p>
-            </div>
-        </section>
+                    <p>Crepes</p>
+                </div>
+                <div class="quick_select_tile">
+                    <p>Croissant</p>
+                </div>
+                    <div class="quick_select_tile">
+                    <p>B12</p>
+                </div>
+                     <div class="quick_select_tile">
+                    <p>Crack</p>
+                </div>
+                     <div class="quick_select_tile">
+                    <p>Red bull</p>
+                </div>
+            </section>
+
+            <footer>
+                <div id="payment-display">
+                    <label for="id_payment_method">{% translate 'Payment method:' %}</label>
+                    {{ sales_document_form.payment_method }}
+                </div>
+
+                <div id="sums-and-button">
+                    <div>
+                        <label for="id_sale_total_before_tax">{% translate 'Net total:' %}</label>
+                        {{ sales_document_form.sale_total_before_tax }}
+                    </div>
+                    <div>
+                        <label for="id_sale_total_tax">{% translate 'VAT:' %}</label>
+                        {{ sales_document_form.sale_total_tax }}
+                    </div>
+                    <div>
+                        <label for="id_sale_total_final">{% translate 'TOTAL:' %}</label>
+                        {{ sales_document_form.sale_total_final }}
+                    </div>
+                    <button id="footer-ok-button" ><i class="fa-solid fa-check"></i></button>
+                </div>
+            </footer>
+        </form>
     </div>
-
-    <footer>
-        <div id="payment-display">
-            <p>Payment method:</p>
-            <div>
-                <label for="cash">{% translate 'Cash' %}</label>
-                <input id="cash" type="checkbox">
-            </div>
-            <div>
-                <label for="card">{% translate 'Card' %}</label>
-                <input id="card" type="checkbox">
-            </div>
-            <div>
-                <label for="bank">{% translate 'Bank' %}</label>
-                <input id="bank" type="checkbox">
-            </div>
-            <div>
-                <label for="add-to-bill">{% translate 'To bill' %}</label>
-                <input id="add-to-bill" type="checkbox">
-            </div>
-        </div>
-
-        <div id="sums-and-button">
-            <div>
-                <label for="id_sale_total_before_tax">{% translate 'Net total:' %}</label>
-                {{ sales_document_form.sale_total_before_tax }}
-            </div>
-            <div>
-                <label for="id_sale_total_tax">{% translate 'VAT:' %}</label>
-                {{ sales_document_form.sale_total_tax }}
-            </div>
-            <div>
-                <label for="id_sale_total_final">{% translate 'GROSS TOTAL:' %}</label>
-                {{ sales_document_form.sale_total_final }}
-            </div>
-            <button id="footer-ok-button" ><i class="fa-solid fa-check"></i></button>
-        </div>
-
-    </footer>
-
 
     <script type="text/javascript">
         let productNamesDict = {{ products_dropdown | safe }};

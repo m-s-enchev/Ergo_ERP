@@ -16,25 +16,35 @@ footer {
 
 #payment-display {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    gap: calc(20px + 0.4vw);
+    gap: 1vw;
 }
 
-#payment-display div input{
-    width: 2vw;
-    height: 2vw;
+#payment-display select{
+    font-size: 1.6vw;
 }
 
 #sums-and-button {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    gap: calc(20px + 0.4vw);
+    gap: 1vw;
 }
 
 #sums-and-button div input {
     width: 8vw;
+    font-size: calc(14px + 0.4vw);
+    text-align: center;
+}
+
+#id_sale_total_final {
+    font-weight: bold;
+}
+
+#sums-and-button div:nth-child(3) label {
+    font-weight: bold;
+    margin-left: 2vw;
 }
 
 #footer-ok-button {
