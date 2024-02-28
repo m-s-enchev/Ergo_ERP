@@ -134,11 +134,11 @@
                 </div>
 
                 <div id="sums-and-button">
-                    <div>
+                    <div id="total_before_tax">
                         <label for="id_sale_total_before_tax">{% translate 'Net total:' %}</label>
                         {{ sales_document_form.sale_total_before_tax }}
                     </div>
-                    <div>
+                    <div id="total_tax">
                         <label for="id_sale_total_tax">{% translate 'VAT:' %}</label>
                         {{ sales_document_form.sale_total_tax }}
                     </div>

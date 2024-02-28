@@ -156,6 +156,8 @@ function setupInvoiceToggle() {
     const buyerDataToggleFields = document.getElementById('buyer-data-toggle-fields');
     const invoiceToggledFields = document.getElementById('invoice-toggled-fields');
     const productsTable = document.querySelector('#sold-products table');
+    const totalBeforeVat = document.getElementById('total_before_tax')
+    const totalVat = document.getElementById('total_tax')
 
     const tableColumnHide = (table, ...columnIndices) => {
         let rows = table.rows;
@@ -176,6 +178,8 @@ function setupInvoiceToggle() {
     tableColumnHide(productsTable, priceBeforeTax, productTotalBeforeTax);
     invoiceData.removeChild(invoiceToggledFields);
     buyerData.removeChild(buyerDataToggleFields);
+    totalBeforeVat.style.display = 'none';
+    totalVat.style.display = 'none';
 
     invoiceCheckbox.addEventListener('change', function () {
         if (invoiceCheckbox.checked) {
@@ -186,12 +190,16 @@ function setupInvoiceToggle() {
             initializeDatepicker ()
             tableColumnShow(productsTable, priceBeforeTax, productTotalBeforeTax);
             tableColumnHide(productsTable, price, productTotal);
+            totalBeforeVat.style.display = 'block';
+            totalVat.style.display = 'block';
         } else {
             invoiceMainHeading.style.fontWeight = 'normal';
             invoiceData.removeChild(invoiceToggledFields);
             buyerData.removeChild(buyerDataToggleFields);
             tableColumnShow(productsTable, price, productTotal);
             tableColumnHide(productsTable, priceBeforeTax, productTotalBeforeTax);
+            totalBeforeVat.style.display = 'none';
+            totalVat.style.display = 'none';
         }
     });
 }
