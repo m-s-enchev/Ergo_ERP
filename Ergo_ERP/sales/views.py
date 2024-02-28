@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import transaction
+from django.db.models import Max
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -8,7 +9,7 @@ from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.inventory.views import update_inventory
 from Ergo_ERP.sales.forms import SalesDocumentForm, SoldProductsFormSet, InvoiceDataForm
-from Ergo_ERP.sales.models import InvoicedProducts
+from Ergo_ERP.sales.models import InvoicedProducts, InvoiceData
 
 
 def products_copy_to_document(
@@ -90,16 +91,25 @@ def products_dict_dropdown():
     return products_dict
 
 
+def get_invoice_number():
+    last_number = InvoiceData.objects.aggregate(Max('invoice_number'))['invoice_number__max']
+    if last_number is None:
+        invoice_number = 1
+    else:
+        invoice_number = last_number + 1
+    return invoice_number
+
+
 def sales_document_create(request):
     """
     View function handling a new sales event in two cases - with or without an invoice
     """
     sales_document_form = SalesDocumentForm(request.POST or None)
     sold_products_formset = SoldProductsFormSet(request.POST or None, prefix='sold_products')
-    invoice_data_form = InvoiceDataForm(request.POST or None)
     products_dropdown = products_dict_dropdown()
 
     if request.method == 'POST':
+        invoice_data_form = InvoiceDataForm(request.POST)
         if (
                 sales_document_form.is_valid()
                 and sold_products_formset.is_valid()
@@ -112,6 +122,8 @@ def sales_document_create(request):
             elif sales_document_form.cleaned_data['is_linked_to_invoice'] and invoice_data_form.is_valid():
                 handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form)
                 return redirect(reverse('sale_new'))
+    else:
+        invoice_data_form = InvoiceDataForm(initial={'invoice_number': get_invoice_number()})
 
     context = {
         'sales_document_form': sales_document_form,
