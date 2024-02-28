@@ -1,4 +1,5 @@
-from django.db import models
+from django.db import models, transaction
+from django.db.models import Max
 
 
 class SalesDocument(models.Model):
@@ -47,7 +48,7 @@ class SoldProducts (SoldProductsBaseModel):
 
 
 class InvoiceData(models.Model):
-    invoice_number = models.IntegerField(verbose_name='Number')
+    invoice_number = models.IntegerField(blank=True, verbose_name='Number')
     invoice_date = models.DateField(verbose_name='Date')
     invoice_due_date = models.DateField(verbose_name='Due date')
     buyer_identification_number = models.CharField(max_length=20, verbose_name='Identification number')
@@ -55,6 +56,16 @@ class InvoiceData(models.Model):
     buyer_accountable_person = models.CharField(max_length=100, verbose_name='accountable person')
     buyer_representative = models.CharField(max_length=100, verbose_name='representative')
     sales_document_for_invoice = models.OneToOneField(SalesDocument, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            with transaction.atomic():
+                last_number = InvoiceData.objects.aggregate(Max('invoice_number'))['invoice_number__max']
+                if last_number is None:
+                    self.invoice_number = 1
+                else:
+                    self.invoice_number = last_number + 1
+        super(InvoiceData, self).save(*args, **kwargs)
 
 
 class InvoicedProducts (SoldProductsBaseModel):

@@ -66,7 +66,7 @@ class ProductsModel(models.Model):
     product_parts = models.ManyToManyField(IngredientOrPart, through='RecipeOrPartsList', blank=True)
     product_tags = models.ManyToManyField(ProductTags, through='ProductTagList', blank=True)
     # all prices are per unit before VAT
-    product_vat = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='vat')
+    product_vat = models.DecimalField(decimal_places=2, max_digits=10, default=0, verbose_name='vat')
     product_retail_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='price')
     product_wholesale_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='price')
     product_employee_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='price')
