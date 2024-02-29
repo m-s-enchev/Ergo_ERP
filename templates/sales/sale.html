@@ -8,11 +8,15 @@
             {% csrf_token %}
             <section id="sale-document">
                 <div id="sale-document-header">
-                    <div id="operator_data">
-                        {{ sales_document_form.department }}
-                        {{ sales_document_form.warehouse }}
-                        {{ sales_document_form.operator }}
-                        {{ sales_document_form.date }}
+                    <div id="department-and-date">
+                        <div>
+                            <label for="id_department">{% translate 'Department:' %}</label>
+                            {{ sales_document_form.department }}
+                        </div>
+                        <div>
+                            <label for="id_date">{% translate 'Date:' %}</label>
+                            {{ sales_document_form.date }}
+                        </div>
                     </div>
                     <div id="client-and-invoice-data">
                         <div id="invoice-number-and-dates">
