@@ -111,11 +111,10 @@ def sales_document_create(request):
     if request.method == 'POST':
         invoice_data_form = InvoiceDataForm(request.POST)
         if (
-                sales_document_form.is_valid()
-                and sold_products_formset.is_valid()
-                and is_formset_nonempty(sold_products_formset)
+            sales_document_form.is_valid()
+            and sold_products_formset.is_valid()
+            and is_formset_nonempty(sold_products_formset)
         ):
-
             if not sales_document_form.cleaned_data['is_linked_to_invoice']:
                 handle_sales_document_form_only(sales_document_form, sold_products_formset)
                 return redirect(reverse('sale_new'))
