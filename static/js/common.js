@@ -110,4 +110,8 @@ function footerOkButton (formId) {
     });
 }
 
+function scrollToBottom(wrapperId) {
+        const container = document.getElementById(wrapperId);
+        container.scrollTop = container.scrollHeight;
+    }
 

@@ -92,6 +92,7 @@ class ProductFormManager {
                 getProductPrice(this.formNum - 1, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total");
+                scrollToBottom('sales-wrapper');
             }
         });
     }
@@ -203,6 +204,8 @@ function setupInvoiceToggle() {
         }
     });
 }
+
+
 
 
 
