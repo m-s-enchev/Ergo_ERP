@@ -7,19 +7,11 @@ footer {
     color: white;
     box-sizing: border-box;
     width: 100%;
-    height: 5vh;
     background-color: var(--nav_bar_background);
     font-size: calc(16px + 0.4vw);
-
-    padding: calc(15px + 0.4vw)
+    padding: 0.5vw;
 }
 
-#payment-display {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 1vw;
-}
 
 #payment-display select{
     font-size: 1.6vw;
