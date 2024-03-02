@@ -11,7 +11,7 @@ class SalesDocument(models.Model):
     ]
     date = models.DateField()
     time = models.TimeField(auto_now_add=True)
-    operator = models.CharField(max_length=100)
+    operator = models.CharField(max_length=100, null=True, blank=True)
     department = models.CharField(max_length=100)
     buyer_name = models.CharField(max_length=100, verbose_name='Client')
     sale_total_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Subtotal')
