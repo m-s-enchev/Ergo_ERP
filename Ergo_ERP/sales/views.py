@@ -1,11 +1,11 @@
 import datetime
 
 from django.db import transaction
-from django.db.models import Max
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document
+from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document, \
+    get_next_document_number
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.inventory.views import update_inventory
 from Ergo_ERP.sales.forms import SalesDocumentForm, SoldProductsFormSet, InvoiceDataForm
@@ -91,15 +91,6 @@ def products_dict_dropdown():
     return products_dict
 
 
-def get_invoice_number():
-    last_number = InvoiceData.objects.aggregate(Max('invoice_number'))['invoice_number__max']
-    if last_number is None:
-        invoice_number = 1
-    else:
-        invoice_number = last_number + 1
-    return invoice_number
-
-
 def sales_document_create(request):
     """
     View function handling a new sales event in two cases - with or without an invoice
@@ -122,7 +113,9 @@ def sales_document_create(request):
                 handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form)
                 return redirect(reverse('sale_new'))
     else:
-        invoice_data_form = InvoiceDataForm(initial={'invoice_number': get_invoice_number()})
+        invoice_data_form = InvoiceDataForm(
+            initial={'invoice_number': get_next_document_number(InvoiceData, 'invoice_number')}
+        )
 
     context = {
         'sales_document_form': sales_document_form,

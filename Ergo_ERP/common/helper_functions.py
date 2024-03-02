@@ -1,3 +1,6 @@
+from django.db.models import Max
+
+
 def is_formset_nonempty(formset):
     """
     Checks if there is at least one nonempty form in the formset.
@@ -20,4 +23,13 @@ def products_list_save_to_document(products_formset, document_instance, name_of_
             products_instance.save()
             saved_product_instances.append(products_instance)
     return saved_product_instances
+
+
+def get_next_document_number(model, number_field_name):
+    last_number = model.objects.aggregate(Max(number_field_name))[f'{number_field_name}__max']
+    if last_number is None:
+        document_number = 1
+    else:
+        document_number = last_number + 1
+    return document_number
 
