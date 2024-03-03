@@ -1,16 +1,22 @@
 from django.db import models
 
 
+class Department(models.Model):
+    name = models.CharField(max_length=30)
+    location = models.CharField(max_length=255)
+
+
 class Inventory(models.Model):
     product_name = models.CharField(max_length=100, verbose_name='name')
     product_quantity = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Qty')
     product_lot_number = models.CharField(max_length=100, verbose_name='LOT', null=True, blank=True)
     product_exp_date = models.DateField(verbose_name='Exp. date', null=True, blank=True, )
-    # price and value are before VAT
+    # price and value are before TAX
     product_purchase_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price',
                                                  null=True, blank=True)
     product_value = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price',
                                         null=True, blank=True)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class WarehouseDocument(models.Model):

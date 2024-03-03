@@ -1,7 +1,13 @@
 from django import forms
 from datetime import date
 from django.forms import inlineformset_factory
-from Ergo_ERP.inventory.models import WarehouseDocument, TransferredProducts
+from Ergo_ERP.inventory.models import WarehouseDocument, TransferredProducts, Department
+
+
+class DepartmentForm(forms.ModelForm):
+    class Meta:
+        model = Department
+        fields = '__all__'
 
 
 class WarehouseDocumentForm(forms.ModelForm):
