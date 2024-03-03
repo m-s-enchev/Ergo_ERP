@@ -47,13 +47,14 @@
 #department-and-date {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 2vh;
-    padding: 0 1vw 0 1vw;
+    margin-bottom: 1vh;
 }
 
-
-#department-and-date label{
-    font-weight: bold;
+#department-and-date div {
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 1vw 1vw 1vw 1vw;
+    min-width: 26vw;
 }
 
 
@@ -70,8 +71,14 @@
     padding: 1vw;
     border: 1px solid black;
     border-radius: 3px;
+    min-width: 26vw;
 }
 
+#id_is_linked_to_invoice{
+    width: 1.5vw;
+    height: 1.5vw;
+    margin-left: 1vw;
+}
 
 #invoice-toggled-fields, #buyer-data-toggle-fields {
     display: flex;

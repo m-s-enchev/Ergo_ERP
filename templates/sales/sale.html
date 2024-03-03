@@ -9,12 +9,12 @@
             <section id="sale-document">
                 <div id="sale-document-header">
                     <div id="department-and-date">
-                        <div>
+                        <div class="form-group">
                             {{ sales_document_form.department.errors }}
-                            <label for="id_department">{% translate 'Department:' %}</label>
+                            <label for="id_department">{% translate 'Department: ' %}</label>
                             {{ sales_document_form.department }}
                         </div>
-                        <div>
+                        <div class="form-group">
                             {{ sales_document_form.date.errors }}
                             <label for="id_date">{% translate 'Date:' %}</label>
                             {{ sales_document_form.date }}
