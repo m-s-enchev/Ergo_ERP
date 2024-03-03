@@ -122,6 +122,7 @@ def sales_document_create(request):
         'sold_products_formset': sold_products_formset,
         'invoice_data_form': invoice_data_form,
         'products_dropdown': products_dropdown,
+        'template_verbose_name': 'Sale',
     }
     return render(request, 'sales/sale.html', context)
 

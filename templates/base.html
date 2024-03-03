@@ -20,10 +20,11 @@
         <div id="back-button">
             <a href="#"><i class="fa-solid fa-left-long"></i></a>
         </div>
-        <div id="navigation-display">
-            <p>Main menu</p>
-        </div>
-
+        {% if template_verbose_name %}
+            <div id="navigation-display">
+                {{template_verbose_name}}
+            </div>
+        {% endif %}
         <div id="save">
             <a href="#"><i class="fa-solid fa-floppy-disk"></i></a>
         </div>

@@ -15,6 +15,7 @@ class InventoryView(ListView):
     model = Inventory
     template_name = 'inventory/inventory.html'
     context_object_name = 'inventory_list'
+    extra_context = {'template_verbose_name': 'Inventory'}
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -97,5 +98,6 @@ def receiving_document_create(request):
         'warehouse_document_form': warehouse_document_form,
         'transferred_products_formset': transferred_products_formset,
         'products_dropdown': products_dropdown,
+        'template_verbose_name': 'Receiving',
     }
     return render(request, 'inventory/receive-goods.html', context)
