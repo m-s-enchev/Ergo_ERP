@@ -21,7 +21,11 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='homepage.html'), name='homepage'),
+    path(
+        '',
+        TemplateView.as_view(template_name='homepage.html', extra_context={'template_verbose_name': 'Main menu'}),
+        name='homepage'
+    ),
     path('settings/', TemplateView.as_view(template_name='settings.html'), name='settings'),
     path('sales/', include('Ergo_ERP.sales.urls')),
     path('inventory/', include('Ergo_ERP.inventory.urls')),

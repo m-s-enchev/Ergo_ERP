@@ -50,7 +50,7 @@
     margin-bottom: 1vh;
 }
 
-#department-and-date div {
+#department-and-date div div{
     border: 1px solid black;
     border-radius: 3px;
     padding: 1vw 1vw 1vw 1vw;

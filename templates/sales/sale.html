@@ -9,15 +9,19 @@
             <section id="sale-document">
                 <div id="sale-document-header">
                     <div id="department-and-date">
-                        <div class="form-group">
+                        <div>
                             {{ sales_document_form.department.errors }}
-                            <label for="id_department">{% translate 'Department: ' %}</label>
-                            {{ sales_document_form.department }}
+                            <div class="form-group">
+                                <label for="id_department">{% translate 'Department: ' %}</label>
+                                {{ sales_document_form.department }}
+                            </div>
                         </div>
-                        <div class="form-group">
+                        <div>
                             {{ sales_document_form.date.errors }}
-                            <label for="id_date">{% translate 'Date:' %}</label>
-                            {{ sales_document_form.date }}
+                            <div class="form-group">
+                                <label for="id_date">{% translate 'Date:' %}</label>
+                                {{ sales_document_form.date }}
+                            </div>
                         </div>
                     </div>
                     <div id="client-and-invoice-data">
