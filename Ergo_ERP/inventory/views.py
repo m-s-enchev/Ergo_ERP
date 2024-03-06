@@ -56,23 +56,23 @@ def create_inventory_instance(product_instance):
 
 def update_inventory(product_instances, is_receiving):
     for product_instance in product_instances:
-        matching_inventory = Inventory.objects.filter(
+        matching_inventory_instance = Inventory.objects.filter(
             product_name=product_instance.product_name,
             product_lot_number=product_instance.product_lot_number
-        )
-        if matching_inventory.exists():
+        ).first()
+
+        if matching_inventory_instance:
             if is_receiving:
-                matching_inventory.update(product_quantity=F('product_quantity') + product_instance.product_quantity)
+                matching_inventory_instance.product_quantity += product_instance.product_quantity
+                matching_inventory_instance.save()
             else:
-                for inv_instance in matching_inventory:
-                    new_quantity = inv_instance.product_quantity - product_instance.product_quantity
-                    if new_quantity < 0:
-                        raise ValidationError(f"There is not enough of product {inv_instance.product_name} "
-                                              f"with lot {inv_instance.product_lot_number}.")
-                    else:
-                        inv_instance.product_quantity = new_quantity
-                        inv_instance.save()
-        else:
+                if matching_inventory_instance.product_quantity < product_instance.product_quantity:
+                    raise ValidationError(f"There is not enough of product {matching_inventory_instance.product_name} "
+                                          f"with lot {matching_inventory_instance.product_lot_number}.")
+                else:
+                    matching_inventory_instance.product_quantity -= product_instance.product_quantity
+                    matching_inventory_instance.save()
+        elif is_receiving:
             create_inventory_instance(product_instance)
 
 
