@@ -1,5 +1,5 @@
 from django import forms
-from django.core.exceptions import ValidationError
+
 from django.forms import inlineformset_factory,  ModelForm
 
 from Ergo_ERP.common.forms import DecimalFieldsValidationMixin
@@ -46,8 +46,8 @@ class SoldProductsForm(ModelForm, DecimalFieldsValidationMixin):
         model = SoldProducts
         fields = '__all__'
 
-    def clean_event_date(self):
-        data = self.cleaned_data['date']
+    def clean_product_exp_date(self):
+        data = self.cleaned_data['product_exp_date']
         return data
 
 

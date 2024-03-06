@@ -1,3 +1,4 @@
+
 from django.db import models, transaction
 from django.db.models import Max
 
@@ -6,7 +7,7 @@ class SalesDocument(models.Model):
     payment_method_choices = [
         ('cash', 'Cash'),
         ('card', 'Card'),
-        ('wire_transfer', 'Bank'),
+        ('bank_transfer', 'Bank'),
         ('add_to_bill', 'To bill')
     ]
     date = models.DateField()
@@ -24,6 +25,7 @@ class SalesDocument(models.Model):
 class SoldProductsBaseModel(models.Model):
     product_name = models.CharField(max_length=200, verbose_name='Name')
     product_quantity = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Qty')
+    product_unit = models.CharField(max_length=10, verbose_name='Unit', null=True, blank=True)
     product_price_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price before VAT')
     product_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price')
     product_discount = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Discount', null=True, blank=True)
