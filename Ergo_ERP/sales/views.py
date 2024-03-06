@@ -91,6 +91,28 @@ def products_dict_dropdown():
     return products_dict
 
 
+def check_inventory(sold_products_formset):
+    all_valid = True
+    for form in sold_products_formset:
+        cleaned_data = form.cleaned_data
+        product_name = cleaned_data.get('product_name')
+        product_lot_number = cleaned_data.get('product_lot_number')
+        product_quantity = cleaned_data.get('product_quantity')
+        matching_inventory = Inventory.objects.filter(
+            product_name=product_name,
+            product_lot_number=product_lot_number
+        )
+        if matching_inventory.exists():
+            matching_instance = matching_inventory.first()
+            if matching_instance.product_quantity < product_quantity:
+                form.add_error('product_quantity', "Insufficient quantity")
+                all_valid = False
+        else:
+            form.add_error('product_name', "No such product")
+            all_valid = False
+        return all_valid
+
+
 def sales_document_create(request):
     """
     View function handling a new sales event in two cases - with or without an invoice
@@ -105,6 +127,7 @@ def sales_document_create(request):
             sales_document_form.is_valid()
             and sold_products_formset.is_valid()
             and is_formset_nonempty(sold_products_formset)
+            and check_inventory(sold_products_formset)
         ):
             if not sales_document_form.cleaned_data['is_linked_to_invoice']:
                 handle_sales_document_form_only(sales_document_form, sold_products_formset)
