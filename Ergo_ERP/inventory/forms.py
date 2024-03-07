@@ -1,7 +1,8 @@
 from django import forms
 from datetime import date
 from django.forms import inlineformset_factory
-from Ergo_ERP.inventory.models import WarehouseDocument, TransferredProducts, Department
+from Ergo_ERP.inventory.models import Department, ReceivingDocument, ReceivedProducts, \
+    ShippedProducts, ShippingDocument
 
 
 class DepartmentForm(forms.ModelForm):
@@ -10,7 +11,7 @@ class DepartmentForm(forms.ModelForm):
         fields = '__all__'
 
 
-class WarehouseDocumentForm(forms.ModelForm):
+class ReceivingDocumentForm(forms.ModelForm):
     date = forms.DateField(
         initial=date.today(),
         input_formats=['%d.%m.%Y'],
@@ -18,7 +19,7 @@ class WarehouseDocumentForm(forms.ModelForm):
     )
 
     class Meta:
-        model = WarehouseDocument
+        model = ReceivingDocument
         fields = '__all__'
 
 
@@ -29,15 +30,32 @@ class TransferredProductsForm(forms.ModelForm):
         widget=forms.DateInput(format='%d.%m.%Y', attrs={'class': 'datepicker'})
     )
 
+
+class ReceivedProductsForm(TransferredProductsForm):
     class Meta:
-        model = TransferredProducts
+        model = ReceivedProducts
         fields = '__all__'
 
 
-TransferredProductsFormSet = inlineformset_factory(
-    WarehouseDocument,
-    TransferredProducts,
-    form=TransferredProductsForm,
+ReceivedProductsFormSet = inlineformset_factory(
+    ReceivingDocument,
+    ReceivedProducts,
+    form=ReceivedProductsForm,
+    extra=1,
+    can_delete=False,
+)
+
+
+class ShippedProductsForm(TransferredProductsForm):
+    class Meta:
+        model = ShippedProducts
+        fields = '__all__'
+
+
+ShippedProductsFormSet = inlineformset_factory(
+    ShippingDocument,
+    ShippedProducts,
+    form=ShippedProductsForm,
     extra=1,
     can_delete=False,
 )
