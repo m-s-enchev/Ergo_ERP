@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document, \
-    get_next_document_number
+    get_next_document_number, add_department_to_products
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.inventory.views import update_inventory
 from Ergo_ERP.sales.forms import SalesDocumentForm, SoldProductsFormSet, InvoiceDataForm
@@ -38,13 +38,16 @@ def products_copy_to_document(
 
 def handle_sales_document_form_only(sales_document_form, sold_products_formset):
     with transaction.atomic():
-        sales_document_instance = sales_document_form.save()
+        sales_document_instance = sales_document_form.save(commit=False)
+        department = sales_document_instance.department
+        sales_document_instance.save()
         sold_product_instances = products_list_save_to_document(
                                     sold_products_formset,
                                     sales_document_instance,
                                     'sales_document_in_which_sold'
                                  )
-        update_inventory(sold_product_instances, False)
+        sold_product_instances_department = add_department_to_products(sold_product_instances, department)
+        update_inventory(sold_product_instances_department, False)
 
 
 def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form):
@@ -91,8 +94,9 @@ def products_dict_dropdown():
     return products_dict
 
 
-def check_inventory(sold_products_formset):
+def check_inventory(sales_document_form, sold_products_formset):
     all_valid = True
+    department = sales_document_form.cleaned_data.get('department')
     for form in sold_products_formset:
         cleaned_data = form.cleaned_data
         product_name = cleaned_data.get('product_name')
@@ -100,7 +104,8 @@ def check_inventory(sold_products_formset):
         product_quantity = cleaned_data.get('product_quantity')
         matching_inventory = Inventory.objects.filter(
             product_name=product_name,
-            product_lot_number=product_lot_number
+            product_lot_number=product_lot_number,
+            department=department
         )
         if matching_inventory.exists():
             matching_instance = matching_inventory.first()
@@ -127,7 +132,7 @@ def sales_document_create(request):
             sales_document_form.is_valid()
             and sold_products_formset.is_valid()
             and is_formset_nonempty(sold_products_formset)
-            and check_inventory(sold_products_formset)
+            and check_inventory(sales_document_form, sold_products_formset)
         ):
             if not sales_document_form.cleaned_data['is_linked_to_invoice']:
                 handle_sales_document_form_only(sales_document_form, sold_products_formset)

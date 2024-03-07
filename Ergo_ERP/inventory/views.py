@@ -4,7 +4,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import ListView
 
-from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document
+from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document, \
+    add_department_to_products
 from Ergo_ERP.inventory.forms import ReceivingDocumentForm, ReceivedProductsFormSet
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.products.models import ProductsModel
@@ -30,13 +31,6 @@ def receive_products_dropdown():
     for product in products:
         products_names.append(product.product_name)
     return products_names
-
-
-def add_department_to_products(product_instances: list, department):
-    for product_instance in product_instances:
-        product_instance.department = department
-        product_instance.save()
-        return product_instances
 
 
 def create_inventory_instance(product_instance):
