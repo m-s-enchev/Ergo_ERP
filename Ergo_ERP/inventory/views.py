@@ -1,12 +1,11 @@
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.db.models import F
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import ListView
 
 from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document
-from Ergo_ERP.inventory.forms import WarehouseDocumentForm, TransferredProductsFormSet
+from Ergo_ERP.inventory.forms import ReceivingDocumentForm, ReceivedProductsFormSet
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.products.models import ProductsModel
 
@@ -33,17 +32,11 @@ def receive_products_dropdown():
     return products_names
 
 
-def handle_receive_document_forms(warehouse_document_form, transferred_products_formset):
-    with transaction.atomic():
-        warehouse_document_instance = warehouse_document_form.save(commit=False)
-        warehouse_document_instance.receiving = True
-        warehouse_document_instance.save()
-        product_instances = products_list_save_to_document(
-            transferred_products_formset,
-            warehouse_document_instance,
-            'warehouse_document_in_which_included'
-            )
-        return product_instances, warehouse_document_instance.receiving
+def add_department_to_products(product_instances: list, department):
+    for product_instance in product_instances:
+        product_instance.department = department
+        product_instance.save()
+        return product_instances
 
 
 def create_inventory_instance(product_instance):
@@ -55,6 +48,10 @@ def create_inventory_instance(product_instance):
 
 
 def update_inventory(product_instances, is_receiving):
+    """
+    Adds to and removes from quantities of existing products.
+    Creates new products in inventory
+    """
     for product_instance in product_instances:
         matching_inventory_instance = Inventory.objects.filter(
             product_name=product_instance.product_name,
@@ -76,27 +73,40 @@ def update_inventory(product_instances, is_receiving):
             create_inventory_instance(product_instance)
 
 
+def handle_receiving_document_forms(receiving_document_form, received_products_formset):
+    with transaction.atomic():
+        receive_document_instance = receiving_document_form.save(commit=False)
+        department = receive_document_instance.receiving_department
+        receive_document_instance.save()
+        product_instances = products_list_save_to_document(
+            received_products_formset,
+            receive_document_instance,
+            'linked_warehouse_document'
+            )
+        product_instances_department = add_department_to_products(product_instances, department)
+        update_inventory(product_instances_department, True)
+
+
 def receiving_document_create(request):
     """
-    Handles receiving goods into warehouse and including them in inventory
+    Handles receiving goods into warehouse and adding them to inventory
     """
-    warehouse_document_form = WarehouseDocumentForm(request.POST or None)
-    transferred_products_formset = TransferredProductsFormSet(request.POST or None, prefix='transferred_products')
+    receiving_document_form = ReceivingDocumentForm(request.POST or None)
+    received_products_formset = ReceivedProductsFormSet(request.POST or None, prefix='transferred_products')
     products_dropdown = receive_products_dropdown()
 
     if request.method == 'POST':
         if (
-                warehouse_document_form.is_valid()
-                and transferred_products_formset.is_valid()
-                and is_formset_nonempty(transferred_products_formset)
+                receiving_document_form.is_valid()
+                and received_products_formset.is_valid()
+                and is_formset_nonempty(received_products_formset)
         ):
-            [product_instances, is_receiving] = handle_receive_document_forms(warehouse_document_form, transferred_products_formset)
-            update_inventory(product_instances, is_receiving)
+            handle_receiving_document_forms(receiving_document_form, received_products_formset)
             return redirect(reverse('receive-goods'))
 
     context = {
-        'warehouse_document_form': warehouse_document_form,
-        'transferred_products_formset': transferred_products_formset,
+        'receiving_document_form': receiving_document_form,
+        'received_products_formset': received_products_formset,
         'products_dropdown': products_dropdown,
         'template_verbose_name': 'Receiving',
     }
