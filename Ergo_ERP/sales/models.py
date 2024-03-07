@@ -2,6 +2,8 @@
 from django.db import models, transaction
 from django.db.models import Max
 
+from Ergo_ERP.inventory.models import Department
+
 
 class SalesDocument(models.Model):
     payment_method_choices = [
@@ -13,7 +15,7 @@ class SalesDocument(models.Model):
     date = models.DateField()
     time = models.TimeField(auto_now_add=True)
     operator = models.CharField(max_length=100, null=True, blank=True)
-    department = models.CharField(max_length=100)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True)
     buyer_name = models.CharField(max_length=100, verbose_name='Client')
     sale_total_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Subtotal')
     sale_total_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='VAT')

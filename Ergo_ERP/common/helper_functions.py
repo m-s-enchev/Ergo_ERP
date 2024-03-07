@@ -33,3 +33,9 @@ def get_next_document_number(model, number_field_name):
         document_number = last_number + 1
     return document_number
 
+
+def add_department_to_products(product_instances: list, department):
+    for product_instance in product_instances:
+        product_instance.department = department
+        product_instance.save()
+        return product_instances
