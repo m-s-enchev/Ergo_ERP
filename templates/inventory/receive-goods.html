@@ -52,7 +52,7 @@
                             <th>{% translate 'LOT' %}</th>
                             <th>{% translate 'Exp. date' %}</th>
                             <th>{% translate 'Purchase price' %}</th>
-                            <th>{% translate 'Product value' %}</th>
+                            <th>{% translate 'Amount' %}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -71,7 +71,17 @@
                     </table>
                 </div>
             </section>
-         <input type="submit" value="Submit">
+
+            <footer>
+                <div id="sums-and-button">
+                    <div>
+                        {{ receiving_document_form.total_sum.errors }}
+                        <label for="id_total_sum">{% translate 'TOTAL:' %}</label>
+                        {{ receiving_document_form.total_sum }}
+                    </div>
+                    <button id="footer-ok-button" ><i class="fa-solid fa-check"></i></button>
+                </div>
+            </footer>
         </form>
 
     </div>
