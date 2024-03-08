@@ -1,5 +1,3 @@
-import datetime
-
 from django.db import transaction
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -38,16 +36,13 @@ def products_copy_to_document(
 
 def handle_sales_document_form_only(sales_document_form, sold_products_formset):
     with transaction.atomic():
-        sales_document_instance = sales_document_form.save(commit=False)
-        department = sales_document_instance.department
-        sales_document_instance.save()
+        sales_document_instance = sales_document_form.save()
         sold_product_instances = products_list_save_to_document(
                                     sold_products_formset,
                                     sales_document_instance,
                                     'sales_document_in_which_sold'
                                  )
-        sold_product_instances_department = add_department_to_products(sold_product_instances, department)
-        update_inventory(sold_product_instances_department, False)
+        update_inventory(sold_product_instances, False)
 
 
 def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form):

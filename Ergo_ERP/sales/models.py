@@ -34,7 +34,7 @@ class SoldProductsBaseModel(models.Model):
     product_total_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Amount before VAT')
     product_total = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Amount')
     product_lot_number = models.CharField(max_length=100, verbose_name='LOT', null=True, blank=True)
-    product_exp_date = models.DateField(verbose_name='Exp. date', null=True, blank=True, )
+    product_exp_date = models.DateField(verbose_name='Exp. date', null=True, blank=True)
 
     class Meta:
         abstract = True
