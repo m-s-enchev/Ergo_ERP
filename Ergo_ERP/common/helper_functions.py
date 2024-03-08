@@ -25,17 +25,23 @@ def products_list_save_to_document(products_formset, document_instance, name_of_
     return saved_product_instances
 
 
-def get_next_document_number(model, number_field_name):
-    last_number = model.objects.aggregate(Max(number_field_name))[f'{number_field_name}__max']
+def add_department_to_products(product_instances: list, department):
+    """
+    Link product form to department from document
+    """
+    for product_instance in product_instances:
+        product_instance.department = department
+        product_instance.save()
+        return product_instances
+
+
+def get_next_document_number(model, numerator_field_name):
+    """
+    Check what is the last numerator field value in a model and determines the next one
+    """
+    last_number = model.objects.aggregate(Max(numerator_field_name))[f'{numerator_field_name}__max']
     if last_number is None:
         document_number = 1
     else:
         document_number = last_number + 1
     return document_number
-
-
-def add_department_to_products(product_instances: list, department):
-    for product_instance in product_instances:
-        product_instance.department = department
-        product_instance.save()
-        return product_instances
