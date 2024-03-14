@@ -2,6 +2,7 @@ from django.http import JsonResponse
 
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.products.models import ProductsModel
+from Ergo_ERP.sales.views import products_dict_dropdown
 
 
 # def get_product_price(request):
@@ -47,3 +48,12 @@ def get_product_price(request):
             return JsonResponse({'product_price': None, 'product_vat': None})
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+def products_dropdown_update(request):
+    department_id = request.GET.get('department_id')
+    if department_id:
+        products_dropdown = products_dict_dropdown(department_id)
+        return JsonResponse(products_dropdown, safe=False)
+    else:
+        return JsonResponse({'error': 'Department not provided'}, status=400)
