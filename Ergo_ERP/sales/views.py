@@ -35,6 +35,7 @@ def products_copy_to_document(
 
 
 def handle_sales_document_form_only(sales_document_form, sold_products_formset):
+    department = sales_document_form.cleaned_data.get('department')
     with transaction.atomic():
         sales_document_instance = sales_document_form.save()
         sold_product_instances = products_list_save_to_document(
@@ -42,7 +43,7 @@ def handle_sales_document_form_only(sales_document_form, sold_products_formset):
                                     sales_document_instance,
                                     'sales_document_in_which_sold'
                                  )
-        update_inventory(sold_product_instances, False)
+        update_inventory(sold_product_instances, False, department)
 
 
 def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form):
@@ -50,6 +51,7 @@ def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, i
     A separate InvoiceData instance with linked InvoicedProducts instances are created,
     since the date and included products might be different from sales_document instance
     """
+    department = sales_document_form.cleaned_data.get('department')
     with transaction.atomic():
         sales_document_instance = sales_document_form.save()
         sold_product_instances = products_list_save_to_document(
@@ -57,7 +59,7 @@ def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, i
                                     sales_document_instance,
                                     'sales_document_in_which_sold'
                                  )
-        update_inventory(sold_product_instances, False)
+        update_inventory(sold_product_instances, False, department)
         fields_to_copy = InvoicedProducts.get_fields_to_copy()
         invoice_document_instance = invoice_data_form.save(commit=False)
         invoice_document_instance.sales_document_for_invoice = sales_document_instance
@@ -71,8 +73,8 @@ def handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, i
         )
 
 
-def products_dict_dropdown():
-    products = Inventory.objects.all()
+def products_dict_dropdown(department):
+    products = Inventory.objects.filter(department=department)
     products_dict = {}
     for product in products:
         if product.product_exp_date:
@@ -119,7 +121,7 @@ def sales_document_create(request):
     """
     sales_document_form = SalesDocumentForm(request.POST or None)
     sold_products_formset = SoldProductsFormSet(request.POST or None, prefix='sold_products')
-    products_dropdown = products_dict_dropdown()
+    products_dropdown = products_dict_dropdown('2')
 
     if request.method == 'POST':
         invoice_data_form = InvoiceDataForm(request.POST)

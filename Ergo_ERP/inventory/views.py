@@ -41,7 +41,7 @@ def create_inventory_instance(product_instance):
     new_inventory_instance.save()
 
 
-def update_inventory(product_instances, is_receiving):
+def update_inventory(product_instances, is_receiving: bool, department):
     """
     Adds to and removes from quantities of existing products.
     Creates new products in inventory
@@ -49,7 +49,8 @@ def update_inventory(product_instances, is_receiving):
     for product_instance in product_instances:
         matching_inventory_instance = Inventory.objects.filter(
             product_name=product_instance.product_name,
-            product_lot_number=product_instance.product_lot_number
+            product_lot_number=product_instance.product_lot_number,
+            department=department
         ).first()
 
         if matching_inventory_instance:
@@ -78,7 +79,7 @@ def handle_receiving_document_forms(receiving_document_form, received_products_f
             'linked_warehouse_document'
             )
         product_instances_department = add_department_to_products(product_instances, department)
-        update_inventory(product_instances_department, True)
+        update_inventory(product_instances_department, True, department)
 
 
 def receiving_document_create(request):
