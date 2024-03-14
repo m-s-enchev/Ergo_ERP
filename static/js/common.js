@@ -115,3 +115,23 @@ function scrollToBottom(wrapperId) {
         container.scrollTop = container.scrollHeight;
     }
 
+
+
+function productsDropdownUpdate(){
+    document.getElementById('id_department').addEventListener('change', function() {
+        let departmentId = this.value;
+        let url = `/common/products-dropdown-update/?department_id=${departmentId}`;
+        fetch(url)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                let productNamesDict = data;
+                multicolumnDropdown("#id_sold_products-0-product_name")
+            })
+            .catch(error => console.error('There has been a problem with your fetch operation:', error));
+    });
+}
