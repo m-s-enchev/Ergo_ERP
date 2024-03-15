@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 
+from Ergo_ERP.clients.models import Clients
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.products.models import ProductsModel
 from Ergo_ERP.sales.views import products_dict_dropdown
@@ -57,3 +58,12 @@ def products_dropdown_update(request):
         return JsonResponse(products_dropdown, safe=False)
     else:
         return JsonResponse({'error': 'Department not provided'}, status=400)
+
+
+def get_client_names(request):
+    term = request.GET.get('term')  # jQuery UI sends the term as 'term'
+    client_names = Clients.objects.filter(client_names__icontains=term).values_list('client_names', flat=True)
+    client_names_list = list(client_names)
+    return JsonResponse(client_names_list, safe=False)
+
+

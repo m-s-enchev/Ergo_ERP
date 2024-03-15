@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Ergo_ERP.products',
     'Ergo_ERP.inventory',
     'Ergo_ERP.common',
+    'Ergo_ERP.clients',
 ]
 
 MIDDLEWARE = [
