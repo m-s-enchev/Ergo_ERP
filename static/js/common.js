@@ -129,8 +129,8 @@ function productsDropdownUpdate(){
                 throw new Error('Network response was not ok.');
             })
             .then(data => {
-                let productNamesDict = data;
-                multicolumnDropdown("#id_sold_products-0-product_name")
+                productNamesDict = data;
+
             })
             .catch(error => console.error('There has been a problem with your fetch operation:', error));
     });
