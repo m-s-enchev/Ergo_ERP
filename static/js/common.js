@@ -34,7 +34,7 @@
 //     });
 // }
 
-
+/** Fetches the price and unit of selected product */
 function getProductPrice(index, formsetPrefix, priceNoVatSuffix, priceWithVatSuffix, priceType) {
     const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
     const priceNoVatInput = document.getElementById(`${formsetPrefix}-${index}-${priceNoVatSuffix}`);

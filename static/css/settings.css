@@ -4,17 +4,24 @@
 }
 
 #settings-list {
-    background-color: crimson;
-    margin-left: 18vmin;
+    margin-left: 10vmax;
     padding: 2vh 2vw;
+    width: 100%
+}
 
+#sale-settings {
+    margin-top: 5vh;
+    padding-top: 2vh;
+    border-top: 1px solid black;
+    width: 100%
 }
 
 #settings-navigation {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 18vmin;
+    width: 15vw;
+    min-width: 10vmax;
     height: 100%;
     background-color: rgb(18,149,152,0.5);
     gap: 1vh;
@@ -29,7 +36,7 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    font-size: 2.8vmin;
+    font-size: calc(10px + 1vmin);
     text-align: left;
 }
 
@@ -41,5 +48,28 @@
     box-shadow: var(--buttons-active);
 }
 
+#settings-list label{
+    font-weight: bold;
+}
 
+
+
+#settings-list .main-menu-settings-group {
+    margin: 1vw;
+    border: 1px solid #2c2c2c;
+    border-radius: 5px;
+    padding: 1vw;
+    display: flex;
+    flex-direction: column;
+    width: 25vw;
+}
+
+#settings-list .main-menu-settings-group span{
+    display: flex;
+    justify-content: space-between;
+}
+
+#settings-list .main-menu-settings-group input{
+    width: 80%;
+}
 
