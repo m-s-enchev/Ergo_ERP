@@ -1,7 +1,7 @@
-const priceBeforeTax = 5
-const productTotalBeforeTax = 8
-const price = 6
-const productTotal = 9
+const priceBeforeTax = 6
+const productTotalBeforeTax = 9
+const price = 7
+const productTotal = 10
 
 document.addEventListener('DOMContentLoaded', function () {
     const productFormManager = new ProductFormManager();
@@ -159,8 +159,8 @@ function setupInvoiceToggle() {
     const buyerDataToggleFields = document.getElementById('buyer-data-toggle-fields');
     const invoiceToggledFields = document.getElementById('invoice-toggled-fields');
     const productsTable = document.querySelector('#sold-products table');
-    const totalBeforeVat = document.getElementById('total_before_tax')
-    const totalVat = document.getElementById('total_tax')
+    const totalBeforeVat = document.getElementById('total_before_tax');
+    const totalVat = document.getElementById('total_tax');
 
     const tableColumnHide = (table, ...columnIndices) => {
         let rows = table.rows;
