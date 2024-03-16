@@ -88,6 +88,7 @@
                             <th>#</th>
                             <th>{% translate 'Name' %}</th>
                             <th>{% translate 'Qty' %}</th>
+                            <th>{% translate 'Unit' %}</th>
                             <th>{% translate 'LOT' %}</th>
                             <th>{% translate 'Exp. date' %}</th>
                             <th>{% translate 'Price before VAT' %}</th>
@@ -103,13 +104,14 @@
                                     <td class="numerator">{{ forloop.counter }}</td>
                                     <td>{{ form.product_name.errors }}{{ form.product_name }}</td>
                                     <td>{{ form.product_quantity.errors }}{{ form.product_quantity }}</td>
+                                    <td>{{ form.product_unit }}</td>
                                     <td>{{ form.product_lot_number }}</td>
                                     <td>{{ form.product_exp_date }}</td>
-                                    <td>{{ form.product_price_before_tax.errors}}{{ form.product_price_before_tax }}</td>
-                                    <td>{{ form.product_price.errors }}{{ form.product_price }}</td>
+                                    <td id="price-before-tax">{{ form.product_price_before_tax.errors}}{{ form.product_price_before_tax }}</td>
+                                    <td class="price-with-tax">{{ form.product_price.errors }}{{ form.product_price }}</td>
                                     <td>{{ form.product_discount }}</td>
-                                    <td>{{ form.product_total_before_tax.errors }}{{ form.product_total_before_tax }}</td>
-                                    <td>{{ form.product_total.errors }}{{ form.product_total }}</td>
+                                    <td class="total-before-tax">{{ form.product_total_before_tax.errors }}{{ form.product_total_before_tax }}</td>
+                                    <td class="total-with-tax">{{ form.product_total.errors }}{{ form.product_total }}</td>
                                 </tr>
                             {% endfor %}
                       </tbody>
@@ -126,14 +128,26 @@
                 <div class="quick_select_tile">
                     <p>Croissant</p>
                 </div>
-                    <div class="quick_select_tile">
+                <div class="quick_select_tile">
                     <p>B12</p>
                 </div>
-                     <div class="quick_select_tile">
+                <div class="quick_select_tile">
                     <p>Crack</p>
                 </div>
-                     <div class="quick_select_tile">
+                <div class="quick_select_tile">
                     <p>Red bull</p>
+                </div>
+                <div class="quick_select_tile">
+                    <p>Crepes</p>
+                </div>
+                <div class="quick_select_tile">
+                    <p>Crepes</p>
+                </div>
+                <div class="quick_select_tile">
+                    <p>Crepes</p>
+                </div>
+                <div class="quick_select_tile">
+                    <p>Crepes</p>
                 </div>
             </section>
 
