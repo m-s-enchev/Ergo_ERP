@@ -39,6 +39,7 @@ function getProductPrice(index, formsetPrefix, priceNoVatSuffix, priceWithVatSuf
     const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
     const priceNoVatInput = document.getElementById(`${formsetPrefix}-${index}-${priceNoVatSuffix}`);
     const priceWithVatInput = document.getElementById(`${formsetPrefix}-${index}-${priceWithVatSuffix}`);
+    const unit = document.getElementById(`${formsetPrefix}-${index}-product_unit`);
 
     nameInput.addEventListener('change', function() {
         const productName = this.value;
@@ -51,6 +52,7 @@ function getProductPrice(index, formsetPrefix, priceNoVatSuffix, priceWithVatSuf
             })
             .then(data => {
                 priceNoVatInput.value = data.product_price;
+                unit.value = data.product_unit;
                 rowTotal(index, formsetPrefix, priceNoVatSuffix, 'product_total_before_tax');
                 priceWithVatInput.value = ((data.product_vat*0.01+1)*data.product_price).toFixed(2)
                 rowTotal(index, formsetPrefix, priceWithVatSuffix, 'product_total');
