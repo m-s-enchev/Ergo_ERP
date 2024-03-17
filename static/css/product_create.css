@@ -1,0 +1,8 @@
+#product-create-wrapper {
+    margin-top: 10vh;
+    padding: 1vw;
+}
+
+.create-form-group label {
+    font-weight: bold;
+}
