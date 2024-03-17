@@ -4,7 +4,7 @@
 }
 
 #settings-list {
-    margin-left: 10vmax;
+    margin-left: calc(50px + 10vw);
     padding: 2vh 2vw;
     width: 100%
 }
@@ -20,8 +20,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 15vw;
-    min-width: 10vmax;
+    width: calc(50px + 10vw);
     height: 100%;
     background-color: rgb(18,149,152,0.5);
     gap: 1vh;
@@ -36,7 +35,7 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    font-size: calc(10px + 1vmin);
+    font-size: calc(11px + 1vmin);
     text-align: left;
 }
 
@@ -50,9 +49,13 @@
 
 #settings-list label{
     font-weight: bold;
+    font-size: calc(8px + 1vmin);
 }
 
-
+#settings-list #main-menu-settings h2{
+    color: #4b4b4b;
+    margin-bottom: 2vh;
+}
 
 #settings-list .main-menu-settings-group {
     margin: 1vw;
@@ -61,7 +64,7 @@
     padding: 1vw;
     display: flex;
     flex-direction: column;
-    width: 25vw;
+    width: calc(100px + 30vw);
 }
 
 #settings-list .main-menu-settings-group span{
@@ -69,7 +72,7 @@
     justify-content: space-between;
 }
 
-#settings-list .main-menu-settings-group input{
+#settings-list .main-menu-settings-group span input{
     width: 80%;
 }
 
