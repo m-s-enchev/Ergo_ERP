@@ -4,87 +4,88 @@
 {% block content %}
     <div id="product-create-wrapper">
         <form>
-            {{ form.product_name.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_name.id_for_label }}">{{ form.product_name.label }}: </label>
-                {{ form.product_name }}
+            <div id="product-create-fields">
+                {{ form.product_name.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_name.id_for_label }}">{{ form.product_name.label }}: </label>
+                    {{ form.product_name }}
+                </div>
+                {{ form.product_unit.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_unit.id_for_label }}">{{ form.product_unit.label }}: </label>
+                    {{ form.product_unit }}
+                </div>
+                {{ form.product_type.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_type.id_for_label }}">{{ form.product_type.label }}: </label>
+                    {{ form.product_type }}
+                </div>
+                {{ form.product_has_exp_date.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_has_exp_date.id_for_label }}">{{ form.product_has_exp_date.label }}: </label>
+                    {{ form.product_has_exp_date }}
+                </div>
+                {{ form.product_manufacturer.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_manufacturer.id_for_label }}">{{ form.product_manufacturer.label }}: </label>
+                    {{ form.product_manufacturer }}
+                </div>
+                {{ form.product_category.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_category.id_for_label }}">{{ form.product_category.label }}: </label>
+                    {{ form.product_category }}
+                </div>
+                {{ form.product_tags.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_tags.id_for_label }}">{{ form.product_tags.label }}: </label>
+                    {{ form.product_tags }}
+                </div>
+                {{ form.product_barcode.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_barcode.id_for_label }}">{{ form.product_barcode.label }}: </label>
+                    {{ form.product_barcode }}
+                </div>
+                {{ form.product_qrcode.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_qrcode.id_for_label }}">{{ form.product_qrcode.label }}: </label>
+                    {{ form.product_qrcode }}
+                </div>
+                {{ form.product_made_in_department.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_made_in_department.id_for_label }}">{{ form.product_made_in_department.label }}: </label>
+                    {{ form.product_made_in_department }}
+                </div>
+                {{ form.product_parts.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_parts.id_for_label }}">{{ form.product_parts.label }}: </label>
+                    {{ form.product_parts }}
+                </div>
+                {{ form.product_vat.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_vat.id_for_label }}">{{ form.product_vat.label }}: </label>
+                    {{ form.product_vat }}
+                </div>
+                {{ form.product_retail_price.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_retail_price.id_for_label }}">{{ form.product_retail_price.label }}: </label>
+                    {{ form.product_retail_price }}
+                </div>
+                {{ form.product_wholesale_price.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_wholesale_price.id_for_label }}">{{ form.product_wholesale_price.label }}: </label>
+                    {{ form.product_wholesale_price }}
+                </div>
+                {{ form.product_employee_price.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_employee_price.id_for_label }}">{{ form.product_employee_price.label }}: </label>
+                    {{ form.product_employee_price }}
+                </div>
+                {{ form.product_notes.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.product_notes.id_for_label }}">{{ form.product_notes.label }}: </label>
+                    {{ form.product_notes }}
+                </div>
             </div>
-            {{ form.product_unit.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_unit.id_for_label }}">{{ form.product_unit.label }}: </label>
-                {{ form.product_unit }}
-            </div>
-            {{ form.product_type.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_type.id_for_label }}">{{ form.product_type.label }}: </label>
-                {{ form.product_type }}
-            </div>
-            {{ form.product_has_exp_date.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_has_exp_date.id_for_label }}">{{ form.product_has_exp_date.label }}: </label>
-                {{ form.product_has_exp_date }}
-            </div>
-            {{ form.product_manufacturer.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_manufacturer.id_for_label }}">{{ form.product_manufacturer.label }}: </label>
-                {{ form.product_manufacturer }}
-            </div>
-            {{ form.product_category.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_category.id_for_label }}">{{ form.product_category.label }}: </label>
-                {{ form.product_category }}
-            </div>
-            {{ form.product_tags.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_tags.id_for_label }}">{{ form.product_tags.label }}: </label>
-                {{ form.product_tags }}
-            </div>
-            {{ form.product_barcode.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_barcode.id_for_label }}">{{ form.product_barcode.label }}: </label>
-                {{ form.product_barcode }}
-            </div>
-            {{ form.product_qrcode.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_qrcode.id_for_label }}">{{ form.product_qrcode.label }}: </label>
-                {{ form.product_qrcode }}
-            </div>
-            {{ form.product_made_in_department.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_made_in_department.id_for_label }}">{{ form.product_made_in_department.label }}: </label>
-                {{ form.product_made_in_department }}
-            </div>
-            {{ form.product_parts.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_parts.id_for_label }}">{{ form.product_parts.label }}: </label>
-                {{ form.product_parts }}
-            </div>
-            {{ form.product_vat.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_vat.id_for_label }}">{{ form.product_vat.label }}: </label>
-                {{ form.product_vat }}
-            </div>
-            {{ form.product_retail_price.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_retail_price.id_for_label }}">{{ form.product_retail_price.label }}: </label>
-                {{ form.product_retail_price }}
-            </div>
-            {{ form.product_wholesale_price.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_wholesale_price.id_for_label }}">{{ form.product_wholesale_price.label }}: </label>
-                {{ form.product_wholesale_price }}
-            </div>
-            {{ form.product_employee_price.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_employee_price.id_for_label }}">{{ form.product_employee_price.label }}: </label>
-                {{ form.product_employee_price }}
-            </div>
-            {{ form.product_notes.errors }}
-            <div class="create-form-group">
-                <label for="{{ form.product_notes.id_for_label }}">{{ form.product_notes.label }}: </label>
-                {{ form.product_notes }}
-            </div>
-
             <footer>
                 <div id="sums-and-button">
                     <button id="footer-ok-button" ><i class="fa-solid fa-check"></i></button>

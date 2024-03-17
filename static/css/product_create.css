@@ -1,8 +1,39 @@
 #product-create-wrapper {
-    margin-top: 10vh;
-    padding: 1vw;
+    margin-top: 8vh;
+}
+
+#product-create-fields {
+    padding: 1vw 3vw;
+    width: 45vw;
+    margin-bottom: 9vh;
+}
+
+.create-form-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5%;
+    margin-top: 1vh;
+}
+
+
+.create-form-group input[type="text"], textarea {
+    width: 60%;
+}
+
+.create-form-group select {
+    width: 40%;
+}
+
+.create-form-group input[type="checkbox"] {
+    width: 5%;
+}
+
+.create-form-group #id_product_unit, #id_product_type, input[type="number"] {
+    width: 20%;
+    font-size: inherit;
 }
 
 .create-form-group label {
     font-weight: bold;
+    width: 35%;
 }
