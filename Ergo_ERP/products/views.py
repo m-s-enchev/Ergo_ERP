@@ -1,6 +1,7 @@
-from django.shortcuts import render
-from django.views.generic import ListView
 
+from django.views.generic import ListView, CreateView
+
+from Ergo_ERP.products.forms import ProductsModelForm
 from Ergo_ERP.products.models import ProductsModel
 
 
@@ -11,3 +12,8 @@ class ProductsListView(ListView):
     extra_context = {'template_verbose_name': 'Products'}
 
 
+class ProductsCreateView(CreateView):
+    model = ProductsModel
+    form_class = ProductsModelForm
+    template_name = 'products/products-create.html'
+    extra_context = {'template_verbose_name': 'Create product'}
