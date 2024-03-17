@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 
@@ -8,22 +9,31 @@
 {#    <input type="text" name="search_query" placeholder="Search for product" value="{{ request.GET.search_query }}">#}
 {#    <button type="submit">Search</button>#}
 {#</form>#}
-
+<a href="/products/new/" target="_blank">
+    <button type="button">{% translate 'Create new product'%}</button>
+</a>
 <table>
     <thead>
         <tr>
-            <th>Product</th>
-            <th>Manufacturer</th>
-            <th>Retail price</th>
+            <th>#</th>
+            <th>{% translate 'Name' %}</th>
+            <th>{% translate 'Unit' %}</th>
+            <th>{% translate 'Type' %}</th>
+            <th>{% translate 'Manufacturer' %}</th>
+            <th>{% translate 'Category' %}</th>
+            <th>{% translate 'Made in department' %}</th>
         </tr>
     </thead>
     <tbody>
         {% for product in products_list %}
             <tr>
+                <td class="numerator">{{ forloop.counter }}</td>
                 <td>{{ product.product_name }}</td>
+                <td>{{ product.product_unit }}</td>
+                <td>{{ product.product_type }}</td>
                 <td>{{ product.product_manufacturer }}</td>
-                <td>{{ product.product_retail_price }}</td>
-
+                <td>{{ product.product_category }}</td>
+                <td>{{product.product_made_in_department}}</td>
             </tr>
         {% empty %}
             <div>No items in inventory.</div>
