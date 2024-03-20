@@ -28,7 +28,9 @@
     width: 5%;
 }
 
-.create-form-group #id_product_unit, #id_product_type, input[type="number"] {
+.create-form-group #id_product_unit,
+.create-form-group #id_product_type,
+.create-form-group input[type="number"]{
     width: 20%;
     font-size: inherit;
 }
