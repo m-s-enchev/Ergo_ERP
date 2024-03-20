@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
     getProductPrice(0,"id_sold_products", "product_price_before_tax","product_price", "product_retail_price");
     updateRowTotal(0,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
     updateRowTotal(0,"id_sold_products", "product_price", "product_total");
-    footerOkButton('sales-form');
     get_client_names();
 });
 

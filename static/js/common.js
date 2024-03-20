@@ -103,15 +103,6 @@ function totalSum (formNum, totalSumId, formsetPrefix, sumFieldSuffix) {
 }
 
 
-/** Connects the footer button to the form, so it can be used to submit it */
-function footerOkButton (formId) {
-    const okButton = document.getElementById('footer-ok-button');
-    const formToSubmit = document.getElementById(formId);
-    okButton.addEventListener('click', () => {
-        formToSubmit.submit();
-    });
-}
-
 function scrollToBottom(wrapperId) {
         const container = document.getElementById(wrapperId);
         container.scrollTop = container.scrollHeight;
