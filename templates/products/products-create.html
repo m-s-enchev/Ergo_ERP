@@ -3,7 +3,8 @@
 
 {% block content %}
     <div id="product-create-wrapper">
-        <form>
+        <form method="post" action="{% url 'products_create' %}">
+            {% csrf_token %}
             <div id="product-create-fields">
                 {{ form.product_name.errors }}
                 <div class="create-form-group">
@@ -88,7 +89,7 @@
             </div>
             <footer>
                 <div id="sums-and-button">
-                    <button id="footer-ok-button" ><i class="fa-solid fa-check"></i></button>
+                    <button id="footer-ok-button" type="submit" ><i class="fa-solid fa-check"></i></button>
                 </div>
             </footer>
         </form>
