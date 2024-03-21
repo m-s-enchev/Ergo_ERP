@@ -133,7 +133,9 @@
     background-color: #e7e7e7;
 }
 
-.product-form td, input {
+.product-form td,
+.product-form input,
+#sale-document-header input{
     font-size: calc(10px + 0.4vw);
 }
 
