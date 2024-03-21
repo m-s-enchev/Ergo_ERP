@@ -3,45 +3,40 @@
 {% load i18n %}
 {% load static %}
 {% block content%}
-    <div id="sales_wrapper">
-        <form id="sales_form" method="post" action="{% url 'receive-goods' %}" autocomplete="off">
+    <div id="receive-wrapper">
+        <form id="receive-form" method="post" action="{% url 'receive-goods' %}" autocomplete="off">
             {% csrf_token %}
-            <section id="sale-document">
-                <div id="sale-document-header">
-                    <div id="department-and-date">
-
-                        <div class="form-group">
-                            <label for="{{ receiving_document_form.date.id_for_label }}">{{ receiving_document_form.date.label }}: </label>
-                            {{ receiving_document_form.date }}
+            <section id="receive-document">
+                <div id="receive-document-header">
+                    <div id="date">
+                        <div>
+                            {{ receiving_document_form.date.errors }}
+                            <div class="form-group">
+                                <label for="{{ receiving_document_form.date.id_for_label }}">{{ receiving_document_form.date.label }}: </label>
+                                {{ receiving_document_form.date }}
+                            </div>
                         </div>
-                        {{ receiving_document_form.date.errors }}
-
                     </div>
-                    <div id="client-and-invoice-data">
-                        <div id="invoice-number-and-dates">
-                            {{ receiving_document_form.errors }}
-                            <div id="invoice-toggled-fields">
+                    <div id="departments">
+                            <div>
                                 {{ receiving_document_form.shipping_department.errors }}
                                 <div class="form-group">
                                     <label for="{{ receiving_document_form.shipping_department.id_for_label }}">{{ receiving_document_form.shipping_department.label }}: </label>
                                     {{ receiving_document_form.shipping_department }}
                                 </div>
                             </div>
-                        </div>
-                        <div id="buyer-data">
-                            <div id="buyer-data-toggle-fields">
+
+                            <div>
                                 {{ receiving_document_form.receiving_department.errors }}
                                 <div class="form-group">
                                     <label for="{{ receiving_document_form.receiving_department.id_for_label }}">{{ receiving_document_form.receiving_department.label }}: </label>
                                     {{ receiving_document_form.receiving_department }}
                                 </div>
-
                             </div>
-                        </div>
                     </div>
                 </div>
 
-                <div id="sold-products">
+                <div id="received-products">
                     {{ received_products_formset.management_form }}
                     <table>
                       <thead>
@@ -49,6 +44,7 @@
                             <th>#</th>
                             <th>{% translate 'Name' %}</th>
                             <th>{% translate 'Qty' %}</th>
+                            <th>{% translate 'Unit' %}</th>
                             <th>{% translate 'LOT' %}</th>
                             <th>{% translate 'Exp. date' %}</th>
                             <th>{% translate 'Purchase price' %}</th>
@@ -61,6 +57,7 @@
                                     <td class="numerator">{{ forloop.counter }}</td>
                                     <td>{{ form.product_name }}</td>
                                     <td>{{ form.product_quantity }}</td>
+                                    <td>{{ form.product_unit }}</td>
                                     <td>{{ form.product_lot_number }}</td>
                                     <td>{{ form.product_exp_date }}</td>
                                     <td>{{ form.product_purchase_price }}</td>
