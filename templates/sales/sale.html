@@ -152,12 +152,6 @@
             </section>
 
             <footer>
-                <div id="payment-display">
-                        {{ sales_document_form.payment_method.errors }}
-                        <label for="id_payment_method">{% translate 'Payment:' %}</label>
-                        {{ sales_document_form.payment_method }}
-                </div>
-
                 <div id="sums-and-button">
                     <div id="total_before_tax">
                         {{ sales_document_form.sale_total_before_tax.errors }}
@@ -177,6 +171,13 @@
                     </div>
                     <button id="footer-ok-button" type="submit"><i class="fa-solid fa-check"></i></button>
                 </div>
+
+                <div id="payment-display">
+                    {{ sales_document_form.payment_method.errors }}
+                    <label for="id_payment_method">{% translate 'Payment:' %}</label>
+                    {{ sales_document_form.payment_method }}
+                </div>
+
             </footer>
         </form>
     </div>
