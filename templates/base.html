@@ -25,10 +25,16 @@
                 {{template_verbose_name}}
             </div>
         {% endif %}
-        <div id="save">
-            <a href="#"><i class="fa-solid fa-floppy-disk"></i></a>
-        </div>
-
+        {% if template_verbose_name == 'Products' %}
+            <div id="plus-sign-new">
+                <a href="/products/new/" target="_blank"><i class="fa-solid fa-plus"></i></a>
+            </div>
+        {% endif %}
+        {% if template_verbose_name == 'Sale' %}
+            <div id="save">
+                <a href="#"><i class="fa-solid fa-floppy-disk"></i></a>
+            </div>
+        {% endif %}
         <div id="user">
             <a href="#"><i class="fa-solid fa-user"></i></a>
         </div>
