@@ -43,7 +43,8 @@ def get_product_price(request):
         if product:
             return JsonResponse({
                 'product_price': getattr(product, price_type, None),
-                'product_vat': getattr(product, 'product_vat', None)
+                'product_vat': getattr(product, 'product_vat', None),
+                'product_unit': getattr(product, 'product_unit', None)
             })
         else:
             return JsonResponse({'product_price': None, 'product_vat': None})
