@@ -109,22 +109,32 @@ function scrollToBottom(wrapperId) {
     }
 
 
-
-function productsDropdownUpdate(){
-    document.getElementById('id_department').addEventListener('change', function() {
-        let departmentId = this.value;
+function fetchProductsByDepartment(department) {
+    let departmentId = document.getElementById('id_department').value;
+    if (departmentId) {
         let url = `/common/products-dropdown-update/?department_id=${departmentId}`;
-        fetch(url)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Network response was not ok.');
-            })
+        return fetch(url) // Notice the return here
+            .then(response => response.json())
             .then(data => {
                 productNamesDict = data;
-
+                return productNamesDict;
             })
-            .catch(error => console.error('There has been a problem with your fetch operation:', error));
+            .catch(error => console.error('Error fetching products:', error));
+    } else {
+        return Promise.resolve(null);
+    }
+}
+
+
+function updateProductsDropdown() {
+    const departmentField = document.getElementById('id_department');
+    const department = departmentField.value;
+    fetchProductsByDepartment(department).then(() => {
+            multicolumnDropdown("#id_sold_products-0-product_name");
+        });
+    departmentField.addEventListener('change', function () {
+        fetchProductsByDepartment(departmentField.value).then(() => {
+            multicolumnDropdown("#id_sold_products-0-product_name");
+        });
     });
 }

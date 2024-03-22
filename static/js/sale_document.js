@@ -1,7 +1,8 @@
-const priceBeforeTax = 6
-const productTotalBeforeTax = 9
-const price = 7
-const productTotal = 10
+const priceBeforeTax = 6;
+const productTotalBeforeTax = 9;
+const price = 7;
+const productTotal = 10;
+let productNamesDict = {};
 
 document.addEventListener('DOMContentLoaded', function () {
     const productFormManager = new ProductFormManager();
@@ -9,12 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
     setupInvoiceToggle();
     setupEnterKeyBehavior();
     disableArrowKeys();
-    multicolumnDropdown("#id_sold_products-0-product_name");
-    productsDropdownUpdate();
+    updateProductsDropdown();
     getProductPrice(0,"id_sold_products", "product_price_before_tax","product_price", "product_retail_price");
     updateRowTotal(0,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
     updateRowTotal(0,"id_sold_products", "product_price", "product_total");
-    get_client_names();
+    getClientNames();
 });
 
 
@@ -206,15 +206,11 @@ function setupInvoiceToggle() {
     });
 }
 
-function get_client_names (){
+function getClientNames (){
     $(document).ready(function() {
     $("#id_buyer_name").autocomplete({
-        source: "/common/get-client-names/",  // URL to the view that returns JSON for client names
-        minLength: 3,  // Minimum length of text before search starts
-        // select: function(event, ui) {
-        //     // Optional: what to do when a name is selected
-        //     console.log(ui.item.value);  // ui.item.value contains the selected name
-        // }
+        source: "/common/get-client-names/",
+        minLength: 2,
     });
 });
 }
