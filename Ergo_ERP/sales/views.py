@@ -121,7 +121,6 @@ def sales_document_create(request):
     """
     sales_document_form = SalesDocumentForm(request.POST or None)
     sold_products_formset = SoldProductsFormSet(request.POST or None, prefix='sold_products')
-    products_dropdown = products_dict_dropdown('2')
 
     if request.method == 'POST':
         invoice_data_form = InvoiceDataForm(request.POST)
@@ -146,7 +145,6 @@ def sales_document_create(request):
         'sales_document_form': sales_document_form,
         'sold_products_formset': sold_products_formset,
         'invoice_data_form': invoice_data_form,
-        'products_dropdown': products_dropdown,
         'template_verbose_name': 'Sale',
     }
     return render(request, 'sales/sale.html', context)

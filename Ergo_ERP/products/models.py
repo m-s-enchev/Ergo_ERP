@@ -36,14 +36,14 @@ class ProductsModel(models.Model):
                             ]
 
     product_measuring_unit_choices = [
-                                        ('pieces', 'pcs'),
-                                        ('minutes', 'min'),
-                                        ('hours', 'h'),
-                                        ('grams', 'g'),
-                                        ('kilograms', 'kg'),
-                                        ('tons', 't'),
-                                        ('milliliters', 'ml'),
-                                        ('liters', 'l')
+                                        ('pcs', 'pieces'),
+                                        ('min', 'minutes'),
+                                        ('h', 'hours'),
+                                        ('g', 'grams'),
+                                        ('kg', 'kilograms'),
+                                        ('t', 'tons'),
+                                        ('ml', 'milliliters'),
+                                        ('l', 'liters')
                                         ]
 
     product_name = models.CharField(max_length=100, verbose_name='name')
