@@ -86,24 +86,24 @@
     min-width: 45%;
 }
 
-.product-form td:nth-child(3) {
+#received-products .product-form td:nth-child(3) {
     width: 5%;
 }
 
-.product-form td:nth-child(4) {
+#received-products .product-form td:nth-child(4) {
     width: 7%;
 }
 
-.product-form td:nth-child(5),
-.product-form td:nth-child(6) {
+#received-products .product-form td:nth-child(5),
+#received-products .product-form td:nth-child(6) {
     width: 11%;
 }
 
-.product-form td:nth-child(7),
-.product-form td:nth-child(8) {
+#received-products .product-form td:nth-child(7),
+#received-products .product-form td:nth-child(8) {
     width: 9%;
 }
 
-.product-form input {
+#received-products .product-form input {
     width: 100%;
 }

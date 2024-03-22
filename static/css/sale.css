@@ -9,7 +9,7 @@
     flex: 0 1 80vw;
 }
 
-#quick_product_select {
+#quick-product-select {
     display: flex;
     flex-direction: column;
     width: 20vw;
@@ -44,13 +44,13 @@
     gap:1vh;
 }
 
-#department-and-date {
+#sales-wrapper #department-and-date {
     display: flex;
     justify-content: space-between;
     margin-bottom: 1vh;
 }
 
-#department-and-date div div{
+#sales-wrapper #department-and-date div div{
     border: 1px solid black;
     border-radius: 3px;
     padding: 1vw 1vw 1vw 1vw;
@@ -86,7 +86,7 @@
 }
 
 
-.form-group {
+#sales-wrapper .form-group {
     display: flex;
     gap: 0.5vw;
     justify-content: space-between;
@@ -95,7 +95,7 @@
 }
 
 
-.form-group select{
+#sales-wrapper .form-group select{
     width: 100%;
     background-color: white;
     font-size: inherit;
@@ -104,7 +104,7 @@
 
 
 
-.quick_select_tile {
+.quick-select-tile {
     padding: 0.5vw 1vw;
     background-color: rgba(0, 119, 119, 0.5);
     border: 1px solid white;
@@ -113,11 +113,11 @@
     height: 10%;
 }
 
-.quick_select_tile:hover {
+.quick-select-tile:hover {
     box-shadow: var(--buttons-hover);
 }
 
-.quick_select_tile:active {
+.quick-select-tile:active {
     box-shadow: var(--buttons-active);
 }
 
@@ -133,58 +133,76 @@
     background-color: #e7e7e7;
 }
 
-.product-form td,
-.product-form input,
+#sales-wrapper .product-form td,
+#sales-wrapper .product-form input,
 #sale-document-header input{
     font-size: calc(10px + 0.4vw);
 }
 
 
-.product-form .numerator {
+#sales-wrapper .product-form .numerator {
     width: 3%;
 }
 
-.product-form td:nth-child(2) {
+#sales-wrapper .product-form td:nth-child(2) {
     min-width: 40%;
 }
 
-.product-form td:nth-child(3) {
+#sales-wrapper .product-form td:nth-child(3) {
     width: 5%;
 }
 
-.product-form td:nth-child(4) {
+#sales-wrapper .product-form td:nth-child(4) {
     width: 5%;
 }
 
-.product-form td:nth-child(5) {
+#sales-wrapper .product-form td:nth-child(5) {
     width: 10%;
 }
 
-.product-form td:nth-child(6) {
-    width: 10%;
+#sales-wrapper .product-form td:nth-child(6) {
+    width: 11%;
 }
 
-.product-form #price-before-tax, #price-with-tax {
+#sales-wrapper .product-form #price-before-tax, #price-with-tax {
     width: 9%;
 }
 
 
-.product-form td:nth-child(9) {
+#sales-wrapper .product-form td:nth-child(9) {
     width: 7%;
 }
 
-.product-form #total-before-tax, #total-with-tax {
+#sales-wrapper .product-form #total-before-tax, #total-with-tax {
     width: 10%;
 }
 
 
-.product-form input {
+#sales-wrapper .product-form input {
     width: 100%;
+    padding: 0 3px;
 }
 
 
+#sales-wrapper .product-form td:nth-child(4) input,
+#sales-wrapper .product-form td:nth-child(5) input,
+#sales-wrapper .product-form td:nth-child(6) input {
+    text-align: center;
+}
+
+#sales-wrapper .product-form td:nth-child(3) input,
+#sales-wrapper .product-form td:nth-child(7) input,
+#sales-wrapper .product-form td:nth-child(8) input,
+#sales-wrapper .product-form td:nth-child(9) input,
+#sales-wrapper .product-form td:nth-child(10) input,
+#sales-wrapper .product-form td:nth-child(11) input {
+    text-align: right;
+}
+
+
+
  /* format the dropdown menu when selecting a product */
-.ui-menu-item-wrapper span {
+#sales-wrapper .ui-menu-item-wrapper span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -193,22 +211,22 @@
 }
 
 
-.ui-menu-item-wrapper {
+#sales-wrapper .ui-menu-item-wrapper {
     display: flex;
     flex-wrap: nowrap;
 }
 
-.ui-menu-item-wrapper span:nth-child(1) {
+#sales-wrapper .ui-menu-item-wrapper span:nth-child(1) {
     flex: 5 0 56%;
 }
 
-.ui-menu-item-wrapper span:nth-child(2) {
+#sales-wrapper .ui-menu-item-wrapper span:nth-child(2) {
     text-align: center;
     flex: 1 0 8%;
 }
 
-.ui-menu-item-wrapper span:nth-child(3),
-.ui-menu-item-wrapper span:nth-child(4) {
+#sales-wrapper .ui-menu-item-wrapper span:nth-child(3),
+#sales-wrapper .ui-menu-item-wrapper span:nth-child(4) {
     text-align: center;
     flex: 2 0 19%;
 }
@@ -228,7 +246,7 @@
 }
 
 @media only screen and (max-width: 1080px) {
-    #quick_product_select {
+    #quick-product-select {
         display: none;
     }
 
