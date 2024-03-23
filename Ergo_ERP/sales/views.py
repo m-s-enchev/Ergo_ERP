@@ -85,6 +85,7 @@ def products_dict_dropdown(department):
             lot_number = ""
         products_dict[product.product_name] = [
                                                 format(product.product_quantity.normalize(), 'f'),
+                                                product.product_unit,
                                                 lot_number,
                                                 exp_date_formatted
                                                 ]

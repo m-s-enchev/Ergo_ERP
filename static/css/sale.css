@@ -170,7 +170,7 @@
 }
 
 
-#sales-wrapper .product-form td:nth-child(9) {
+#sales-wrapper .product-form .discount {
     width: 7%;
 }
 
@@ -186,25 +186,30 @@
 }
 
 
-#sales-wrapper .product-form td:nth-child(4) input,
-#sales-wrapper .product-form td:nth-child(5) input,
-#sales-wrapper .product-form td:nth-child(6) input {
+#sales-wrapper .product-form .unit input,
+#sales-wrapper .product-form .lot input,
+#sales-wrapper .product-form .exp-date input {
     text-align: center;
 }
 
-#sales-wrapper .product-form td:nth-child(3) input,
-#sales-wrapper .product-form td:nth-child(7) input,
-#sales-wrapper .product-form td:nth-child(8) input,
-#sales-wrapper .product-form td:nth-child(9) input,
-#sales-wrapper .product-form td:nth-child(10) input,
-#sales-wrapper .product-form td:nth-child(11) input {
+#sales-wrapper .product-form .quantity input,
+#sales-wrapper .product-form .price-before-tax input,
+#sales-wrapper .product-form .price-with-tax input,
+#sales-wrapper .product-form .discount input,
+#sales-wrapper .product-form .total-before-tax input,
+#sales-wrapper .product-form .total-with-tax input {
     text-align: right;
 }
 
 
 
  /* format the dropdown menu when selecting a product */
-#sales-wrapper .ui-menu-item-wrapper span {
+
+.ui-menu-item-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.ui-menu-item-wrapper span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -212,25 +217,24 @@
     padding: 3px;
 }
 
-
-#sales-wrapper .ui-menu-item-wrapper {
-    display: flex;
-    flex-wrap: nowrap;
+.ui-menu-item-wrapper span:nth-child(1) {
+    flex: 5 0 58%;
 }
 
-#sales-wrapper .ui-menu-item-wrapper span:nth-child(1) {
-    flex: 5 0 56%;
-}
-
-#sales-wrapper .ui-menu-item-wrapper span:nth-child(2) {
+.ui-menu-item-wrapper span:nth-child(2) {
     text-align: center;
-    flex: 1 0 8%;
+    flex: 1 0 5%;
 }
 
-#sales-wrapper .ui-menu-item-wrapper span:nth-child(3),
-#sales-wrapper .ui-menu-item-wrapper span:nth-child(4) {
+.ui-menu-item-wrapper span:nth-child(3) {
     text-align: center;
-    flex: 2 0 19%;
+    flex: 1 0 9%;
+}
+
+.ui-menu-item-wrapper span:nth-child(4),
+.ui-menu-item-wrapper span:nth-child(5) {
+    text-align: center;
+    flex: 2 0 14%;
 }
 
 #rotate-screen-prompt {
