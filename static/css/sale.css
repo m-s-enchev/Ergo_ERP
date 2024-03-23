@@ -144,27 +144,28 @@
     width: 3%;
 }
 
-#sales-wrapper .product-form td:nth-child(2) {
+#sales-wrapper .product-form .name {
     min-width: 40%;
 }
 
-#sales-wrapper .product-form td:nth-child(3) {
+#sales-wrapper .product-form .quantity {
     width: 5%;
 }
 
-#sales-wrapper .product-form td:nth-child(4) {
+#sales-wrapper .product-form .unit {
     width: 5%;
 }
 
-#sales-wrapper .product-form td:nth-child(5) {
+#sales-wrapper .product-form .lot {
     width: 10%;
 }
 
-#sales-wrapper .product-form td:nth-child(6) {
+#sales-wrapper .product-form .exp-date {
     width: 11%;
 }
 
-#sales-wrapper .product-form #price-before-tax, #price-with-tax {
+#sales-wrapper .product-form .price-before-tax,
+#sales-wrapper .product-form .price-with-tax {
     width: 9%;
 }
 
@@ -173,7 +174,8 @@
     width: 7%;
 }
 
-#sales-wrapper .product-form #total-before-tax, #total-with-tax {
+#sales-wrapper .product-form .total-before-tax,
+#sales-wrapper .product-form .total-with-tax {
     width: 10%;
 }
 

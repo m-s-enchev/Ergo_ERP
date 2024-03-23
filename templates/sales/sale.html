@@ -85,33 +85,51 @@
                     <table>
                       <thead>
                         <tr>
-                            <th>#</th>
-                            <th>{% translate 'Name' %}</th>
-                            <th>{% translate 'Qty' %}</th>
-                            <th>{% translate 'Unit' %}</th>
-                            <th>{% translate 'LOT' %}</th>
-                            <th>{% translate 'Exp. date' %}</th>
-                            <th>{% translate 'Price before TAX' %}</th>
-                            <th>{% translate 'Price' %}</th>
-                            <th>{% translate 'Discount %' %}</th>
-                            <th>{% translate 'Amount before TAX' %}</th>
-                            <th>{% translate 'Amount' %}</th>
+                            <th class="numerator">#</th>
+                            <th class="name">{% translate 'Name' %}</th>
+                            <th class="quantity">{% translate 'Qty' %}</th>
+                            <th class="unit">{% translate 'Unit' %}</th>
+{#                            <th class="lot">{% translate 'LOT' %}</th>#}
+{#                            <th class="exp-date">{% translate 'Exp. date' %}</th>#}
+                            <th class="price-before-tax">{% translate 'Price before TAX' %}</th>
+                            <th class="price-with-tax">{% translate 'Price' %}</th>
+                            <th class="discount">{% translate 'Discount %' %}</th>
+                            <th class="total-before-tax">{% translate 'Amount before TAX' %}</th>
+                            <th class="total-with-tax">{% translate 'Amount' %}</th>
                         </tr>
                       </thead>
                       <tbody>
                             {% for form in sold_products_formset %}
                                 <tr class="product-form">
                                     <td class="numerator">{{ forloop.counter }}</td>
-                                    <td>{{ form.product_name.errors }}{{ form.product_name }}</td>
-                                    <td>{{ form.product_quantity.errors }}{{ form.product_quantity }}</td>
-                                    <td>{{ form.product_unit }}</td>
-                                    <td>{{ form.product_lot_number }}</td>
-                                    <td>{{ form.product_exp_date }}</td>
-                                    <td id="price-before-tax">{{ form.product_price_before_tax.errors}}{{ form.product_price_before_tax }}</td>
-                                    <td class="price-with-tax">{{ form.product_price.errors }}{{ form.product_price }}</td>
-                                    <td>{{ form.product_discount }}</td>
-                                    <td class="total-before-tax">{{ form.product_total_before_tax.errors }}{{ form.product_total_before_tax }}</td>
-                                    <td class="total-with-tax">{{ form.product_total.errors }}{{ form.product_total }}</td>
+                                    <td class="name">
+                                        {{ form.product_name.errors }}
+                                        {{ form.product_name }}
+                                    </td>
+                                    <td class="quantity">
+                                        {{ form.product_quantity.errors }}
+                                        {{ form.product_quantity }}
+                                    </td>
+                                    <td class="unit">{{ form.product_unit }}</td>
+{#                                    <td class="lot">{{ form.product_lot_number }}</td>#}
+{#                                    <td class="exp-date">{{ form.product_exp_date }}</td>#}
+                                    <td class="price-before-tax">
+                                        {{ form.product_price_before_tax.errors}}
+                                        {{ form.product_price_before_tax }}
+                                    </td>
+                                    <td class="price-with-tax">
+                                        {{ form.product_price.errors }}
+                                        {{ form.product_price }}
+                                    </td>
+                                    <td class="discount">{{ form.product_discount }}</td>
+                                    <td class="total-before-tax">
+                                        {{ form.product_total_before_tax.errors }}
+                                        {{ form.product_total_before_tax }}
+                                    </td>
+                                    <td class="total-with-tax">
+                                        {{ form.product_total.errors }}
+                                        {{ form.product_total }}
+                                    </td>
                                 </tr>
                             {% endfor %}
                       </tbody>
