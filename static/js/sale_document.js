@@ -29,13 +29,14 @@ function multicolumnDropdown(selector) {
         select: function(event, ui) {
             let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
             let details = productNamesDict[ui.item.value];
-            $(`#${idPrefix}product_lot_number`).val(details[1]);
-            $(`#${idPrefix}product_exp_date`).val(details[2]);
+            $(`#${idPrefix}product_unit`).val(details[1]);
+            $(`#${idPrefix}product_lot_number`).val(details[2]);
+            $(`#${idPrefix}product_exp_date`).val(details[3]);
             return false;
         },
         open: function() {
         let rowWidth = getRowWidth(".product-form");
-        let dropdownWidth = rowWidth * 0.66;
+        let dropdownWidth = rowWidth * 0.71;
         $(this).autocomplete("widget").css({
             "width": dropdownWidth + "px"
         });
@@ -43,7 +44,13 @@ function multicolumnDropdown(selector) {
 
     }).autocomplete("instance")._renderItem = function(ul, item) {
         let details = productNamesDict[item.value];
-        let label = `<div><span>${item.value}</span><span>${details[0]}</span><span>${details[1]}</span><span>${details[2]}</span></div>`;
+        let label = `<div>
+                                <span>${item.value}</span>
+                                <span>${details[0]}</span>
+                                <span>${details[1]}</span>
+                                <span>${details[2]}</span>
+                                <span>${details[3]}</span>
+                            </div>`;
         return $("<li>")
             .append(`${label}`)
             .appendTo(ul);
@@ -133,6 +140,7 @@ function setupEnterKeyBehavior() {
 }
 
 
+
 /** Prevents the ArrowUp and ArrowDown keys from incrementing and decrementing number fields.
  * A users intuitive expectation in a table would be from those key to navigate,
  * so when pressed, the change of value in a field may not be noticed.*/
@@ -144,6 +152,8 @@ function disableArrowKeys () {
         }
         });
 }
+
+
 
 /** Adds or removes from the html the fields necessary for an invoice,
  * depending on whether an invoice will be issued */
