@@ -1,7 +1,4 @@
-const priceBeforeTax = 6;
-const productTotalBeforeTax = 9;
-const price = 7;
-const productTotal = 10;
+
 let productNamesDict = {};
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -161,23 +158,7 @@ function setupInvoiceToggle() {
     const totalBeforeVat = document.getElementById('total_before_tax');
     const totalVat = document.getElementById('total_tax');
 
-    const tableColumnHide = (table, ...columnIndices) => {
-        let rows = table.rows;
-        for (let i = 0; i < rows.length; i++) {
-            let cells = rows[i].cells;
-            columnIndices.forEach(index => cells[index].style.display = 'none');
-        }
-    };
-
-    const tableColumnShow = (table, ...columnIndices) => {
-        let rows = table.rows;
-        for (let i = 0; i < rows.length; i++) {
-            let cells = rows[i].cells;
-            columnIndices.forEach(index => cells[index].style.display = 'table-cell');
-        }
-    };
-
-    tableColumnHide(productsTable, priceBeforeTax, productTotalBeforeTax);
+    tableColumnHide(productsTable, 'price-before-tax', 'total-before-tax');
     invoiceData.removeChild(invoiceToggledFields);
     buyerData.removeChild(buyerDataToggleFields);
     totalBeforeVat.style.display = 'none';
@@ -190,16 +171,16 @@ function setupInvoiceToggle() {
             initializeDatepicker ()
             buyerData.appendChild(buyerDataToggleFields);
             initializeDatepicker ()
-            tableColumnShow(productsTable, priceBeforeTax, productTotalBeforeTax);
-            tableColumnHide(productsTable, price, productTotal);
+            tableColumnShow(productsTable, 'price-before-tax', 'total-before-tax');
+            tableColumnHide(productsTable, 'price-with-tax', 'total-with-tax');
             totalBeforeVat.style.display = 'block';
             totalVat.style.display = 'block';
         } else {
             invoiceMainHeading.style.fontWeight = 'normal';
             invoiceData.removeChild(invoiceToggledFields);
             buyerData.removeChild(buyerDataToggleFields);
-            tableColumnShow(productsTable, price, productTotal);
-            tableColumnHide(productsTable, priceBeforeTax, productTotalBeforeTax);
+            tableColumnShow(productsTable,'price-with-tax', 'total-with-tax');
+            tableColumnHide(productsTable, 'price-before-tax', 'total-before-tax');
             totalBeforeVat.style.display = 'none';
             totalVat.style.display = 'none';
         }

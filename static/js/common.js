@@ -34,6 +34,24 @@
 //     });
 // }
 
+
+/** Hides on or more columns in a table based on class name of cells */
+function tableColumnHide (table, ...columnClassNames) {
+    for (let name of columnClassNames) {
+        let cells = table.querySelectorAll(`td.${name}, th.${name}`);
+        cells.forEach(cell => {cell.style.display = 'none'});
+    }
+}
+
+/** Shows on or more hidden columns in a table based on class name of cells */
+function tableColumnShow (table, ...columnClassNames) {
+    for (let name of columnClassNames) {
+        let cells = table.querySelectorAll(`td.${name}, th.${name}`);
+        cells.forEach(cell => {cell.style.display = 'table-cell'});
+    }
+}
+
+
 /** Fetches the price and unit of selected product */
 function getProductPrice(index, formsetPrefix, priceNoVatSuffix, priceWithVatSuffix, priceType) {
     const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
