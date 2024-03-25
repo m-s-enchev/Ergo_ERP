@@ -24,78 +24,87 @@
     </nav>
 
     <div id="settings-list">
-        <section id="main-menu-settings">
-            <h2>Main menu settings</h2>
-            <label for="shortcuts-visible">Shortcuts in main menu </label>
-            <input type="checkbox" id="shortcuts-visible">
-            <div id="settings-shortcuts-fields">
-                <div class="main-menu-settings-group">
-                    <span>
-                        <label for="shortcut1-name">Name: </label>
-                        <input type="text" id="shortcut1-name">
-                    </span>
-                    <span>
-                        <label for="shortcut1-link">Link: </label>
-                        <input type="text" id="shortcut1-link">
-                    </span>
+        <form method="post">
+            <button type="submit">Submit</button>
+        {% csrf_token %}
+            <section id="general-settings">
+                <h2>General settings</h2>
+                <label for="id_default_department">Default department </label>
+                {{ user_settings_form.default_department }}
+            </section>
+            <section id="main-menu-settings">
+                <h2>Main menu settings</h2>
+                <label for="shortcuts-visible">Shortcuts in main menu </label>
+                <input type="checkbox" id="shortcuts-visible">
+                <div id="settings-shortcuts-fields">
+                    <div class="main-menu-settings-group">
+                        <span>
+                            <label for="shortcut1-name">Name: </label>
+                            <input type="text" id="shortcut1-name">
+                        </span>
+                        <span>
+                            <label for="shortcut1-link">Link: </label>
+                            <input type="text" id="shortcut1-link">
+                        </span>
+                    </div>
+                    <div class="main-menu-settings-group">
+                        <span>
+                            <label for="shortcut1-name">Name: </label>
+                            <input type="text" id="shortcut1-name">
+                        </span>
+                        <span>
+                            <label for="shortcut1-link">Link: </label>
+                            <input type="text" id="shortcut1-link">
+                        </span>
+                    </div>
+                    <div class="main-menu-settings-group">
+                        <span>
+                            <label for="shortcut1-name">Name: </label>
+                            <input type="text" id="shortcut1-name">
+                        </span>
+                        <span>
+                            <label for="shortcut1-link">Link: </label>
+                            <input type="text" id="shortcut1-link">
+                        </span>
+                    </div>
+                    <div class="main-menu-settings-group">
+                        <span>
+                            <label for="shortcut1-name">Name: </label>
+                            <input type="text" id="shortcut1-name">
+                        </span>
+                        <span>
+                            <label for="shortcut1-link">Link: </label>
+                            <input type="text" id="shortcut1-link">
+                        </span>
+                    </div>
+                    <div class="main-menu-settings-group">
+                        <span>
+                            <label for="shortcut1-name">Name: </label>
+                            <input type="text" id="shortcut1-name">
+                        </span>
+                        <span>
+                            <label for="shortcut1-link">Link: </label>
+                            <input type="text" id="shortcut1-link">
+                        </span>
+                    </div>
+                    <div class="main-menu-settings-group">
+                        <span>
+                            <label for="shortcut1-name">Name: </label>
+                            <input type="text" id="shortcut1-name">
+                        </span>
+                        <span>
+                            <label for="shortcut1-link">Link: </label>
+                            <input type="text" id="shortcut1-link">
+                        </span>
+                    </div>
                 </div>
-                <div class="main-menu-settings-group">
-                    <span>
-                        <label for="shortcut1-name">Name: </label>
-                        <input type="text" id="shortcut1-name">
-                    </span>
-                    <span>
-                        <label for="shortcut1-link">Link: </label>
-                        <input type="text" id="shortcut1-link">
-                    </span>
-                </div>
-                <div class="main-menu-settings-group">
-                    <span>
-                        <label for="shortcut1-name">Name: </label>
-                        <input type="text" id="shortcut1-name">
-                    </span>
-                    <span>
-                        <label for="shortcut1-link">Link: </label>
-                        <input type="text" id="shortcut1-link">
-                    </span>
-                </div>
-                <div class="main-menu-settings-group">
-                    <span>
-                        <label for="shortcut1-name">Name: </label>
-                        <input type="text" id="shortcut1-name">
-                    </span>
-                    <span>
-                        <label for="shortcut1-link">Link: </label>
-                        <input type="text" id="shortcut1-link">
-                    </span>
-                </div>
-                <div class="main-menu-settings-group">
-                    <span>
-                        <label for="shortcut1-name">Name: </label>
-                        <input type="text" id="shortcut1-name">
-                    </span>
-                    <span>
-                        <label for="shortcut1-link">Link: </label>
-                        <input type="text" id="shortcut1-link">
-                    </span>
-                </div>
-                <div class="main-menu-settings-group">
-                    <span>
-                        <label for="shortcut1-name">Name: </label>
-                        <input type="text" id="shortcut1-name">
-                    </span>
-                    <span>
-                        <label for="shortcut1-link">Link: </label>
-                        <input type="text" id="shortcut1-link">
-                    </span>
-                </div>
-            </div>
-        </section>
-        <section id="sale-settings">
-{#           the modeform field for default sale document checkbox#}
-            <label for="default-sale-document">Default sales document is an invoice </label>
-            <input type="checkbox" id="default-sale-document">
-        </section>
+            </section>
+            <section id="sale-settings">
+    {#           the modeform field for default sale document checkbox#}
+                <label for="default-sale-document">Default sales document is an invoice </label>
+                <input type="checkbox" id="default-sale-document">
+            </section>
+        </form>
     </div>
 </div>
 <script src="{% static 'js/settings.js' %}"></script>

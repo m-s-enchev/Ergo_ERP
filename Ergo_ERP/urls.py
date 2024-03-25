@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
+from Ergo_ERP.user_settings.views import user_settings_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,11 +27,7 @@ urlpatterns = [
         TemplateView.as_view(template_name='homepage.html', extra_context={'template_verbose_name': 'Main menu'}),
         name='homepage'
     ),
-    path(
-        'settings/',
-        TemplateView.as_view(template_name='settings.html',  extra_context={'template_verbose_name': 'Settings'}),
-        name='settings'
-    ),
+    path('settings/', user_settings_view, name='settings'),
     path('sales/', include('Ergo_ERP.sales.urls')),
     path('inventory/', include('Ergo_ERP.inventory.urls')),
     path('products/', include('Ergo_ERP.products.urls')),
