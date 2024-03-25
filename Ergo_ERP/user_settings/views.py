@@ -8,7 +8,7 @@ def user_settings_view(request):
 
     user_settings_form = UserSettingsForm(request.POST or None)
 
-    if request == 'POST':
+    if request.method == 'POST':
         if user_settings_form.is_valid():
             user_settings_form.save()
             return redirect(reverse('settings'))
