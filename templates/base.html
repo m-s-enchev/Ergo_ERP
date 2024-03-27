@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load static %}
 
 
@@ -40,6 +41,12 @@
             <a href="/settings/"><i class="fa-solid fa-gear"></i></a>
         </div>
     </nav>
+
+    <div id="user-profile-tooltip">
+        <p>User names</p>
+        <button>{% translate 'Login'%}</button>
+        <button>{% translate 'Logout'%}</button>
+    </div>
 
     <main id="main-wrapper">
         {% block content%}

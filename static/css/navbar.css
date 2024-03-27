@@ -22,8 +22,26 @@
 }
 
 
-
 #navigation-display {
     flex-grow: 2;
     text-align: center;
 }
+
+#user-profile-tooltip {
+    display:none;
+    flex-direction: column;
+    position:absolute;
+    right: 5vw;
+    top: 4vh;
+    padding: 1vw;
+    background-color: white;
+    border: 1px solid red;
+}
+
+#user-profile-tooltip p{
+    margin-bottom: 1vh;
+    font-size: calc(12px + 0.4vw);
+    font-weight: bold;
+    color: darkslategray;
+}
+
