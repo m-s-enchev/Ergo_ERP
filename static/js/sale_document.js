@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     updateRowTotal(0,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
     updateRowTotal(0,"id_sold_products", "product_price", "product_total");
     getClientNames();
+    profileTooltip();
 });
 
 

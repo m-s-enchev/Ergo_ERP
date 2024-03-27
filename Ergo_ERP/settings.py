@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Ergo_ERP.common',
     'Ergo_ERP.clients',
     'Ergo_ERP.user_settings',
+    'Ergo_ERP.user_profile',
 ]
 
 MIDDLEWARE = [

@@ -154,3 +154,23 @@ function updateProductsDropdown() {
         });
     });
 }
+
+
+function profileTooltip () {
+    const target = document.querySelector('#main-navigation #user');
+    const popup = document.getElementById('user-profile-tooltip');
+    let timer;
+    function showPopup() {
+        clearTimeout(timer);
+        popup.style.display = 'flex';
+    }
+    function hidePopup() {
+        timer = setTimeout(() => {
+            popup.style.display = 'none';
+        }, 500);
+    }
+    target.addEventListener('mouseover', showPopup);
+    target.addEventListener('mouseout', hidePopup);
+    popup.addEventListener('mouseover', showPopup);
+    popup.addEventListener('mouseout', hidePopup);
+}
