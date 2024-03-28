@@ -1,0 +1,24 @@
+#login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#login-page form {
+    padding: 2vw;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 20vh;
+}
+
+#login-page form p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2vh;
+}
+
+#login-page form p label{
+    font-weight: bold;
+    padding-right: 5px;
+}
