@@ -34,7 +34,11 @@
             </div>
         {% endif %}
         <div id="user">
-            <a href="#"><i class="fa-solid fa-user"></i></a>
+            <i class="fa-solid fa-user"></i>
+            {% if user.is_authenticated %}
+                {{ user.first_name }}
+                {{ user.last_name }}
+            {% endif %}
         </div>
 
         <div id="settings">
@@ -43,9 +47,19 @@
     </nav>
 
     <div id="user-profile-tooltip">
-        <p>User names</p>
-        <button>{% translate 'Login'%}</button>
-        <button>{% translate 'Logout'%}</button>
+        {% if user.is_authenticated %}
+            <p>User names</p>
+            <a href="/user/logout">
+                <button>{% translate 'Logout'%}</button>
+            </a>
+            <a href="/user/create">
+                <button>{% translate 'Create user'%}</button>
+            </a>
+        {% else %}
+            <a href="/user/login">
+                <button>{% translate 'Login'%}</button>
+            </a>
+        {% endif %}
     </div>
 
     <main id="main-wrapper">
