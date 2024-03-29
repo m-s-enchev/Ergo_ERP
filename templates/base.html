@@ -36,8 +36,7 @@
         <div id="user">
             <i class="fa-solid fa-user"></i>
             {% if user.is_authenticated %}
-                {{ user.first_name }}
-                {{ user.last_name }}
+                <span>{{ user.first_name }} {{ user.last_name }}</span>
             {% endif %}
         </div>
 

@@ -11,14 +11,18 @@
     font-size: calc(20px + 0.4vw);
     gap: calc(20px + 0.4vw);
     padding: calc(15px + 0.4vw)
-
-    
 }
 
-#main-navigation button, a {
+#main-navigation button,
+#main-navigation a {
     font-size: inherit;
     color: inherit;
+}
 
+
+#main-navigation #user span{
+    font-size: calc(17px + 0.4vw);
+    bottom: 0;
 }
 
 
@@ -39,7 +43,7 @@
     border: 1px solid red;
 }
 
-#user-profile-tooltip p{
+#user-profile-tooltip p {
     margin-bottom: 1vh;
     font-size: calc(12px + 0.4vw);
     font-weight: bold;
