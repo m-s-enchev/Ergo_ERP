@@ -22,11 +22,7 @@ from Ergo_ERP.user_settings.views import user_settings_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(
-        '',
-        TemplateView.as_view(template_name='homepage.html', extra_context={'template_verbose_name': 'Main menu'}),
-        name='homepage'
-    ),
+    path('', include('Ergo_ERP.common.urls')),
     path('settings/', user_settings_view, name='settings'),
     path('sales/', include('Ergo_ERP.sales.urls')),
     path('inventory/', include('Ergo_ERP.inventory.urls')),

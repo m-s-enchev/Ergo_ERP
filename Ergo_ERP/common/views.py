@@ -1,4 +1,6 @@
 from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from Ergo_ERP.clients.models import Clients
 from Ergo_ERP.inventory.models import Inventory
@@ -32,6 +34,16 @@ from Ergo_ERP.sales.views import products_dict_dropdown
 #             return JsonResponse({'product_price': None, 'product_vat': None})
 #     else:
 #         return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+def homepage_view(request):
+    context = {
+        'template_verbose_name': 'Main menu'
+    }
+    if request.user.is_authenticated:
+        return render(request, 'homepage.html', context=context)
+    else:
+        return redirect(reverse('user-login'))
 
 
 def get_product_price(request):
