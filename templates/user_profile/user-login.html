@@ -13,12 +13,19 @@
 <body>
     <main id="main-wrapper">
         <div id="login-page">
-            <form method="post">
+            <form method="post" autocomplete="off">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit"> Login </button>
+                <div>
+                    <button id="login-button" type="submit"> Login </button>
+                </div>
             </form>
+            <div>
+                <button id="demo-button">Try demo</button>
+            </div>
         </div>
+
     </main>
+    <script src={% static 'js/login.js'%}></script>
 </body>
 </html>

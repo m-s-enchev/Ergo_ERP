@@ -1,5 +1,6 @@
 #login-page {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -20,5 +21,23 @@
 
 #login-page form p label{
     font-weight: bold;
-    padding-right: 5px;
+    padding-right: 1vw;
+}
+
+#login-page form div{
+    text-align: right;
+}
+
+#login-page form div button {
+    font-weight: bold;
+    padding: 5px;
+}
+
+#login-page #demo-button {
+    padding: 1vw 3vw;
+    color: #be0f38;
+    font-weight: bold;
+    font-size: calc(20px + 0.4vw);
+    border: 1px solid #be0f38;
+    border-radius: 1vw;
 }
