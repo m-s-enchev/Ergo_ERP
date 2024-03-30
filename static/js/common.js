@@ -35,6 +35,12 @@
 // }
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    profileTooltip();
+})
+
+
+
 /** Hides on or more columns in a table based on class name of cells */
 function tableColumnHide (table, ...columnClassNames) {
     for (let name of columnClassNames) {

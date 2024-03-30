@@ -34,12 +34,13 @@
             </div>
         {% endif %}
         <div id="user">
-            <i class="fa-solid fa-user"></i>
-            {% if user.is_authenticated %}
-                <span>{{ user.first_name }} {{ user.last_name }}</span>
-            {% endif %}
+            <a href="#">
+                <i class="fa-solid fa-user"></i>
+                {% if user.is_authenticated %}
+                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                {% endif %}
+            </a>
         </div>
-
         <div id="settings">
             <a href="/settings/"><i class="fa-solid fa-gear"></i></a>
         </div>
@@ -66,6 +67,7 @@
         {% endblock %}
     </main>
 
+    <script src={% static '/js/common.js'%}></script>
 
 </body>
 </html>

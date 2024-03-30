@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
     updateRowTotal(0,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
     updateRowTotal(0,"id_sold_products", "product_price", "product_total");
     getClientNames();
-    profileTooltip();
 });
 
 
@@ -177,7 +176,6 @@ function setupInvoiceToggle() {
 
     invoiceCheckbox.addEventListener('change', function () {
         if (invoiceCheckbox.checked) {
-            invoiceMainHeading.style.fontWeight = 'bold';
             invoiceData.appendChild(invoiceToggledFields);
             initializeDatepicker ()
             buyerData.appendChild(buyerDataToggleFields);
@@ -187,7 +185,6 @@ function setupInvoiceToggle() {
             totalBeforeVat.style.display = 'block';
             totalVat.style.display = 'block';
         } else {
-            invoiceMainHeading.style.fontWeight = 'normal';
             invoiceData.removeChild(invoiceToggledFields);
             buyerData.removeChild(buyerDataToggleFields);
             tableColumnShow(productsTable,'price-with-tax', 'total-with-tax');
