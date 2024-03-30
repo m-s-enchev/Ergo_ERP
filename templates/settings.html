@@ -102,6 +102,9 @@
             <section id="sale-settings">
                 <label for="id_default_sales_doc_is_invoice">Default sales document is an invoice </label>
                 {{user_settings_form.default_sales_doc_is_invoice}}
+                {{ user_settings_form.show_sale_quick_select }}
+                {{ user_settings_form.show_lot_and_exp_columns }}
+                {{ user_settings_form.default_client }}
             </section>
         </form>
     </div>
