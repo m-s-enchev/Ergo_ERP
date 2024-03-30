@@ -89,8 +89,10 @@
                             <th class="name">{% translate 'Name' %}</th>
                             <th class="quantity">{% translate 'Qty' %}</th>
                             <th class="unit">{% translate 'Unit' %}</th>
-                            <th class="lot">{% translate 'LOT' %}</th>
-                            <th class="exp-date">{% translate 'Exp. date' %}</th>
+                            {% if user_settings.show_lot_and_exp_columns %}
+                                <th class="lot">{% translate 'LOT' %}</th>
+                                <th class="exp-date">{% translate 'Exp. date' %}</th>
+                            {% endif %}
                             <th class="price-before-tax">{% translate 'Price before TAX' %}</th>
                             <th class="price-with-tax">{% translate 'Price' %}</th>
                             <th class="discount">{% translate 'Discount %' %}</th>
@@ -111,8 +113,10 @@
                                         {{ form.product_quantity }}
                                     </td>
                                     <td class="unit">{{ form.product_unit }}</td>
-                                    <td class="lot">{{ form.product_lot_number }}</td>
-                                    <td class="exp-date">{{ form.product_exp_date }}</td>
+                                    {% if user_settings.show_lot_and_exp_columns %}
+                                        <td class="lot">{{ form.product_lot_number }}</td>
+                                        <td class="exp-date">{{ form.product_exp_date }}</td>
+                                    {% endif %}
                                     <td class="price-before-tax">
                                         {{ form.product_price_before_tax.errors}}
                                         {{ form.product_price_before_tax }}
@@ -138,37 +142,37 @@
             </section>
 
             <div id="rotate-screen-prompt">{% translate 'Please use in landscape mode' %}</div>
-
-            <section id="quick-product-select">
-                <div class="quick-select-tile">
-                    <p>Crepes</p>
-                </div>
-                <div class="quick-select-tile">
-                    <p>Croissant</p>
-                </div>
-                <div class="quick-select-tile">
-                    <p>B12</p>
-                </div>
-                <div class="quick-select-tile">
-                    <p>Crack</p>
-                </div>
-                <div class="quick-select-tile">
-                    <p>Red bull</p>
-                </div>
-                <div class="quick-select-tile">
-                    <p>Crepes</p>
-                </div>
-                <div class="quick-select-tile">
-                    <p>Crepes</p>
-                </div>
-                <div class="quick-select-tile">
-                    <p>Crepes</p>
-                </div>
-                <div class="quick-select-tile">
-                    <p>Crepes</p>
-                </div>
-            </section>
-
+            {% if user_settings.show_sale_quick_select %}
+                <section id="quick-product-select">
+                    <div class="quick-select-tile">
+                        <p>Crepes</p>
+                    </div>
+                    <div class="quick-select-tile">
+                        <p>Croissant</p>
+                    </div>
+                    <div class="quick-select-tile">
+                        <p>B12</p>
+                    </div>
+                    <div class="quick-select-tile">
+                        <p>Crack</p>
+                    </div>
+                    <div class="quick-select-tile">
+                        <p>Red bull</p>
+                    </div>
+                    <div class="quick-select-tile">
+                        <p>Crepes</p>
+                    </div>
+                    <div class="quick-select-tile">
+                        <p>Crepes</p>
+                    </div>
+                    <div class="quick-select-tile">
+                        <p>Crepes</p>
+                    </div>
+                    <div class="quick-select-tile">
+                        <p>Crepes</p>
+                    </div>
+                </section>
+            {% endif %}
             <footer>
                 <div id="sums-and-button">
                     <div id="total_before_tax">

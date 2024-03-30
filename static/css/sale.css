@@ -6,7 +6,7 @@
 }
 
 #sales-form {
-    flex: 0 1 80vw;
+    width: 80vw;
 }
 
 #quick-product-select {

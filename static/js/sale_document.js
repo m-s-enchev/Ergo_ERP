@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     updateRowTotal(0,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
     updateRowTotal(0,"id_sold_products", "product_price", "product_total");
     getClientNames();
+    toggleQuickSelect ()
 });
 
 
@@ -159,7 +160,6 @@ function disableArrowKeys () {
  * depending on whether an invoice will be issued */
 function setupInvoiceToggle() {
     const invoiceCheckbox = document.getElementById('id_is_linked_to_invoice');
-    const invoiceMainHeading = document.querySelector('label[for="id_is_linked_to_invoice"]');
     const invoiceData = document.getElementById('invoice-number-and-dates');
     const buyerData = document.getElementById('buyer-data');
     const buyerDataToggleFields = document.getElementById('buyer-data-toggle-fields');
@@ -168,13 +168,7 @@ function setupInvoiceToggle() {
     const totalBeforeVat = document.getElementById('total_before_tax');
     const totalVat = document.getElementById('total_tax');
 
-    tableColumnHide(productsTable, 'price-before-tax', 'total-before-tax');
-    invoiceData.removeChild(invoiceToggledFields);
-    buyerData.removeChild(buyerDataToggleFields);
-    totalBeforeVat.style.display = 'none';
-    totalVat.style.display = 'none';
-
-    invoiceCheckbox.addEventListener('change', function () {
+    function toggleAllFields() {
         if (invoiceCheckbox.checked) {
             invoiceData.appendChild(invoiceToggledFields);
             initializeDatepicker ()
@@ -192,8 +186,11 @@ function setupInvoiceToggle() {
             totalBeforeVat.style.display = 'none';
             totalVat.style.display = 'none';
         }
-    });
+    }
+    toggleAllFields();
+    invoiceCheckbox.addEventListener('change', () =>{ toggleAllFields()});
 }
+
 
 function getClientNames (){
     $(document).ready(function() {
@@ -204,7 +201,13 @@ function getClientNames (){
 });
 }
 
-
+function toggleQuickSelect () {
+    const quickSelectSection = document.getElementById('quick-product-select');
+    const salesForm = document.getElementById('sales-form');
+    if (!quickSelectSection) {
+        salesForm.style.width = '100vw';
+    }
+}
 
 
 
