@@ -6,7 +6,7 @@ from Ergo_ERP.user_settings.models import UserSettings
 
 
 def user_settings_view(request):
-    user_instance = UserSettings.objects.get(user=request.user)
+    user_instance, create = UserSettings.objects.get_or_create(user=request.user)
     if request.method == 'POST':
         user_settings_form = UserSettingsForm(request.POST, instance=user_instance)
         if user_settings_form.is_valid():
