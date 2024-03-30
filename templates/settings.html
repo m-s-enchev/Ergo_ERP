@@ -34,8 +34,8 @@
             </section>
             <section id="main-menu-settings">
                 <h2>Main menu settings</h2>
-                <label for="shortcuts-visible">Shortcuts in main menu </label>
-                <input type="checkbox" id="shortcuts-visible">
+                <label for="id_show_main_menu_shortcuts">Shortcuts in main menu </label>
+                {{ user_settings_form.show_main_menu_shortcuts }}
                 <div id="settings-shortcuts-fields">
                     <div class="main-menu-settings-group">
                         <span>
@@ -100,9 +100,8 @@
                 </div>
             </section>
             <section id="sale-settings">
-    {#           the modeform field for default sale document checkbox#}
-                <label for="default-sale-document">Default sales document is an invoice </label>
-                <input type="checkbox" id="default-sale-document">
+                <label for="id_default_sales_doc_is_invoice">Default sales document is an invoice </label>
+                {{user_settings_form.default_sales_doc_is_invoice}}
             </section>
         </form>
     </div>
