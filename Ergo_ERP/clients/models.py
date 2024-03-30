@@ -10,3 +10,5 @@ class Clients(models.Model):
     client_accountable_person = models.CharField(max_length=100, verbose_name='accountable person', null=True, blank=True)
     client_card_code = models.CharField(max_length=13, verbose_name='card_barcode', blank=True, null=True)
 
+    def __str__(self):
+        return self.client_names

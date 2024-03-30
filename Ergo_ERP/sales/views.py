@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document, \
@@ -140,7 +140,11 @@ def sales_document_create(request):
                 handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form)
                 return redirect(reverse('sale_new'))
     else:
-        sales_document_form = SalesDocumentForm(initial={'department': UserSettings.objects.first().default_department})
+        user_settings = get_object_or_404(UserSettings, user=request.user)
+        sales_document_form = SalesDocumentForm(initial={
+            'department': user_settings.default_department,
+            'buyer_name': user_settings.default_client
+        })
         invoice_data_form = InvoiceDataForm(
             initial={'invoice_number': get_next_document_number(InvoiceData, 'invoice_number')}
         )
