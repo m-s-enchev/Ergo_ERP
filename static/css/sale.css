@@ -1,6 +1,6 @@
 #sales-wrapper {
     display: flex;
-    margin-top: 8vh;
+    margin-top: 7vh;
     max-height: 85vh;
     overflow-y: auto;
 }
@@ -15,7 +15,7 @@
     width: 20vw;
     height: 80vh;
     padding-right: 2vw;
-    margin-top: 8vh;
+    margin-top: 7vh;
     font-size: 1.2vw;
     justify-content: flex-start;
     color: white;
@@ -102,7 +102,9 @@
     padding-left: 0.5vw;
 }
 
-
+#sales-wrapper #invoice-number-and-dates{
+    font-weight: bold;
+}
 
 .quick-select-tile {
     padding: 0.5vw 1vw;
@@ -128,7 +130,8 @@
 
 
 #sold-products table th{
-    font-size: 1vw;
+    font-size: calc(10px + 0.4vw);
+    padding: 0 3px;
     border: 1px solid #5c949f;
     background-color: #e7e7e7;
 }

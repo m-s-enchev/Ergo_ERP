@@ -37,10 +37,10 @@
     flex-direction: column;
     position:absolute;
     right: 5vw;
-    top: 4vh;
+    top: 5vh;
     padding: 1vw;
     background-color: white;
-    border: 1px solid red;
+    border-radius: 5px;
 }
 
 #user-profile-tooltip p {
