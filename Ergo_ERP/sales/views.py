@@ -121,9 +121,8 @@ def sales_document_create(request):
     """
     View function handling a new sales event in two cases - with or without an invoice
     """
-
     sold_products_formset = SoldProductsFormSet(request.POST or None, prefix='sold_products')
-
+    user_settings = get_object_or_404(UserSettings, user=request.user)
     if request.method == 'POST':
         sales_document_form = SalesDocumentForm(request.POST)
         invoice_data_form = InvoiceDataForm(request.POST)
@@ -140,10 +139,10 @@ def sales_document_create(request):
                 handle_sales_and_invoice_forms(sales_document_form, sold_products_formset, invoice_data_form)
                 return redirect(reverse('sale_new'))
     else:
-        user_settings = get_object_or_404(UserSettings, user=request.user)
         sales_document_form = SalesDocumentForm(initial={
             'department': user_settings.default_department,
-            'buyer_name': user_settings.default_client
+            'buyer_name': user_settings.default_client,
+            'is_linked_to_invoice': user_settings.default_sales_doc_is_invoice
         })
         invoice_data_form = InvoiceDataForm(
             initial={'invoice_number': get_next_document_number(InvoiceData, 'invoice_number')}
@@ -153,6 +152,7 @@ def sales_document_create(request):
         'sales_document_form': sales_document_form,
         'sold_products_formset': sold_products_formset,
         'invoice_data_form': invoice_data_form,
+        'user_settings': user_settings,
         'template_verbose_name': 'Sale',
     }
     return render(request, 'sales/sale.html', context)

@@ -100,11 +100,23 @@
                 </div>
             </section>
             <section id="sale-settings">
-                <label for="id_default_sales_doc_is_invoice">Default sales document is an invoice </label>
-                {{user_settings_form.default_sales_doc_is_invoice}}
-                {{ user_settings_form.show_sale_quick_select }}
-                {{ user_settings_form.show_lot_and_exp_columns }}
-                {{ user_settings_form.default_client }}
+                <h2>Sales document settings</h2>
+                <div class="sales-settings-group">
+                    <label for="id_default_sales_doc_is_invoice">Default sales document is an invoice </label>
+                    {{user_settings_form.default_sales_doc_is_invoice}}
+                </div>
+                <div class="sales-settings-group">
+                    <label for="id_default_client">Default client </label>
+                    {{ user_settings_form.default_client }}
+                </div>
+                <div class="sales-settings-group">
+                    <label for="id_show_lot_and_exp_columns">Show LOT and expiration date columns </label>
+                    {{ user_settings_form.show_lot_and_exp_columns }}
+                </div>
+                <div class="sales-settings-group">
+                    <label for="id_show_sale_quick_select">Show quick select widget </label>
+                    {{ user_settings_form.show_sale_quick_select }}
+                </div>
             </section>
         </form>
     </div>

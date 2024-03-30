@@ -52,7 +52,7 @@
     font-size: calc(8px + 1vmin);
 }
 
-#settings-list #main-menu-settings h2{
+#settings-list h2{
     color: #4b4b4b;
     margin-bottom: 2vh;
 }
@@ -76,3 +76,7 @@
     width: 80%;
 }
 
+#settings-list #sale-settings {
+    display: flex;
+    flex-direction: column;
+}
