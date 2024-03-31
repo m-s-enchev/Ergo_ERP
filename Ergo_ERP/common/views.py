@@ -1,11 +1,12 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from Ergo_ERP.clients.models import Clients
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.products.models import ProductsModel
 from Ergo_ERP.sales.views import products_dict_dropdown
+from Ergo_ERP.user_settings.models import UserSettings
 
 
 # def get_product_price(request):
@@ -37,7 +38,10 @@ from Ergo_ERP.sales.views import products_dict_dropdown
 
 
 def homepage_view(request):
+
+    user_settings = get_object_or_404(UserSettings, user=request.user)
     context = {
+        'user_settings': user_settings,
         'template_verbose_name': 'Main menu'
     }
     if request.user.is_authenticated:

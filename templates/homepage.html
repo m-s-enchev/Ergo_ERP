@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block  content %}
 <div id="main-homepage">
@@ -84,39 +85,40 @@
 {#        </a>#}
     </section>
 
-
-    <section id="shortcuts">
-         <a href="#">
-            <div class="navigation-tile">
-                <p><i class="fa-solid fa-plus"></i></p>
-            </div>
-        </a>
-                 <a href="#">
-            <div class="navigation-tile">
-                <p><i class="fa-solid fa-plus"></i></p>
-            </div>
-        </a>
-                 <a href="#">
-            <div class="navigation-tile">
-                <p><i class="fa-solid fa-plus"></i></p>
-            </div>
-        </a>
-                <a href="#">
-            <div class="navigation-tile">
-                <p><i class="fa-solid fa-plus"></i></p>
-            </div>
-        </a>
-                <a href="#">
-            <div class="navigation-tile">
-                <p><i class="fa-solid fa-plus"></i></p>
-            </div>
-        </a>
-                 <a href="#">
-            <div class="navigation-tile">
-                <p><i class="fa-solid fa-plus"></i></p>
-            </div>
-        </a>
-    </section>
+    {% if user_settings.show_main_menu_shortcuts %}
+        <section id="shortcuts">
+             <a href="#">
+                <div class="navigation-tile">
+                    <p><i class="fa-solid fa-plus"></i></p>
+                </div>
+            </a>
+                     <a href="#">
+                <div class="navigation-tile">
+                    <p><i class="fa-solid fa-plus"></i></p>
+                </div>
+            </a>
+                     <a href="#">
+                <div class="navigation-tile">
+                    <p><i class="fa-solid fa-plus"></i></p>
+                </div>
+            </a>
+                    <a href="#">
+                <div class="navigation-tile">
+                    <p><i class="fa-solid fa-plus"></i></p>
+                </div>
+            </a>
+                    <a href="#">
+                <div class="navigation-tile">
+                    <p><i class="fa-solid fa-plus"></i></p>
+                </div>
+            </a>
+                     <a href="#">
+                <div class="navigation-tile">
+                    <p><i class="fa-solid fa-plus"></i></p>
+                </div>
+            </a>
+        </section>
+    {% endif %}
 </div>
 
 {% endblock %}
