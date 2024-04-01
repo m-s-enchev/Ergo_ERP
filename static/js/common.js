@@ -175,7 +175,6 @@ function profileTooltip () {
         popup.style.display = 'none';
     }
     document.addEventListener('click', function(e) {
-        console.log(e.target)
         if (target.contains(e.target)) {
             if (!isVisible){
                 showPopup();

@@ -16,8 +16,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-function getRowWidth(selector) {
-    return $(selector).outerWidth(true);
+function getElementsWidth(selectors) {
+    let totalWidth = 0;
+    selectors.forEach(function(selector) {
+        let width = $(selector).outerWidth(true) || 0;
+        totalWidth += width;
+    });
+    return totalWidth;
 }
 
 
@@ -36,8 +41,13 @@ function multicolumnDropdown(selector) {
             return false;
         },
         open: function() {
-        let rowWidth = getRowWidth(".product-form");
-        let dropdownWidth = rowWidth * 0.71;
+        let dropdownWidth = 1.02*getElementsWidth([
+            '#id_sold_products-0-product_name',
+            '#id_sold_products-0-product_quantity',
+            '#id_sold_products-0-product_unit',
+            '#id_sold_products-0-product_lot_number',
+            '#id_sold_products-0-product_exp_date'
+        ]);
         $(this).autocomplete("widget").css({
             "width": dropdownWidth + "px"
         });
@@ -45,18 +55,28 @@ function multicolumnDropdown(selector) {
 
     }).autocomplete("instance")._renderItem = function(ul, item) {
         let details = productNamesDict[item.value];
-        let label = `<div>
-                                <span>${item.value}</span>
-                                <span>${details[0]}</span>
-                                <span>${details[1]}</span>
-                                <span>${details[2]}</span>
-                                <span>${details[3]}</span>
-                            </div>`;
+        let label;
+        if (details[2]) {
+            label = `<div>
+                                    <span>${item.value}</span>
+                                    <span>${details[0]}</span>
+                                    <span>${details[1]}</span>
+                                    <span>${details[2]}</span>
+                                    <span>${details[3]}</span>
+                                </div>`;
+        } else {
+            label = `<div>
+                                    <span>${item.value}</span>
+                                    <span>${details[0]}</span>
+                                    <span>${details[1]}</span>
+                                </div>`;
+        }
         return $("<li>")
             .append(`${label}`)
             .appendTo(ul);
     };
 }
+
 
 /** Handles the adding of a new products row in table, which is a SoldProductsForm instance.
  * If the product_name field of the last row is filled and focus is shifted to another field,
