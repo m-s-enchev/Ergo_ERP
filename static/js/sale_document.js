@@ -56,20 +56,21 @@ function multicolumnDropdown(selector) {
     }).autocomplete("instance")._renderItem = function(ul, item) {
         let details = productNamesDict[item.value];
         let label;
-        if (details[2]) {
+        const lotColumn = document.getElementById('id_sold_products-0-product_lot_number')
+        if (lotColumn) {
             label = `<div>
-                                    <span>${item.value}</span>
-                                    <span>${details[0]}</span>
-                                    <span>${details[1]}</span>
-                                    <span>${details[2]}</span>
-                                    <span>${details[3]}</span>
-                                </div>`;
+                        <span>${item.value}</span>
+                        <span>${details[0]}</span>
+                        <span>${details[1]}</span>
+                        <span>${details[2]}</span>
+                        <span>${details[3]}</span>
+                    </div>`;
         } else {
             label = `<div>
-                                    <span>${item.value}</span>
-                                    <span>${details[0]}</span>
-                                    <span>${details[1]}</span>
-                                </div>`;
+                        <span>${item.value}</span>
+                        <span>${details[0]}</span>
+                        <span>${details[1]}</span>
+                    </div>`;
         }
         return $("<li>")
             .append(`${label}`)
