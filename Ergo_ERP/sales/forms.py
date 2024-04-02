@@ -34,7 +34,7 @@ class SalesDocumentForm(ModelForm):
 
     class Meta:
         model = SalesDocument
-        fields = '__all__'
+        exclude = ('operator',)
 
 
 class SoldProductsForm(ModelForm, DecimalFieldsValidationMixin):
