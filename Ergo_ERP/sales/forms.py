@@ -39,7 +39,8 @@ class SalesDocumentForm(ModelForm):
 
 class SoldProductsForm(ModelForm, DecimalFieldsValidationMixin):
     product_exp_date = forms.DateField(
-        input_formats=['%d.%m.%Y']
+        input_formats=['%d.%m.%Y'],
+        required=False
     )
 
     class Meta:

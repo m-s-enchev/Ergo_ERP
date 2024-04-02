@@ -14,8 +14,8 @@ class SalesDocument(models.Model):
     ]
     date = models.DateField()
     time = models.TimeField(auto_now_add=True)
-    operator = models.CharField(max_length=100, null=True, blank=True)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True)
+    operator = models.CharField(max_length=100)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
     buyer_name = models.CharField(max_length=100, verbose_name='Client')
     sale_total_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Subtotal')
     sale_total_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='VAT')
@@ -27,7 +27,7 @@ class SalesDocument(models.Model):
 class SoldProductsBaseModel(models.Model):
     product_name = models.CharField(max_length=200, verbose_name='Name')
     product_quantity = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Qty')
-    product_unit = models.CharField(max_length=10, verbose_name='Unit', null=True, blank=True)
+    product_unit = models.CharField(max_length=10, verbose_name='Unit')
     product_price_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price before VAT')
     product_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price')
     product_discount = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Discount', null=True, blank=True)
