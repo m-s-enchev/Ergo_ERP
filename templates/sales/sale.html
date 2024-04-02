@@ -92,6 +92,9 @@
                             {% if user_settings.show_lot_and_exp_columns %}
                                 <th class="lot">{% translate 'LOT' %}</th>
                                 <th class="exp-date">{% translate 'Exp. date' %}</th>
+                            {% else %}
+                                <th class="lot" style="display: none">{% translate 'LOT' %}</th>
+                                <th class="exp-date" style="display: none">{% translate 'Exp. date' %}</th>
                             {% endif %}
                             <th class="price-before-tax">{% translate 'Price before TAX' %}</th>
                             <th class="price-with-tax">{% translate 'Price' %}</th>
@@ -116,6 +119,9 @@
                                     {% if user_settings.show_lot_and_exp_columns %}
                                         <td class="lot">{{ form.product_lot_number }}</td>
                                         <td class="exp-date">{{ form.product_exp_date }}</td>
+                                    {% else %}
+                                        <td class="lot" style="display: none">{{ form.product_lot_number }}</td>
+                                        <td class="exp-date" style="display: none">{{ form.product_exp_date }}</td>
                                     {% endif %}
                                     <td class="price-before-tax">
                                         {{ form.product_price_before_tax.errors}}

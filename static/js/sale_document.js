@@ -56,8 +56,8 @@ function multicolumnDropdown(selector) {
     }).autocomplete("instance")._renderItem = function(ul, item) {
         let details = productNamesDict[item.value];
         let label;
-        const lotColumn = document.getElementById('id_sold_products-0-product_lot_number')
-        if (lotColumn) {
+        const lotColumn = document.querySelector('th.lot')
+        if (lotColumn.style.display !== 'none') {
             label = `<div>
                         <span>${item.value}</span>
                         <span>${details[0]}</span>
