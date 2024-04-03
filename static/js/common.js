@@ -59,30 +59,28 @@ function tableColumnShow (table, ...columnClassNames) {
 
 
 /** Fetches the price and unit of selected product */
-function getProductPrice(startIndex, endIndex, formsetPrefix, priceNoVatSuffix, priceWithVatSuffix, priceType) {
-    for (let index = startIndex; index <= endIndex; index++) {
-        const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
-        const priceNoVatInput = document.getElementById(`${formsetPrefix}-${index}-${priceNoVatSuffix}`);
-        const priceWithVatInput = document.getElementById(`${formsetPrefix}-${index}-${priceWithVatSuffix}`);
+function getProductPrice(index, formsetPrefix, priceNoVatSuffix, priceWithVatSuffix, priceType) {
+    const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
+    const priceNoVatInput = document.getElementById(`${formsetPrefix}-${index}-${priceNoVatSuffix}`);
+    const priceWithVatInput = document.getElementById(`${formsetPrefix}-${index}-${priceWithVatSuffix}`);
 
-        nameInput.addEventListener('change', function () {
-            const productName = this.value;
-            fetch(`/common/get-product-price/?product_name=${encodeURIComponent(productName)}&price_type=${priceType}`)
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error('Network response was not ok.');
-                })
-                .then(data => {
-                    priceNoVatInput.value = data.product_price;
-                    rowTotal(index, formsetPrefix, priceNoVatSuffix, 'product_total_before_tax');
-                    priceWithVatInput.value = ((data.product_vat * 0.01 + 1) * data.product_price).toFixed(2)
-                    rowTotal(index, formsetPrefix, priceWithVatSuffix, 'product_total');
-                })
-                .catch(error => console.error('There has been a problem with your fetch operation:', error));
-        });
-    }
+    nameInput.addEventListener('change', function() {
+        const productName = this.value;
+        fetch(`/common/get-product-price/?product_name=${encodeURIComponent(productName)}&price_type=${priceType}`)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                priceNoVatInput.value = data.product_price;
+                rowTotal(index, formsetPrefix, priceNoVatSuffix, 'product_total_before_tax');
+                priceWithVatInput.value = ((data.product_vat*0.01+1)*data.product_price).toFixed(2)
+                rowTotal(index, formsetPrefix, priceWithVatSuffix, 'product_total');
+            })
+            .catch(error => console.error('There has been a problem with your fetch operation:', error));
+    });
 }
 
 
@@ -133,8 +131,7 @@ function scrollToBottom(wrapperId) {
     }
 
 
-function fetchProductsByDepartment(department) {
-    let departmentId = document.getElementById('id_department').value;
+function fetchProductsByDepartment(departmentId) {
     if (departmentId) {
         let url = `/common/products-dropdown-update/?department_id=${departmentId}`;
         return fetch(url) // Notice the return here
@@ -152,13 +149,15 @@ function fetchProductsByDepartment(department) {
 
 function updateProductsDropdown() {
     const departmentField = document.getElementById('id_department');
-    const department = departmentField.value;
-    fetchProductsByDepartment(department).then(() => {
-            multicolumnDropdown("-product_name");
-        });
+    const productForms = document.querySelectorAll(".product-form");
     departmentField.addEventListener('change', function () {
-        fetchProductsByDepartment(departmentField.value).then(() => {
-            multicolumnDropdown("-product_name");
+        let departmentId = departmentField.value
+        let numberOfRows = productForms.length;
+        fetchProductsByDepartment(departmentId).then(() => {
+            for (let index = 0; index < numberOfRows; index++) {
+                console.log(index)
+                multicolumnDropdown(`#id_sold_products-${index}-product_name`);
+            }
         });
     });
 }

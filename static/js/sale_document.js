@@ -7,12 +7,10 @@ document.addEventListener('DOMContentLoaded', function () {
     setupInvoiceToggle();
     setupEnterKeyBehavior();
     disableArrowKeys();
-    updateProductsDropdown();
-    getProductPrice(0,(document.querySelectorAll(".product-form").length-1),"id_sold_products", "product_price_before_tax","product_price", "product_retail_price");
-    updateRowTotal(0,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
-    updateRowTotal(0,"id_sold_products", "product_price", "product_total");
+    initialProductRowFunctions();
     getClientNames();
     toggleQuickSelect();
+    updateProductsDropdown();
 });
 
 
@@ -28,57 +26,56 @@ function getElementsWidth(selectors) {
 
 /** A multicolumn dropdown menu that displays choice of products, their lot and exp. date
  * and available quantity in inventory. After selection name, lot and exp. date fields get filled */
-function multicolumnDropdown(idSuffix) {
+function multicolumnDropdown(selector) {
     let productNames = Object.keys(productNamesDict);
-       $(`[id*="${idSuffix}"]`).each(function() {
-            $(this).autocomplete({
-            source: productNames,
-            select: function(event, ui) {
-                let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
-                let details = productNamesDict[ui.item.value];
-                $(`#${idPrefix}product_unit`).val(details[1]);
-                $(`#${idPrefix}product_lot_number`).val(details[2]);
-                $(`#${idPrefix}product_exp_date`).val(details[3]);
-                return false;
-            },
-            open: function() {
-            let dropdownWidth = 1.02*getElementsWidth([
-                '#id_sold_products-0-product_name',
-                '#id_sold_products-0-product_quantity',
-                '#id_sold_products-0-product_unit',
-                '#id_sold_products-0-product_lot_number',
-                '#id_sold_products-0-product_exp_date'
-            ]);
-            $(this).autocomplete("widget").css({
-                "width": dropdownWidth + "px"
-            });
-            }
+    $(selector).autocomplete({
+        source: productNames,
+        select: function(event, ui) {
+            let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
+            let details = productNamesDict[ui.item.value];
+            $(`#${idPrefix}product_unit`).val(details[1]);
+            $(`#${idPrefix}product_lot_number`).val(details[2]);
+            $(`#${idPrefix}product_exp_date`).val(details[3]);
+            return false;
+        },
+        open: function() {
+        let dropdownWidth = 1.02*getElementsWidth([
+            '#id_sold_products-0-product_name',
+            '#id_sold_products-0-product_quantity',
+            '#id_sold_products-0-product_unit',
+            '#id_sold_products-0-product_lot_number',
+            '#id_sold_products-0-product_exp_date'
+        ]);
+        $(this).autocomplete("widget").css({
+            "width": dropdownWidth + "px"
+        });
+        }
 
-        }).autocomplete("instance")._renderItem = function(ul, item) {
-            let details = productNamesDict[item.value];
-            let label;
-            const lotColumn = document.querySelector('th.lot')
-            if (lotColumn.style.display !== 'none') {
-                label = `<div>
-                            <span>${item.value}</span>
-                            <span>${details[0]}</span>
-                            <span>${details[1]}</span>
-                            <span>${details[2]}</span>
-                            <span>${details[3]}</span>
-                        </div>`;
-            } else {
-                label = `<div>
-                            <span>${item.value}</span>
-                            <span>${details[0]}</span>
-                            <span>${details[1]}</span>
-                        </div>`;
-            }
-            return $("<li>")
-                .append(`${label}`)
-                .appendTo(ul);
-        };
-    });
+    }).autocomplete("instance")._renderItem = function(ul, item) {
+        let details = productNamesDict[item.value];
+        let label;
+        const lotColumn = document.querySelector('th.lot')
+        if (lotColumn.style.display !== 'none') {
+            label = `<div>
+                        <span>${item.value}</span>
+                        <span>${details[0]}</span>
+                        <span>${details[1]}</span>
+                        <span>${details[2]}</span>
+                        <span>${details[3]}</span>
+                    </div>`;
+        } else {
+            label = `<div>
+                        <span>${item.value}</span>
+                        <span>${details[0]}</span>
+                        <span>${details[1]}</span>
+                    </div>`;
+        }
+        return $("<li>")
+            .append(`${label}`)
+            .appendTo(ul);
+    };
 }
+
 
 /** Handles the adding of a new products row in table, which is a SoldProductsForm instance.
  * If the product_name field of the last row is filled and focus is shifted to another field,
@@ -116,8 +113,8 @@ class ProductFormManager {
         lastNameField.addEventListener('blur', (e) => {
             if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
                 this.addForm();
-                multicolumnDropdown(`id_sold_products-${this.formNum - 1}-product_name`);
-                getProductPrice(this.formNum - 1,this.formNum - 1, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
+                multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
+                getProductPrice(this.formNum - 1, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total");
                 scrollToBottom('sales-wrapper');
@@ -177,7 +174,6 @@ function disableArrowKeys () {
 }
 
 
-
 /** Adds or removes from the html the fields necessary for an invoice,
  * depending on whether an invoice will be issued */
 function setupInvoiceToggle() {
@@ -213,7 +209,8 @@ function setupInvoiceToggle() {
     invoiceCheckbox.addEventListener('change', () =>{ toggleAllFields()});
 }
 
-
+/** Uses jquery autiselect to create a dropdown menu for 'Clients' field.
+ * Populates it with instances of Clients model */
 function getClientNames (){
     $(document).ready(function() {
     $("#id_buyer_name").autocomplete({
@@ -231,8 +228,21 @@ function toggleQuickSelect () {
     }
 }
 
-
-
+/** Goes through all the rows of the product table on initial load or reload after validation errors
+ * and runs functions corresponding to fields. */
+function initialProductRowFunctions () {
+    let departmentId = document.getElementById('id_department').value;
+    const productForms = document.querySelectorAll(".product-form");
+    let numberOfRows = productForms.length;
+    fetchProductsByDepartment(departmentId).then(() => {
+        for (let index = 0; index < numberOfRows; index++) {
+            multicolumnDropdown(`#id_sold_products-${index}-product_name`);
+            getProductPrice(index, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
+            updateRowTotal(index, "id_sold_products", "product_price_before_tax", "product_total_before_tax");
+            updateRowTotal(index, "id_sold_products", "product_price", "product_total");
+        }
+    });
+}
 
 
 
