@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEnterKeyBehavior();
     disableArrowKeys();
     updateProductsDropdown();
-    getProductPrice(0,"id_sold_products", "product_price_before_tax","product_price", "product_retail_price");
+    getProductPrice(0,(document.querySelectorAll(".product-form").length-1),"id_sold_products", "product_price_before_tax","product_price", "product_retail_price");
     updateRowTotal(0,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
     updateRowTotal(0,"id_sold_products", "product_price", "product_total");
     getClientNames();
-    toggleQuickSelect ()
+    toggleQuickSelect();
 });
 
 
@@ -28,56 +28,57 @@ function getElementsWidth(selectors) {
 
 /** A multicolumn dropdown menu that displays choice of products, their lot and exp. date
  * and available quantity in inventory. After selection name, lot and exp. date fields get filled */
-function multicolumnDropdown(selector) {
+function multicolumnDropdown(idSuffix) {
     let productNames = Object.keys(productNamesDict);
-    $(selector).autocomplete({
-        source: productNames,
-        select: function(event, ui) {
-            let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
-            let details = productNamesDict[ui.item.value];
-            $(`#${idPrefix}product_unit`).val(details[1]);
-            $(`#${idPrefix}product_lot_number`).val(details[2]);
-            $(`#${idPrefix}product_exp_date`).val(details[3]);
-            return false;
-        },
-        open: function() {
-        let dropdownWidth = 1.02*getElementsWidth([
-            '#id_sold_products-0-product_name',
-            '#id_sold_products-0-product_quantity',
-            '#id_sold_products-0-product_unit',
-            '#id_sold_products-0-product_lot_number',
-            '#id_sold_products-0-product_exp_date'
-        ]);
-        $(this).autocomplete("widget").css({
-            "width": dropdownWidth + "px"
-        });
-        }
+       $(`[id*="${idSuffix}"]`).each(function() {
+            $(this).autocomplete({
+            source: productNames,
+            select: function(event, ui) {
+                let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
+                let details = productNamesDict[ui.item.value];
+                $(`#${idPrefix}product_unit`).val(details[1]);
+                $(`#${idPrefix}product_lot_number`).val(details[2]);
+                $(`#${idPrefix}product_exp_date`).val(details[3]);
+                return false;
+            },
+            open: function() {
+            let dropdownWidth = 1.02*getElementsWidth([
+                '#id_sold_products-0-product_name',
+                '#id_sold_products-0-product_quantity',
+                '#id_sold_products-0-product_unit',
+                '#id_sold_products-0-product_lot_number',
+                '#id_sold_products-0-product_exp_date'
+            ]);
+            $(this).autocomplete("widget").css({
+                "width": dropdownWidth + "px"
+            });
+            }
 
-    }).autocomplete("instance")._renderItem = function(ul, item) {
-        let details = productNamesDict[item.value];
-        let label;
-        const lotColumn = document.querySelector('th.lot')
-        if (lotColumn.style.display !== 'none') {
-            label = `<div>
-                        <span>${item.value}</span>
-                        <span>${details[0]}</span>
-                        <span>${details[1]}</span>
-                        <span>${details[2]}</span>
-                        <span>${details[3]}</span>
-                    </div>`;
-        } else {
-            label = `<div>
-                        <span>${item.value}</span>
-                        <span>${details[0]}</span>
-                        <span>${details[1]}</span>
-                    </div>`;
-        }
-        return $("<li>")
-            .append(`${label}`)
-            .appendTo(ul);
-    };
+        }).autocomplete("instance")._renderItem = function(ul, item) {
+            let details = productNamesDict[item.value];
+            let label;
+            const lotColumn = document.querySelector('th.lot')
+            if (lotColumn.style.display !== 'none') {
+                label = `<div>
+                            <span>${item.value}</span>
+                            <span>${details[0]}</span>
+                            <span>${details[1]}</span>
+                            <span>${details[2]}</span>
+                            <span>${details[3]}</span>
+                        </div>`;
+            } else {
+                label = `<div>
+                            <span>${item.value}</span>
+                            <span>${details[0]}</span>
+                            <span>${details[1]}</span>
+                        </div>`;
+            }
+            return $("<li>")
+                .append(`${label}`)
+                .appendTo(ul);
+        };
+    });
 }
-
 
 /** Handles the adding of a new products row in table, which is a SoldProductsForm instance.
  * If the product_name field of the last row is filled and focus is shifted to another field,
@@ -105,18 +106,18 @@ class ProductFormManager {
         }
 
     attachBlurEventToLastField() {
-        let lastFirstField = document.getElementById(`id_sold_products-${this.formNum - 1}-product_name`);
+        let lastNameField = document.getElementById(`id_sold_products-${this.formNum - 1}-product_name`);
         let needsRowAfter = true;
-        lastFirstField.addEventListener('focus',  (e) => {
+        lastNameField.addEventListener('focus',  (e) => {
             if (e.target.value) {
                 needsRowAfter = false;
             }
         });
-        lastFirstField.addEventListener('blur', (e) => {
-            if (e.target.value && e.target === lastFirstField && needsRowAfter === true) {
+        lastNameField.addEventListener('blur', (e) => {
+            if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
                 this.addForm();
-                multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
-                getProductPrice(this.formNum - 1, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
+                multicolumnDropdown(`id_sold_products-${this.formNum - 1}-product_name`);
+                getProductPrice(this.formNum - 1,this.formNum - 1, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total");
                 scrollToBottom('sales-wrapper');
