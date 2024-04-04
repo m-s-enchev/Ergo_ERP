@@ -96,6 +96,12 @@ class ProductFormManager {
             let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
             newForm.innerHTML = newForm.innerHTML.replace(formRegex, `sold_products-${this.formNum}-`);
             newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex, `<td class="numerator">${this.formNum + 1}</td>`);
+            let inputs = newForm.querySelectorAll('input');
+            inputs.forEach(input => {
+                if (input.type === 'text' || input.type === 'number') {
+                    input.value = '';
+                }
+            });
             this.container.appendChild(newForm);
             this.totalForms.setAttribute('value', `${this.formNum + 1}`);
             this.formNum++;
