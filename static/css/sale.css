@@ -142,6 +142,9 @@
     font-size: calc(10px + 0.4vw);
 }
 
+#sales-wrapper .product-form td {
+    vertical-align: bottom;
+}
 
 #sales-wrapper .product-form .numerator {
     width: 3%;

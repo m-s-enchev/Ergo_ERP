@@ -51,6 +51,11 @@ class SoldProductsForm(ModelForm, DecimalFieldsValidationMixin):
         data = self.cleaned_data['product_exp_date']
         return data
 
+    def __init__(self, *args, **kwargs):
+        super(SoldProductsForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.error_messages = {'required': 'Required'}
+
 
 class InvoicedProductsForm(ModelForm):
     class Meta:
