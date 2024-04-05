@@ -96,6 +96,12 @@ class ProductFormManager {
             let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
             newForm.innerHTML = newForm.innerHTML.replace(formRegex, `sold_products-${this.formNum}-`);
             newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex, `<td class="numerator">${this.formNum + 1}</td>`);
+            // Remove error messages from copied form
+            let ulElements = newForm.querySelectorAll('ul');
+            ulElements.forEach(function(ul) {
+                ul.parentNode.removeChild(ul);
+            });
+            // Remove values from fields in copied form
             let inputs = newForm.querySelectorAll('input');
             inputs.forEach(input => {
                 if (input.type === 'text' || input.type === 'number') {
@@ -215,16 +221,20 @@ function setupInvoiceToggle() {
     invoiceCheckbox.addEventListener('change', () =>{ toggleAllFields()});
 }
 
-/** Uses jquery autiselect to create a dropdown menu for 'Clients' field.
+/** Uses jquery autoselect to create a dropdown menu for 'Clients' field.
  * Populates it with instances of Clients model */
 function getClientNames (){
     $(document).ready(function() {
-    $("#id_buyer_name").autocomplete({
-        source: "/common/get-client-names/",
-        minLength: 2,
+        $("#id_buyer_name").autocomplete({
+            source: "/common/get-client-names/",
+            minLength: 2,
+        });
     });
-});
 }
+
+
+
+
 
 function toggleQuickSelect () {
     const quickSelectSection = document.getElementById('quick-product-select');
