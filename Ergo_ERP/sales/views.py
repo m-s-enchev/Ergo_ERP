@@ -113,10 +113,10 @@ def check_inventory(sales_document_form, sold_products_formset):
         if matching_inventory.exists():
             matching_instance = matching_inventory.first()
             if matching_instance.product_quantity < product_quantity:
-                form.add_error('product_quantity', "Insufficient quantity")
+                form.add_error('product_quantity', "Insufficient quantity !")
                 all_valid = False
         else:
-            form.add_error('product_name', "No such product")
+            form.add_error('product_name', "No such product or lot !")
             all_valid = False
         return all_valid
 

@@ -2,6 +2,7 @@
 from django.db import models, transaction
 from django.db.models import Max
 
+from Ergo_ERP.clients.models import Clients
 from Ergo_ERP.inventory.models import Department
 
 

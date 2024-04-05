@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from Ergo_ERP.clients.models import Clients
-from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.products.models import ProductsModel
 from Ergo_ERP.sales.views import products_dict_dropdown
 from Ergo_ERP.user_settings.models import UserSettings
@@ -38,13 +37,12 @@ from Ergo_ERP.user_settings.models import UserSettings
 
 
 def homepage_view(request):
-
-    user_settings = get_object_or_404(UserSettings, user=request.user)
-    context = {
-        'user_settings': user_settings,
-        'template_verbose_name': 'Main menu'
-    }
     if request.user.is_authenticated:
+        user_settings = get_object_or_404(UserSettings, user=request.user)
+        context = {
+            'user_settings': user_settings,
+            'template_verbose_name': 'Main menu'
+        }
         return render(request, 'homepage.html', context=context)
     else:
         return redirect(reverse('user-login'))
@@ -78,9 +76,14 @@ def products_dropdown_update(request):
 
 
 def get_client_names(request):
-    term = request.GET.get('term')  # jQuery UI sends the term as 'term'
+    term = request.GET.get('term')
     client_names = Clients.objects.filter(client_names__icontains=term).values_list('client_names', flat=True)
     client_names_list = list(client_names)
     return JsonResponse(client_names_list, safe=False)
 
 
+# def get_client_names(request):
+#     term = request.GET.get('term', '')
+#     client = Clients.objects.filter(client_names__icontains=term).values('id', 'client_names')
+#     client_list = list(client)
+#     return JsonResponse(client_list, safe=False)
