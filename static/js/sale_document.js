@@ -56,7 +56,7 @@ function multicolumnDropdown(selector) {
         let label;
         const lotColumn = document.querySelector('th.lot')
         if (lotColumn.style.display !== 'none') {
-            label = `<div>
+            label = `<div class="products-dropdown">
                         <span>${item.value}</span>
                         <span>${details[0]}</span>
                         <span>${details[1]}</span>
@@ -64,7 +64,7 @@ function multicolumnDropdown(selector) {
                         <span>${details[3]}</span>
                     </div>`;
         } else {
-            label = `<div>
+            label = `<div class="products-dropdown">
                         <span>${item.value}</span>
                         <span>${details[0]}</span>
                         <span>${details[1]}</span>
@@ -235,7 +235,6 @@ function setupInvoiceToggle() {
 
 
 
-
 function getClientNames() {
     $(document).ready(function() {
         $("#id_buyer_name").autocomplete({
@@ -247,43 +246,38 @@ function getClientNames() {
                     success: function(data) {
                         response($.map(data, function(item) {
                             return {
-                                label: item.client_names + " - " + item.client_phone_number + " - " + item.client_email + " - " + item.client_identification_number,
-                                value: item.client_names, // This is what will be shown in the input box after selection
+                                value: item.client_names,
                                 client_phone_number: item.client_phone_number,
                                 client_email: item.client_email,
-                                client_identification_number: item.client_identification_number
+                                client_identification_number: item.client_identification_number,
+                                client_address: item.client_address,
+                                client_accountable_person: item.client_accountable_person,
                             };
                         }));
                     }
                 });
             },
             minLength: 2,
+            position: { my : "right top", at: "right bottom" },
             select: function(event, ui) {
-                $('#id_client_phone_number').val(ui.item.client_phone_number);
+                $('#id_buyer_identification_number').val(ui.item.client_identification_number);
+                $('#id_buyer_address').val(ui.item.client_address);
                 $('#id_client_email').val(ui.item.client_email);
-                $('#id_client_identification_number').val(ui.item.client_identification_number);
-                // Assuming you have input fields for these IDs
+                $('#id_buyer_accountable_person').val(ui.item.client_accountable_person);
             }
         })
         .autocomplete("instance")._renderItem = function(ul, item) {
             return $("<li>")
-                .append(`<div>
-                            <span>${item.label}</span> 
+                .append(`<div class="clients-dropdown">
+                            <span>${item.value}</span>
+                            <span>${item.client_phone_number}</span> 
+                            <span>${item.client_email}</span>
+                            <span>${item.client_identification_number}</span>
                          </div>`)
                 .appendTo(ul);
         };
     });
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

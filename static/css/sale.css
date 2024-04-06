@@ -211,11 +211,11 @@
 
  /* format the dropdown menu when selecting a product */
 
-.ui-menu-item-wrapper {
+.products-dropdown.ui-menu-item-wrapper {
     display: flex;
     flex-wrap: nowrap;
 }
-.ui-menu-item-wrapper span {
+.products-dropdown.ui-menu-item-wrapper span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -223,25 +223,26 @@
     padding: 3px;
 }
 
-.ui-menu-item-wrapper span:nth-child(1) {
+.products-dropdown.ui-menu-item-wrapper span:nth-child(1) {
     flex: 5 0 58%;
 }
 
-.ui-menu-item-wrapper span:nth-child(2) {
+.products-dropdown.ui-menu-item-wrapper span:nth-child(2) {
     text-align: center;
     flex: 1 0 5%;
 }
 
-.ui-menu-item-wrapper span:nth-child(3) {
+.products-dropdown.ui-menu-item-wrapper span:nth-child(3) {
     text-align: center;
     flex: 1 0 9%;
 }
 
-.ui-menu-item-wrapper span:nth-child(4),
-.ui-menu-item-wrapper span:nth-child(5) {
+.products-dropdown.ui-menu-item-wrapper span:nth-child(4),
+.products-dropdown.ui-menu-item-wrapper span:nth-child(5) {
     text-align: center;
     flex: 2 0 14%;
 }
+
 
 #rotate-screen-prompt {
     display: none;
