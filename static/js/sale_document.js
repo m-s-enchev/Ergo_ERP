@@ -223,14 +223,65 @@ function setupInvoiceToggle() {
 
 /** Uses jquery autoselect to create a dropdown menu for 'Clients' field.
  * Populates it with instances of Clients model */
-function getClientNames (){
+// function getClientNames (){
+//     $(document).ready(function() {
+//         $("#id_buyer_name").autocomplete({
+//             source: "/common/get-client-names/",
+//             minLength: 2,
+//         });
+//     });
+// }
+
+
+
+
+
+function getClientNames() {
     $(document).ready(function() {
         $("#id_buyer_name").autocomplete({
-            source: "/common/get-client-names/",
+            source: function(request, response) {
+                $.ajax({
+                    url: "/common/get-client-names/",
+                    data: { term: request.term },
+                    dataType: "json",
+                    success: function(data) {
+                        response($.map(data, function(item) {
+                            return {
+                                label: item.client_names + " - " + item.client_phone_number + " - " + item.client_email + " - " + item.client_identification_number,
+                                value: item.client_names, // This is what will be shown in the input box after selection
+                                client_phone_number: item.client_phone_number,
+                                client_email: item.client_email,
+                                client_identification_number: item.client_identification_number
+                            };
+                        }));
+                    }
+                });
+            },
             minLength: 2,
-        });
+            select: function(event, ui) {
+                $('#id_client_phone_number').val(ui.item.client_phone_number);
+                $('#id_client_email').val(ui.item.client_email);
+                $('#id_client_identification_number').val(ui.item.client_identification_number);
+                // Assuming you have input fields for these IDs
+            }
+        })
+        .autocomplete("instance")._renderItem = function(ul, item) {
+            return $("<li>")
+                .append(`<div>
+                            <span>${item.label}</span> 
+                         </div>`)
+                .appendTo(ul);
+        };
     });
 }
+
+
+
+
+
+
+
+
 
 
 

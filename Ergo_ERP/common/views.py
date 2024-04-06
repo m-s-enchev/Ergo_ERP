@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -75,15 +76,27 @@ def products_dropdown_update(request):
         return JsonResponse({'error': 'Department not provided'}, status=400)
 
 
-def get_client_names(request):
-    term = request.GET.get('term')
-    client_names = Clients.objects.filter(client_names__icontains=term).values_list('client_names', flat=True)
-    client_names_list = list(client_names)
-    return JsonResponse(client_names_list, safe=False)
-
-
 # def get_client_names(request):
-#     term = request.GET.get('term', '')
-#     client = Clients.objects.filter(client_names__icontains=term).values('id', 'client_names')
-#     client_list = list(client)
-#     return JsonResponse(client_list, safe=False)
+#     term = request.GET.get('term')
+#     client_names = Clients.objects.filter(client_names__icontains=term).values_list('client_names', flat=True)
+#     client_names_list = list(client_names)
+#     return JsonResponse(client_names_list, safe=False)
+
+
+def get_client_names(request):
+    term = request.GET.get('term', '')
+    clients = Clients.objects.filter(
+        Q(client_names__icontains=term) |
+        Q(client_phone_number__icontains=term) |
+        Q(client_email__icontains=term) |
+        Q(client_identification_number__icontains=term)
+    ).values(
+        'client_names',
+        'client_phone_number',
+        'client_email',
+        'client_identification_number',
+        'client_address',
+        'client_accountable_person'
+    )
+    clients_list = list(clients)
+    return JsonResponse(clients_list, safe=False)
