@@ -99,4 +99,8 @@ def get_client_names(request):
         'client_accountable_person'
     )
     clients_list = list(clients)
+    for client in clients_list:
+        for key, value in client.items():
+            if value is None:
+                client[key] = ""
     return JsonResponse(clients_list, safe=False)
