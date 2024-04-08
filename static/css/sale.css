@@ -243,6 +243,38 @@
     flex: 2 0 14%;
 }
 
+.clients-dropdown.ui-menu-item-wrapper{
+    min-width: 60vw;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.clients-dropdown.ui-menu-item-wrapper span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    padding: 3px;
+}
+
+.clients-dropdown.ui-menu-item-wrapper span:nth-child(1) {
+    flex: 1 0 35%;
+}
+
+.clients-dropdown.ui-menu-item-wrapper span:nth-child(2) {
+    flex: 1 0 20%;
+}
+
+.clients-dropdown.ui-menu-item-wrapper span:nth-child(3) {
+    flex: 1 0 25%;
+}
+
+.clients-dropdown.ui-menu-item-wrapper span:nth-child(4) {
+    flex: 1 0 20%;
+}
+
+
+
 
 #rotate-screen-prompt {
     display: none;
