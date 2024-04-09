@@ -221,20 +221,9 @@ function setupInvoiceToggle() {
     invoiceCheckbox.addEventListener('change', () =>{ toggleAllFields()});
 }
 
+
 /** Uses jquery autoselect to create a dropdown menu for 'Clients' field.
  * Populates it with instances of Clients model */
-// function getClientNames (){
-//     $(document).ready(function() {
-//         $("#id_buyer_name").autocomplete({
-//             source: "/common/get-client-names/",
-//             minLength: 2,
-//         });
-//     });
-// }
-
-
-
-
 function getClientNames() {
     $(document).ready(function() {
         $("#id_buyer_name").autocomplete({
