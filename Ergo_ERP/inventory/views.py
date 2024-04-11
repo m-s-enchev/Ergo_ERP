@@ -105,4 +105,4 @@ def receiving_document_create(request):
         'products_dropdown': products_dropdown,
         'template_verbose_name': 'Receiving',
     }
-    return render(request, 'inventory/receive-goods.html', context)
+    return render(request, 'inventory/warehouse_receiving.html', context)
