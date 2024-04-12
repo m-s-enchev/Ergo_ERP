@@ -133,7 +133,7 @@ function scrollToBottom(wrapperId) {
 
 function fetchProductsByDepartment(departmentId) {
     if (departmentId) {
-        let url = `/common/products-dropdown-update/?department_id=${departmentId}`;
+        let url = `/common/get-products-by-department/?department_id=${departmentId}`;
         return fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -145,6 +145,19 @@ function fetchProductsByDepartment(departmentId) {
         return Promise.resolve(null);
     }
 }
+
+
+function fetchProductsAll() {
+    let url = `/common/get-products-all/`;
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            productNamesDict = data;
+            return productNamesDict;
+        })
+        .catch(error => console.error('Error fetching products:', error));
+}
+
 
 
 function updateProductsDropdown() {

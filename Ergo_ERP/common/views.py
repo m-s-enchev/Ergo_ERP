@@ -39,13 +39,18 @@ def get_product_price(request):
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
-def products_dropdown_update(request):
+def get_products_by_department(request):
     department_id = request.GET.get('department_id')
     if department_id:
         products_dropdown = products_dict_dropdown(department_id)
         return JsonResponse(products_dropdown, safe=False)
     else:
         return JsonResponse({'error': 'Department not provided'}, status=400)
+
+
+def get_products_all(request):
+    products_dropdown = products_dict_dropdown()
+    return JsonResponse(products_dropdown, safe=False)
 
 
 def get_client_names(request):
