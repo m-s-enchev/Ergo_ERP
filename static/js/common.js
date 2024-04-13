@@ -83,6 +83,26 @@ function getProductPrice(index, formsetPrefix, priceNoVatSuffix, priceWithVatSuf
     });
 }
 
+function get_purchase_price(index, formsetPrefix, priceSuffix){
+    const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
+    const priceInput = document.getElementById(`${formsetPrefix}-${index}-${priceSuffix}`);
+    nameInput.addEventListener('change', function() {
+        const productName = this.value;
+        fetch(`/common/get-purchase-price/?product_name=${encodeURIComponent(productName)}`)
+            .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+            .then(data => {
+                priceInput.value = data.purchase_price;
+                rowTotal(index, formsetPrefix, priceSuffix, 'product_value');
+            })
+            .catch(error => console.error('There has been a problem with your fetch operation:', error));
+    });
+}
+
 
 /** Calculates quantity*price*discount for every row */
 function rowTotal(index, formsetPrefix, priceFieldSuffix, totalFieldSuffix) {
