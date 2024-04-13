@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from Ergo_ERP.clients.models import Clients
+from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.products.models import ProductsModel
 from Ergo_ERP.sales.views import products_dict_dropdown
 from Ergo_ERP.user_settings.models import UserSettings
@@ -31,6 +32,21 @@ def get_product_price(request):
             return JsonResponse({
                 'product_price': getattr(product, price_type, None),
                 'product_vat': getattr(product, 'product_vat', None),
+                'product_unit': getattr(product, 'product_unit', None)
+            })
+        else:
+            return JsonResponse({'product_price': None, 'product_vat': None})
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+def get_purchase_price(request):
+    product_name = request.GET.get('product_name', None)
+    if product_name:
+        product = Inventory.objects.filter(product_name=product_name).first()
+        if product:
+            return JsonResponse({
+                'product_purchase_price': getattr(product, 'product_purchase_price', None),
                 'product_unit': getattr(product, 'product_unit', None)
             })
         else:
