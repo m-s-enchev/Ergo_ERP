@@ -167,20 +167,19 @@ function fetchProductsByDepartment(departmentId) {
 }
 
 
+
 function fetchProductsAll() {
     let url = `/common/get-products-all/`;
     return fetch(url)
         .then(response => response.json())
         .then(data => {
-            productNamesDict = data;
-            return productNamesDict;
+            productNamesDictAll = data;
+            return productNamesDictAll;
         })
         .catch(error => console.error('Error fetching products:', error));
 }
 
-
-
-function updateProductsDropdown() {
+function updateProductsDropdown(productsDict) {
     const departmentField = document.getElementById('id_department');
     const productForms = document.querySelectorAll(".product-form");
     departmentField.addEventListener('change', function () {
@@ -189,7 +188,7 @@ function updateProductsDropdown() {
         fetchProductsByDepartment(departmentId).then(() => {
             for (let index = 0; index < numberOfRows; index++) {
                 console.log(index)
-                multicolumnDropdown(`#id_sold_products-${index}-product_name`);
+                multicolumnDropdown(`#id_sold_products-${index}-product_name`, productsDict);
             }
         });
     });
@@ -220,3 +219,5 @@ function profileTooltip () {
         }
     });
 }
+
+

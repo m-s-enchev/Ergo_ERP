@@ -7,10 +7,10 @@ document.addEventListener('DOMContentLoaded', function () {
     setupInvoiceToggle();
     setupEnterKeyBehavior();
     disableArrowKeys();
-    initialProductRowFunctions();
+    initialSaleProductRowFunctions();
     getClientNames();
     toggleQuickSelect();
-    updateProductsDropdown();
+    updateProductsDropdown(productNamesDict);
 });
 
 
@@ -26,13 +26,13 @@ function getElementsWidth(selectors) {
 
 /** A multicolumn dropdown menu that displays choice of products, their lot and exp. date
  * and available quantity in inventory. After selection name, lot and exp. date fields get filled */
-function multicolumnDropdown(selector) {
-    let productNames = Object.keys(productNamesDict);
+function multicolumnDropdown(selector, productsDict) {
+    let productNames = Object.keys(productsDict);
     $(selector).autocomplete({
         source: productNames,
         select: function(event, ui) {
             let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
-            let details = productNamesDict[ui.item.value];
+            let details = productsDict[ui.item.value];
             $(`#${idPrefix}product_unit`).val(details[1]);
             $(`#${idPrefix}product_lot_number`).val(details[2]);
             $(`#${idPrefix}product_exp_date`).val(details[3]);
@@ -52,7 +52,7 @@ function multicolumnDropdown(selector) {
         }
 
     }).autocomplete("instance")._renderItem = function(ul, item) {
-        let details = productNamesDict[item.value];
+        let details = productsDict[item.value];
         let label;
         const lotColumn = document.querySelector('th.lot')
         if (lotColumn.style.display !== 'none') {
@@ -125,7 +125,7 @@ class ProductFormManager {
         lastNameField.addEventListener('blur', (e) => {
             if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
                 this.addForm();
-                multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
+                multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`, productNamesDict);
                 getProductPrice(this.formNum - 1, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total");
@@ -280,13 +280,13 @@ function toggleQuickSelect () {
 
 /** Goes through all the rows of the product table on initial load or reload after validation errors
  * and runs functions corresponding to fields. */
-function initialProductRowFunctions () {
+function initialSaleProductRowFunctions () {
     let departmentId = document.getElementById('id_department').value;
     const productForms = document.querySelectorAll(".product-form");
     let numberOfRows = productForms.length;
     fetchProductsByDepartment(departmentId).then(() => {
         for (let index = 0; index < numberOfRows; index++) {
-            multicolumnDropdown(`#id_sold_products-${index}-product_name`);
+            multicolumnDropdown(`#id_sold_products-${index}-product_name`, productNamesDict);
             getProductPrice(index, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
             updateRowTotal(index, "id_sold_products", "product_price_before_tax", "product_total_before_tax");
             updateRowTotal(index, "id_sold_products", "product_price", "product_total");
