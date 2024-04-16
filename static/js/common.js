@@ -220,3 +220,11 @@ function profileTooltip () {
 }
 
 
+function getElementsWidth(selectors) {
+    let totalWidth = 0;
+    selectors.forEach(function(selector) {
+        let width = $(selector).outerWidth(true) || 0;
+        totalWidth += width;
+    });
+    return totalWidth;
+}

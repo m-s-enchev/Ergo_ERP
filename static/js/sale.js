@@ -14,14 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-function getElementsWidth(selectors) {
-    let totalWidth = 0;
-    selectors.forEach(function(selector) {
-        let width = $(selector).outerWidth(true) || 0;
-        totalWidth += width;
-    });
-    return totalWidth;
-}
+
 
 
 /** A multicolumn dropdown menu that displays choice of products, their lot and exp. date
