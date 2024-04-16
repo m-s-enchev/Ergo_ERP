@@ -179,16 +179,15 @@ function fetchProductsAll() {
         .catch(error => console.error('Error fetching products:', error));
 }
 
-function updateProductsDropdown(productsDict) {
+function updateProductsDropdown() {
     const departmentField = document.getElementById('id_department');
-    const productForms = document.querySelectorAll(".product-form");
     departmentField.addEventListener('change', function () {
+        let productForms = document.querySelectorAll(".product-form");
         let departmentId = departmentField.value
         let numberOfRows = productForms.length;
         fetchProductsByDepartment(departmentId).then(() => {
             for (let index = 0; index < numberOfRows; index++) {
-                console.log(index)
-                multicolumnDropdown(`#id_sold_products-${index}-product_name`, productsDict);
+                multicolumnDropdown(`#id_sold_products-${index}-product_name`);
             }
         });
     });
