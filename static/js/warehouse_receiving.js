@@ -52,6 +52,32 @@ function initialReceiveProductRowFunctions () {
         }
     });
 }
+
+
+function receiveEnterKeyBehavior() {
+    const tableBodyContainer = document.querySelector("#transferred_products tbody");
+    tableBodyContainer.addEventListener('keydown', function (e) {
+        if (e.target.tagName === 'INPUT' && e.key === 'Enter') {
+            e.preventDefault();
+            const currentId = e.target.id;
+            const integerInId = currentId.match(/\d+/);
+            const currentRowIndex = parseInt(integerInId[0], 10);
+            if (currentId.includes('-product_name')) {
+                const nextInput = document.querySelector(`#id_sold_products-${currentRowIndex}-product_quantity`);
+                if (nextInput) nextInput.focus();
+            } else {
+                const productForms = document.querySelectorAll(".product-form");
+                const productFormsLength = productForms.length;
+                const nextInput = document.querySelector(`#id_sold_products-${productFormsLength-1}-product_name`);
+                if (nextInput) nextInput.focus();
+            }
+        }
+    });
+}
+
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
     initialReceiveProductRowFunctions();
 });

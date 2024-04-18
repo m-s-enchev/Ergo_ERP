@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const productFormManager = new ProductFormManager();
     productFormManager.attachBlurEventToLastField();
     setupInvoiceToggle();
-    setupEnterKeyBehavior();
+    saleEnterKeyBehavior();
     disableArrowKeys();
     initialSaleProductRowFunctions();
     getClientNames();
@@ -143,7 +143,7 @@ class ProductFormManager {
 /** Prevents the default behavior of "Enter" key and instead uses it to switch from product_name
  * to product_quantity and from there to the next row. The purpose is to make its use intuitive
  * for the user and speed up product entry.*/
-function setupEnterKeyBehavior() {
+function saleEnterKeyBehavior() {
     const tableBodyContainer = document.querySelector("#sold-products tbody");
     tableBodyContainer.addEventListener('keydown', function (e) {
         if (e.target.tagName === 'INPUT' && e.key === 'Enter') {
