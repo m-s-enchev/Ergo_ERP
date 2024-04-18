@@ -55,21 +55,20 @@ function initialReceiveProductRowFunctions () {
 
 
 function receiveEnterKeyBehavior() {
-    const tableBodyContainer = document.querySelector("#transferred_products tbody");
+    console.log('prevented')
+    const tableBodyContainer = document.querySelector("#received-products tbody");
     tableBodyContainer.addEventListener('keydown', function (e) {
         if (e.target.tagName === 'INPUT' && e.key === 'Enter') {
             e.preventDefault();
-            const currentId = e.target.id;
-            const integerInId = currentId.match(/\d+/);
-            const currentRowIndex = parseInt(integerInId[0], 10);
-            if (currentId.includes('-product_name')) {
-                const nextInput = document.querySelector(`#id_sold_products-${currentRowIndex}-product_quantity`);
-                if (nextInput) nextInput.focus();
+
+            const inputs = Array.from(tableBodyContainer.querySelectorAll('input'));
+            const currentIndex = inputs.indexOf(e.target);
+            const nextIndex = currentIndex + 1;
+            if (nextIndex < inputs.length) {
+                inputs[nextIndex].focus(); // Focus on the next input element
             } else {
-                const productForms = document.querySelectorAll(".product-form");
-                const productFormsLength = productForms.length;
-                const nextInput = document.querySelector(`#id_sold_products-${productFormsLength-1}-product_name`);
-                if (nextInput) nextInput.focus();
+                // If it's the last input, focus on the first input
+                inputs[0].focus();
             }
         }
     });
@@ -80,4 +79,5 @@ function receiveEnterKeyBehavior() {
 
 document.addEventListener('DOMContentLoaded', function () {
     initialReceiveProductRowFunctions();
+    receiveEnterKeyBehavior();
 });
