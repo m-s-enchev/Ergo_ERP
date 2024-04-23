@@ -31,16 +31,9 @@ class SalesDocumentForm(ModelForm):
         input_formats=['%d.%m.%Y'],
         widget=forms.DateInput(format='%d.%m.%Y', attrs={'class': 'datepicker'})
     )
-    sale_total_before_tax = forms.DecimalField(
-        widget=forms.NumberInput(attrs={'readonly': True})
-    )
-    sale_total_tax = forms.DecimalField(
-        widget=forms.NumberInput(attrs={'readonly': True})
-    )
-    sale_total_final = forms.DecimalField(
-        widget=forms.NumberInput(attrs={'readonly': True})
-    )
-
+    sale_total_before_tax = forms.DecimalField(widget=forms.NumberInput(attrs={'readonly': True}))
+    sale_total_tax = forms.DecimalField(widget=forms.NumberInput(attrs={'readonly': True}))
+    sale_total_final = forms.DecimalField(widget=forms.NumberInput(attrs={'readonly': True}))
 
     class Meta:
         model = SalesDocument
