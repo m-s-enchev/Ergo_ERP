@@ -17,6 +17,9 @@ class ReceivingDocumentForm(forms.ModelForm):
         input_formats=['%d.%m.%Y'],
         widget=forms.DateInput(format='%d.%m.%Y', attrs={'class': 'datepicker'})
     )
+    total_sum = forms.DecimalField(
+        widget=forms.NumberInput(attrs={'readonly': True})
+    )
 
     class Meta:
         model = ReceivingDocument

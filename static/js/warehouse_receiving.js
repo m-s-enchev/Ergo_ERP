@@ -119,7 +119,6 @@ class ReceivedProductsFormManager {
             if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
                 this.addForm();
                 twoColumnDropdown(`#id_transferred_products-${this.formNum - 1}-product_name`);
-                // getProductPrice(this.formNum - 1, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
                 updateRowTotal(this.formNum - 1,"id_transferred_products", "product_purchase_price", "product_value");
                 scrollToBottom('receive-wrapper');
             }

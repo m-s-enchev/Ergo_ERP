@@ -112,11 +112,9 @@ function rowTotal(index, formsetPrefix, priceFieldSuffix, totalFieldSuffix) {
     const rowTotalField = document.getElementById(`${formsetPrefix}-${index}-${totalFieldSuffix}`);
     let quantity = parseFloat(quantityField.value);
     let price = parseFloat(priceField.value);
-    let discount = parseFloat(discountField.value);
-
-    if (discount) {
-        rowTotalField.value = (quantity * price * (1 - discount*0.01)).toFixed(2);
-    } else {
+    if (discountField && discountField.value){
+        rowTotalField.value = (quantity * price * (1 - discountField.value*0.01)).toFixed(2);
+    }else {
         rowTotalField.value = (quantity * price).toFixed(2);
     }
 }
