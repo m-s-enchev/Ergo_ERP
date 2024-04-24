@@ -37,7 +37,7 @@
                 </div>
 
                 <div id="shipped-products">
-                    {{ received_products_formset.management_form }}
+                    {{ shipped_products_formset.management_form }}
                     <table>
                       <thead>
                         <tr>
@@ -52,7 +52,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                            {% for form in received_products_formset %}
+                            {% for form in shipped_products_formset %}
                                 <tr class="product-form">
                                     <td class="numerator">{{ forloop.counter }}</td>
                                     <td>{{ form.product_name }}</td>

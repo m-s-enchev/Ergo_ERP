@@ -1,4 +1,4 @@
-#receive-wrapper {
+#receive-wrapper, #ship-wrapper {
     display: flex;
     margin-top: 8vh;
     max-height: 85vh;
@@ -6,11 +6,13 @@
 }
 
 
-#receive-wrapper #receive-form {
+#receive-wrapper #receive-form,
+#ship-wrapper #ship-form {
     flex: 0 1 100vw;
 }
 
-#receive-wrapper #receive-document {
+#receive-wrapper #receive-document,
+#ship-wrapper #ship-document {
     display:flex;
     flex-direction: column;
     padding: 2vw;
@@ -20,30 +22,36 @@
     background-color: #efefef;
 }
 
-#receive-wrapper #receive-document-header {
+#receive-wrapper #receive-document-header,
+#ship-wrapper #ship-document-header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap:1vh;
 }
 
-#receive-wrapper #receive-document-header input {
+#receive-wrapper #receive-document-header input,
+#ship-wrapper #ship-document-header input {
     font-size: calc(10px + 0.4vw);
 }
 
-#receive-wrapper #date {
+#receive-wrapper #date,
+#ship-wrapper #date {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 1vh;
 }
 
-#receive-wrapper #departments {
+#receive-wrapper #departments,
+#ship-wrapper #departments {
     display: flex;
     justify-content: space-between;
 }
 
 #receive-wrapper #date div div,
-#receive-wrapper #departments div div {
+#receive-wrapper #departments div div,
+#ship-wrapper #date div div,
+#ship-wrapper #departments div div {
     border: 1px solid black;
     border-radius: 3px;
     padding: 1vw 1vw 1vw 1vw;
@@ -53,57 +61,71 @@
 
 
 #receive-wrapper .form-group select,
-#receive-wrapper .form-group input {
+#receive-wrapper .form-group input,
+#ship-wrapper .form-group select,
+#ship-wrapper .form-group input {
     flex: 1 0 60%;
     min-width: 50%;
     text-align: center;
 }
 
-#receive-wrapper .form-group label{
+#receive-wrapper .form-group label,
+#ship-wrapper .form-group label {
     flex: 0 1 50%;
     min-width: 30%;
 }
 
 
 
-#received-products {
+#received-products,
+#shipped-products{
     margin-top: 2vh;
 }
 
 
-#received-products table th{
+#received-products table th,
+#shipped-products table th {
     font-size: 1.2vw;
     border: 1px solid #5c949f;
     background-color: #e7e7e7;
     height: 2vmax;
 }
 
-#received-products .product-form .numerator {
+#received-products .product-form .numerator,
+#shipped-products .product-form .numerator{
     width: 3%;
 }
 
-#received-products .product-form td:nth-child(2) {
+#received-products .product-form td:nth-child(2),
+#shipped-products .product-form td:nth-child(2) {
     min-width: 45%;
 }
 
-#received-products .product-form td:nth-child(3) {
+#received-products .product-form td:nth-child(3),
+#shipped-products .product-form td:nth-child(3) {
     width: 5%;
 }
 
-#received-products .product-form td:nth-child(4) {
+#received-products .product-form td:nth-child(4),
+#shipped-products .product-form td:nth-child(4){
     width: 7%;
 }
 
 #received-products .product-form td:nth-child(5),
-#received-products .product-form td:nth-child(6) {
+#received-products .product-form td:nth-child(6),
+#shipped-products .product-form td:nth-child(5),
+#shipped-products .product-form td:nth-child(6) {
     width: 11%;
 }
 
 #received-products .product-form td:nth-child(7),
-#received-products .product-form td:nth-child(8) {
+#received-products .product-form td:nth-child(8),
+#shipped-products .product-form td:nth-child(7),
+#shipped-products .product-form td:nth-child(8) {
     width: 9%;
 }
 
-#received-products .product-form input {
+#received-products .product-form input,
+#shipped-products .product-form input {
     width: 100%;
 }
