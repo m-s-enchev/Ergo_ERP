@@ -6,7 +6,6 @@ from django.urls import reverse
 from Ergo_ERP.clients.models import Clients
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.products.models import ProductsModel
-from Ergo_ERP.sales.views import products_dict_dropdown
 from Ergo_ERP.user_settings.models import UserSettings
 
 
@@ -90,3 +89,25 @@ def get_client_names(request):
             if value is None:
                 client[key] = ""
     return JsonResponse(clients_list, safe=False)
+
+
+def products_dict_dropdown(department=None):
+    if department is not None:
+        products = Inventory.objects.filter(department=department)
+    else:
+        products = Inventory.objects.all()
+    products_dict = {}
+    for product in products:
+        if product.product_exp_date:
+            exp_date_formatted = product.product_exp_date.strftime('%d.%m.%Y')
+            lot_number = product.product_lot_number
+        else:
+            exp_date_formatted = ""
+            lot_number = ""
+        products_dict[product.product_name] = [
+                                                format(product.product_quantity.normalize(), 'f'),
+                                                product.product_unit,
+                                                lot_number,
+                                                exp_date_formatted
+                                                ]
+    return products_dict
