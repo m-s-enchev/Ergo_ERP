@@ -6,9 +6,12 @@ from django.views.generic import ListView
 
 from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document, \
     add_department_to_products
-from Ergo_ERP.inventory.forms import ReceivingDocumentForm, ReceivedProductsFormSet
+from Ergo_ERP.common.views import products_dict_dropdown
+from Ergo_ERP.inventory.forms import ReceivingDocumentForm, ReceivedProductsFormSet, ShippingDocumentForm, \
+    ShippedProductsFormSet
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.products.models import ProductsModel
+
 
 
 class InventoryView(ListView):
@@ -106,3 +109,43 @@ def receiving_document_create(request):
         'template_verbose_name': 'Receiving',
     }
     return render(request, 'inventory/warehouse_receiving.html', context)
+
+
+def handle_shipping_document_forms(shipping_document_form, shipped_products_formset):
+    with transaction.atomic():
+        shipping_document_instance = shipping_document_form.save(commit=False)
+        department = shipping_document_instance.shipping_department
+        shipping_document_instance.save()
+        product_instances = products_list_save_to_document(
+            shipped_products_formset,
+            shipping_document_instance,
+            'linked_warehouse_document'
+            )
+        product_instances_department = add_department_to_products(product_instances, department)
+        update_inventory(product_instances_department, True, department)
+
+
+def shipping_document_create(request):
+    """
+    Handles shipping goods from warehouse and removing them from inventory
+    """
+    shipping_document_form = ShippingDocumentForm(request.POST or None)
+    shipped_products_formset = ShippedProductsFormSet(request.POST or None, prefix='transferred_products')
+    products_dropdown = products_dict_dropdown()
+
+    if request.method == 'POST':
+        if (
+                shipping_document_form.is_valid()
+                and shipped_products_formset.is_valid()
+                and is_formset_nonempty(shipped_products_formset)
+        ):
+            handle_shipping_document_forms(shipping_document_form, shipped_products_formset)
+            return redirect(reverse('ship-goods'))
+
+    context = {
+        'shipping_document_form': shipping_document_form,
+        'shipped_products_formset': shipped_products_formset,
+        'products_dropdown': products_dropdown,
+        'template_verbose_name': 'Shipping',
+    }
+    return render(request, 'inventory/warehouse_shipping.html', context)

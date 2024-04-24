@@ -11,7 +11,7 @@ class DepartmentForm(forms.ModelForm):
         fields = '__all__'
 
 
-class ReceivingDocumentForm(forms.ModelForm):
+class TransferDocumentForm(forms.ModelForm):
     date = forms.DateField(
         initial=date.today(),
         input_formats=['%d.%m.%Y'],
@@ -19,8 +19,16 @@ class ReceivingDocumentForm(forms.ModelForm):
     )
     total_sum = forms.DecimalField(widget=forms.NumberInput(attrs={'readonly': True}))
 
+
+class ReceivingDocumentForm(TransferDocumentForm):
     class Meta:
         model = ReceivingDocument
+        fields = '__all__'
+
+
+class ShippingDocumentForm(forms.ModelForm):
+    class Meta:
+        model = ShippingDocument
         fields = '__all__'
 
 
