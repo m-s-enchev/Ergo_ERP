@@ -27,10 +27,10 @@
                             </div>
 
                             <div>
-                                {{ shipping_document_form.shipping_department.errors }}
+                                {{ shipping_document_form.receiving_department.errors }}
                                 <div class="form-group">
-                                    <label for="{{ shipping_document_form.shipping_department.id_for_label }}">{{ shipping_document_form.shipping_department.label }}: </label>
-                                    {{ shipping_document_form.shipping_department }}
+                                    <label for="{{ shipping_document_form.receiving_department.id_for_label }}">{{ shipping_document_form.receiving_department.label }}: </label>
+                                    {{ shipping_document_form.receiving_department }}
                                 </div>
                             </div>
                     </div>
@@ -42,26 +42,51 @@
                       <thead>
                         <tr>
                             <th>#</th>
-                            <th>{% translate 'Name' %}</th>
-                            <th>{% translate 'Qty' %}</th>
-                            <th>{% translate 'Unit' %}</th>
-                            <th>{% translate 'LOT' %}</th>
-                            <th>{% translate 'Exp. date' %}</th>
-                            <th>{% translate 'Purchase price' %}</th>
-                            <th>{% translate 'Amount' %}</th>
+                            <th class="name">{% translate 'Name' %}</th>
+                            <th class="quantity">{% translate 'Qty' %}</th>
+                            <th class="unit">{% translate 'Unit' %}</th>
+                            {% if user_settings.show_lot_and_exp_columns %}
+                                <th class="lot">{% translate 'LOT' %}</th>
+                                <th class="exp-date">{% translate 'Exp. date' %}</th>
+                            {% else %}
+                                <th class="lot" style="display: none">{% translate 'LOT' %}</th>
+                                <th class="exp-date" style="display: none">{% translate 'Exp. date' %}</th>
+                            {% endif %}
+                            <th class="purchase-price">{% translate 'Purchase price' %}</th>
+                            <th class="product-total">{% translate 'Amount' %}</th>
                         </tr>
                       </thead>
                       <tbody>
                             {% for form in shipped_products_formset %}
                                 <tr class="product-form">
                                     <td class="numerator">{{ forloop.counter }}</td>
-                                    <td>{{ form.product_name }}</td>
-                                    <td>{{ form.product_quantity }}</td>
-                                    <td>{{ form.product_unit }}</td>
-                                    <td>{{ form.product_lot_number }}</td>
-                                    <td>{{ form.product_exp_date }}</td>
-                                    <td>{{ form.product_purchase_price }}</td>
-                                    <td>{{ form.product_value }}</td>
+                                    <td class="name">
+                                        {{ form.product_name.errors }}
+                                        {{ form.product_name }}
+                                    </td>
+                                    <td class="quantity">
+                                        {{ form.product_quantity.errors }}
+                                        {{ form.product_quantity }}
+                                    </td>
+                                    <td class="unit">
+                                        {{ form.product_unit.errors }}
+                                        {{ form.product_unit }}
+                                    </td>
+                                     {% if user_settings.show_lot_and_exp_columns %}
+                                        <td class="lot">{{ form.product_lot_number }}</td>
+                                        <td class="exp-date">{{ form.product_exp_date }}</td>
+                                    {% else %}
+                                        <td class="lot" style="display: none">{{ form.product_lot_number }}</td>
+                                        <td class="exp-date" style="display: none">{{ form.product_exp_date }}</td>
+                                    {% endif %}
+                                    <td class="purchase-price">
+                                        {{ form.product_purchase_price.errors }}
+                                        {{ form.product_purchase_price }}
+                                    </td>
+                                    <td class="product-total">
+                                        {{ form.product_value.errors }}
+                                        {{ form.product_value }}
+                                    </td>
                                 </tr>
                             {% endfor %}
                       </tbody>
