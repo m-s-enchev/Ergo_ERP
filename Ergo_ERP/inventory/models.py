@@ -34,14 +34,14 @@ class WarehouseDocument(models.Model):
 
 
 class ReceivingDocument(WarehouseDocument):
-    shipping_department = models.CharField(max_length=100)
-    receiving_department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True)
+    shipping_department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='receiving_from')
+    receiving_department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='receiving_to')
     receiving = True
 
 
 class ShippingDocument(WarehouseDocument):
-    shipping_department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True)
-    receiving_department = models.CharField(max_length=100)
+    shipping_department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='shipping_from')
+    receiving_department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='shipping_to')
     receiving = False
 
 

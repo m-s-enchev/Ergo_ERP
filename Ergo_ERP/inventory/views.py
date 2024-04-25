@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView
 
@@ -11,7 +11,7 @@ from Ergo_ERP.inventory.forms import ReceivingDocumentForm, ReceivedProductsForm
     ShippedProductsFormSet
 from Ergo_ERP.inventory.models import Inventory
 from Ergo_ERP.products.models import ProductsModel
-
+from Ergo_ERP.user_settings.models import UserSettings
 
 
 class InventoryView(ListView):
@@ -92,6 +92,7 @@ def receiving_document_create(request):
     receiving_document_form = ReceivingDocumentForm(request.POST or None)
     received_products_formset = ReceivedProductsFormSet(request.POST or None, prefix='transferred_products')
     products_dropdown = receive_products_dropdown()
+    user_settings = get_object_or_404(UserSettings, user=request.user)
 
     if request.method == 'POST':
         if (
@@ -106,6 +107,7 @@ def receiving_document_create(request):
         'receiving_document_form': receiving_document_form,
         'received_products_formset': received_products_formset,
         'products_dropdown': products_dropdown,
+        'user_settings': user_settings,
         'template_verbose_name': 'Receiving',
     }
     return render(request, 'inventory/warehouse_receiving.html', context)
@@ -132,6 +134,7 @@ def shipping_document_create(request):
     shipping_document_form = ShippingDocumentForm(request.POST or None)
     shipped_products_formset = ShippedProductsFormSet(request.POST or None, prefix='transferred_products')
     products_dropdown = products_dict_dropdown()
+    user_settings = get_object_or_404(UserSettings, user=request.user)
 
     if request.method == 'POST':
         if (
@@ -146,6 +149,7 @@ def shipping_document_create(request):
         'shipping_document_form': shipping_document_form,
         'shipped_products_formset': shipped_products_formset,
         'products_dropdown': products_dropdown,
+        'user_settings': user_settings,
         'template_verbose_name': 'Shipping',
     }
     return render(request, 'inventory/warehouse_shipping.html', context)
