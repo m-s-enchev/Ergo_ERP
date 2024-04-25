@@ -26,7 +26,7 @@ class ReceivingDocumentForm(TransferDocumentForm):
         fields = '__all__'
 
 
-class ShippingDocumentForm(forms.ModelForm):
+class ShippingDocumentForm(TransferDocumentForm):
     class Meta:
         model = ShippingDocument
         fields = '__all__'

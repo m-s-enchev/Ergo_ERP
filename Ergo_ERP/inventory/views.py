@@ -89,12 +89,13 @@ def receiving_document_create(request):
     """
     Handles receiving goods into warehouse and adding them to inventory
     """
-    receiving_document_form = ReceivingDocumentForm(request.POST or None)
+
     received_products_formset = ReceivedProductsFormSet(request.POST or None, prefix='transferred_products')
     products_dropdown = receive_products_dropdown()
     user_settings = get_object_or_404(UserSettings, user=request.user)
 
     if request.method == 'POST':
+        receiving_document_form = ReceivingDocumentForm(request.POST)
         if (
                 receiving_document_form.is_valid()
                 and received_products_formset.is_valid()
@@ -102,15 +103,18 @@ def receiving_document_create(request):
         ):
             handle_receiving_document_forms(receiving_document_form, received_products_formset)
             return redirect(reverse('receive-goods'))
-
-    context = {
-        'receiving_document_form': receiving_document_form,
-        'received_products_formset': received_products_formset,
-        'products_dropdown': products_dropdown,
-        'user_settings': user_settings,
-        'template_verbose_name': 'Receiving',
-    }
-    return render(request, 'inventory/warehouse_receiving.html', context)
+    else:
+        receiving_document_form = ReceivingDocumentForm(initial={
+            'receiving_department': user_settings.default_department}
+        )
+        context = {
+            'receiving_document_form': receiving_document_form,
+            'received_products_formset': received_products_formset,
+            'products_dropdown': products_dropdown,
+            'user_settings': user_settings,
+            'template_verbose_name': 'Receiving',
+        }
+        return render(request, 'inventory/warehouse_receiving.html', context)
 
 
 def handle_shipping_document_forms(shipping_document_form, shipped_products_formset):
@@ -131,12 +135,12 @@ def shipping_document_create(request):
     """
     Handles shipping goods from warehouse and removing them from inventory
     """
-    shipping_document_form = ShippingDocumentForm(request.POST or None)
     shipped_products_formset = ShippedProductsFormSet(request.POST or None, prefix='transferred_products')
     products_dropdown = products_dict_dropdown()
     user_settings = get_object_or_404(UserSettings, user=request.user)
 
     if request.method == 'POST':
+        shipping_document_form = ShippingDocumentForm(request.POST)
         if (
                 shipping_document_form.is_valid()
                 and shipped_products_formset.is_valid()
@@ -145,11 +149,13 @@ def shipping_document_create(request):
             handle_shipping_document_forms(shipping_document_form, shipped_products_formset)
             return redirect(reverse('ship-goods'))
 
-    context = {
-        'shipping_document_form': shipping_document_form,
-        'shipped_products_formset': shipped_products_formset,
-        'products_dropdown': products_dropdown,
-        'user_settings': user_settings,
-        'template_verbose_name': 'Shipping',
-    }
-    return render(request, 'inventory/warehouse_shipping.html', context)
+    else:
+        shipping_document_form = ShippingDocumentForm(initial={'shipping_department': user_settings.default_department})
+        context = {
+            'shipping_document_form': shipping_document_form,
+            'shipped_products_formset': shipped_products_formset,
+            'products_dropdown': products_dropdown,
+            'user_settings': user_settings,
+            'template_verbose_name': 'Shipping',
+        }
+        return render(request, 'inventory/warehouse_shipping.html', context)
