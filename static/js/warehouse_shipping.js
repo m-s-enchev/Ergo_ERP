@@ -1,6 +1,22 @@
 let productNamesDictShip= {};
 
 
+function fetchProductsByDepartmentShip(departmentId) {
+    if (departmentId) {
+        let url = `/common/get-products-by-department/?department_id=${departmentId}`;
+        return fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                productNamesDictShip = data;
+                return productNamesDictShip;
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    } else {
+        return Promise.resolve(null);
+    }
+}
+
+
 function multicolumnDropdownShip(selector) {
     let productNames = Object.keys(productNamesDictShip);
     $(selector).autocomplete({
@@ -15,11 +31,11 @@ function multicolumnDropdownShip(selector) {
         },
         open: function() {
         let dropdownWidth = 1.02*getElementsWidth([
-            '#id_sold_products-0-product_name',
-            '#id_sold_products-0-product_quantity',
-            '#id_sold_products-0-product_unit',
-            '#id_sold_products-0-product_lot_number',
-            '#id_sold_products-0-product_exp_date'
+            '#id_transferred_products-0-product_name',
+            '#id_transferred_products-0-product_quantity',
+            '#id_transferred_products-0-product_unit',
+            '#id_transferred_products-0-product_lot_number',
+            '#id_transferred_products-0-product_exp_date'
         ]);
         $(this).autocomplete("widget").css({
             "width": dropdownWidth + "px"
@@ -79,9 +95,9 @@ function initialShippedProductRowFunctions () {
     let departmentId = document.getElementById('id_shipping_department').value;
     const productForms = document.querySelectorAll(".product-form");
     let numberOfRows = productForms.length;
-    fetchProductsByDepartment(departmentId).then(() => {
+    fetchProductsByDepartmentShip(departmentId).then(() => {
         for (let index = 0; index < numberOfRows; index++) {
-            multicolumnDropdownShip(`#id_sold_products-${index}-product_name`);
+            multicolumnDropdownShip(`#id_transferred_products-${index}-product_name`);
             get_purchase_price(index, "id_transferred_products", "product_purchase_price");
             updateRowTotal(index, "id_transferred_products", "product_purchase_price", "product_value");
         }
