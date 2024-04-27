@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initialSaleProductRowFunctions();
     getClientNames();
     toggleQuickSelect();
-    updateProductsDropdown();
+    updateProductsDropdown('id_department', 'id_sold_products');
 });
 
 

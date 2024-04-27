@@ -175,4 +175,5 @@ document.addEventListener('DOMContentLoaded', function () {
     shippedProductsFormManager.attachBlurEventToLastField();
     initialShippedProductRowFunctions();
     saleEnterKeyBehavior();
+    updateProductsDropdown('id_shipping_department', 'id_transferred_products');
 });

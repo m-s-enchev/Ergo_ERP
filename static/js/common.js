@@ -177,15 +177,30 @@ function fetchProductsAll() {
         .catch(error => console.error('Error fetching products:', error));
 }
 
-function updateProductsDropdown() {
-    const departmentField = document.getElementById('id_department');
+// function updateProductsDropdown() {
+//     const departmentField = document.getElementById('id_department');
+//     departmentField.addEventListener('change', function () {
+//         let productForms = document.querySelectorAll(".product-form");
+//         let departmentId = departmentField.value
+//         let numberOfRows = productForms.length;
+//         fetchProductsByDepartment(departmentId).then(() => {
+//             for (let index = 0; index < numberOfRows; index++) {
+//                 multicolumnDropdown(`#id_sold_products-${index}-product_name`);
+//             }
+//         });
+//     });
+// }
+
+
+function updateProductsDropdown(departmentFieldId, formsetPrefix) {
+    const departmentField = document.getElementById(departmentFieldId);
     departmentField.addEventListener('change', function () {
         let productForms = document.querySelectorAll(".product-form");
         let departmentId = departmentField.value
         let numberOfRows = productForms.length;
         fetchProductsByDepartment(departmentId).then(() => {
             for (let index = 0; index < numberOfRows; index++) {
-                multicolumnDropdown(`#id_sold_products-${index}-product_name`);
+                multicolumnDropdown(`#${formsetPrefix}-${index}-product_name`);
             }
         });
     });
