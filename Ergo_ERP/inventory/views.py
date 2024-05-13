@@ -128,7 +128,7 @@ def handle_shipping_document_forms(shipping_document_form, shipped_products_form
             'linked_warehouse_document'
             )
         product_instances_department = add_department_to_products(product_instances, department)
-        update_inventory(product_instances_department, True, department)
+        update_inventory(product_instances_department, False, department)
 
 
 def shipping_document_create(request):
