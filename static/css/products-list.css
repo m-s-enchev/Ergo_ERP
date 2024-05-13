@@ -1,18 +1,27 @@
+#products-list-wrapper {
+    margin-top: 8vh;
+}
+
+
+#products-list-wrapper h2 {
+    margin-left: 5%;
+}
+
+#products-list-wrapper table {
+    width: 96%;
+    margin: 2%;
+}
+
 #products-list-wrapper th {
     background-color: var(--table-header-background);
     padding: 5px 5px;
+    font-size: calc(12px + 0.4vw)
 }
 
 #products-list-wrapper td {
     background-color: var(--table-data-background);
     padding: 3px 5px;
 
-}
-
-
-#products-list-wrapper table {
-    width: 96%;
-    margin: 2%;
 }
 
 #products-list-wrapper .numerator{
