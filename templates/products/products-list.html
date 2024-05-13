@@ -1,44 +1,44 @@
 {% extends 'base.html' %}
 {% load i18n %}
-
 {% block content %}
-
-<h2 style="margin-top:100px">Products / Services</h2>
+<div id="products-list-wrapper">
+    <h2 style="margin-top:100px">Products / Services</h2>
 
 {#<form method="get" action="">#}
 {#    <input type="text" name="search_query" placeholder="Search for product" value="{{ request.GET.search_query }}">#}
 {#    <button type="submit">Search</button>#}
 {#</form>#}
 
-<table>
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>{% translate 'Name' %}</th>
-            <th>{% translate 'Unit' %}</th>
-            <th>{% translate 'Type' %}</th>
-            <th>{% translate 'Manufacturer' %}</th>
-            <th>{% translate 'Category' %}</th>
-            <th>{% translate 'Made in department' %}</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for product in products_list %}
+    <table>
+        <thead>
             <tr>
-                <td class="numerator">{{ forloop.counter }}</td>
-                <td>{{ product.product_name }}</td>
-                <td>{{ product.product_unit }}</td>
-                <td>{{ product.product_type }}</td>
-                <td>{{ product.product_manufacturer }}</td>
-                <td>{{ product.product_category }}</td>
-                <td>{{product.product_made_in_department}}</td>
+                <th>#</th>
+                <th>{% translate 'Name' %}</th>
+                <th>{% translate 'Unit' %}</th>
+                <th>{% translate 'Type' %}</th>
+                <th>{% translate 'Manufacturer' %}</th>
+                <th>{% translate 'Category' %}</th>
+                <th>{% translate 'Made in department' %}</th>
             </tr>
-        {% empty %}
-            <div>No items in inventory.</div>
-        {% endfor %}
-    </tbody>
+        </thead>
+        <tbody>
+            {% for product in products_list %}
+                <tr>
+                    <td class="numerator">{{ forloop.counter }}</td>
+                    <td class="product-name">{{ product.product_name }}</td>
+                    <td class="product-unit">{{ product.product_unit }}</td>
+                    <td class="product-type">{{ product.product_type }}</td>
+                    <td class="product-manufacturer">{{ product.product_manufacturer }}</td>
+                    <td class="product-category">{{ product.product_category }}</td>
+                    <td class="product-made-in">{{product.product_made_in_department}}</td>
+                </tr>
+            {% empty %}
+                <div>No items in inventory.</div>
+            {% endfor %}
+        </tbody>
 
-</table>
+    </table>
 
+</div>
 
 {% endblock %}

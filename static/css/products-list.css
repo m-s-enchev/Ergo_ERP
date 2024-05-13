@@ -1,0 +1,44 @@
+#products-list-wrapper th {
+    background-color: var(--table-header-background);
+    padding: 5px 5px;
+}
+
+#products-list-wrapper td {
+    background-color: var(--table-data-background);
+    padding: 3px 5px;
+
+}
+
+
+#products-list-wrapper table {
+    width: 96%;
+    margin: 2%;
+}
+
+#products-list-wrapper .numerator{
+    width: 3%;
+}
+
+#products-list-wrapper .product-name{
+    width: 40%;
+}
+
+#products-list-wrapper .product-unit{
+    width: 8%;
+}
+
+#products-list-wrapper .product-type{
+    width: 8%;
+}
+
+#products-list-wrapper .product-manufacturer{
+    width: 12%;
+}
+
+#products-list-wrapper .product-category{
+    width: 12%;
+}
+
+#products-list-wrapper .product-made-in{
+    width: 12%;
+}
