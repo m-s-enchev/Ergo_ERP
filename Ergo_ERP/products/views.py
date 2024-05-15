@@ -11,6 +11,13 @@ class ProductsListView(ListView):
     context_object_name = 'products_list'
     extra_context = {'template_verbose_name': 'Products'}
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_query = self.request.GET.get('search_query') or ''
+        if search_query:
+            queryset = queryset.filter(product_name__icontains=search_query)
+        return queryset
+
 
 class ProductsCreateView(CreateView):
     model = ProductsModel
