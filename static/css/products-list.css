@@ -1,34 +1,46 @@
-#products-list-wrapper {
-    margin-top: 8vh;
+
+
+#products-list-wrapper,
+#inventory-wrapper {
+    margin: 10vh 3vw 0 3vw;
 }
 
 
-#products-list-wrapper table {
-    width: 96%;
-    margin: 2%;
+#inventory-wrapper #search-bar input {
+    width: 30%;
 }
 
-#products-list-wrapper th {
+#products-list-wrapper table,
+#inventory-wrapper table {
+    width: 100%;
+    margin-top: 2%;
+}
+
+#products-list-wrapper th,
+#inventory-wrapper th {
     background-color: var(--table-header-background);
     padding: 5px 5px;
     font-size: calc(12px + 0.4vw)
 }
 
-#products-list-wrapper td {
+#products-list-wrapper td,
+#inventory-wrapper td {
     background-color: var(--table-data-background);
     padding: 3px 5px;
 
 }
 
-#products-list-wrapper .numerator{
+#products-list-wrapper .numerator,
+#inventory-wrapper .numerator {
     width: 3%;
 }
 
-#products-list-wrapper .product-name{
+#products-list-wrapper .product-name {
     width: 40%;
 }
 
-#products-list-wrapper .product-unit{
+#products-list-wrapper .product-unit,
+#inventory-wrapper .product-unit{
     width: 8%;
 }
 
@@ -46,4 +58,23 @@
 
 #products-list-wrapper .product-made-in{
     width: 12%;
+}
+
+
+#inventory-wrapper .product-name{
+    width: 50%;
+}
+
+#inventory-wrapper .product-exp-date,
+#inventory-wrapper .product-lot {
+    width: 15%
+}
+
+#inventory-wrapper .product-quantity {
+    width: 10%;
+}
+#no-items {
+    margin: 1% 0;
+    font-size: calc(12px + 0.4vw);
+    font-weight: bold;
 }

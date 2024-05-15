@@ -3,22 +3,12 @@
 {% block content %}
 
 <div id="inventory-wrapper">
-    <form method="get" action="">
-        <input type="text" name="search_query" placeholder="Search for product" value="{{ request.GET.search_query }}">
+    <form id=search-bar method="get" action="">
+        <input type="text" name="search_query" placeholder="Search for product in inventory" value="{{ request.GET.search_query }}">
         <button type="submit">Search</button>
     </form>
 
 
-<ul>
-    {% for item in inventory_list %}
-        <li>
-            Product: {{ item.product_name }}, Batch Number: {{ item.product_lot_number }}, Expiration Date: {{ item.product_exp_date }}, Quantity: {{ item.product_quantity }}
-            <!-- Add other fields as needed -->
-        </li>
-    {% empty %}
-        <li>No items in inventory.</li>
-    {% endfor %}
-</ul>
     <table>
         <thead>
             <tr>
@@ -41,7 +31,7 @@
                     <td class="product-unit">{{ item.product_unit }}</td>
                 </tr>
             {% empty %}
-                <div>No items in inventory.</div>
+                <div id="no-items">No items in inventory.</div>
             {% endfor %}
         </tbody>
 
