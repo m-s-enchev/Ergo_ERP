@@ -1,13 +1,19 @@
-
-
 #products-list-wrapper,
 #inventory-wrapper {
     margin: 10vh 3vw 0 3vw;
 }
 
-
+#products-list-wrapper #search-bar input,
 #inventory-wrapper #search-bar input {
     width: 30%;
+    font-size: calc(12px + 0.4vw);
+}
+
+
+#products-list-wrapper #search-bar button,
+#inventory-wrapper #search-bar button {
+    width: 6%;
+    font-size: calc(12px + 0.4vw);
 }
 
 #products-list-wrapper table,
