@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+
+<div id="client-list-wrapper">
+    <form id=search-bar method="get" action="">
+        <input type="text" name="search_query" placeholder="Search for client" value="{{ request.GET.search_query }}">
+        <button type="submit">Search</button>
+    </form>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{% translate 'Names' %}</th>
+                <th>{% translate 'Phone number' %}</th>
+                <th>{% translate 'e-mail' %}</th>
+                <th>{% translate 'Identification number' %}</th>
+                <th>{% translate 'Address' %}</th>
+                <th>{% translate 'Accountable person' %}</th>
+                <th>{% translate 'Card code' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients_list %}
+                <tr>
+                    <td class="numerator">{{ forloop.counter }}</td>
+                    <td class="client-name">{{ client.client_names }}</td>
+                    <td class="client-phone">{{ client.client_phone_number }}</td>
+                    <td class="client-email">{{ client.client_email }}</td>
+                    <td class="client-id-number">{{ client.client_identification_number }}</td>
+                    <td class="client-id-number">{{ client.client_address }}</td>
+                    <td class="accountable-person">{{ client.client_accountable_person }}</td>
+                    <td class="client-card-code">{{ client.client_card_code }}</td>
+                </tr>
+            {% empty %}
+                <div id="no-items">No clients found.</div>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock %}
