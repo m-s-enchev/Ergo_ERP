@@ -95,7 +95,37 @@
 }
 
 
+#client-list-wrapper .client-names,
+#suppliers-list-wrapper .supplier-name {
+    width: 17%;
+}
 
+#client-list-wrapper .client-phone,
+#suppliers-list-wrapper .supplier-phone {
+    width: 12%;
+}
+
+#client-list-wrapper .client-email,
+#suppliers-list-wrapper .supplier-email {
+    width: 15%;
+}
+
+
+#client-list-wrapper .client-id-number,
+#suppliers-list-wrapper .supplier-id-number {
+    width: 10%;
+}
+
+#client-list-wrapper .client-address,
+#suppliers-list-wrapper .supplier-address {
+    width: 17%;
+}
+
+
+#client-list-wrapper .accountable-person,
+#suppliers-list-wrapper .accountable-person {
+    width: 17%;
+}
 
 
 
