@@ -9,7 +9,7 @@ from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_
 from Ergo_ERP.common.views import products_dict_dropdown
 from Ergo_ERP.inventory.forms import ReceivingDocumentForm, ReceivedProductsFormSet, ShippingDocumentForm, \
     ShippedProductsFormSet
-from Ergo_ERP.inventory.models import Inventory
+from Ergo_ERP.inventory.models import Inventory, Department
 from Ergo_ERP.products.models import ProductsModel
 from Ergo_ERP.user_settings.models import UserSettings
 
@@ -29,6 +29,11 @@ class InventoryView(ListView):
         if search_query:
             queryset = queryset.filter(product_name__icontains=search_query)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['departments'] = Department.objects.all()  # Add the list of departments to the context
+        return context
 
 
 def receive_products_dropdown():
