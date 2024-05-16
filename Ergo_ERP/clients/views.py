@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import ListView
 
@@ -15,6 +16,13 @@ class ClientsList(ListView):
         queryset = super().get_queryset()
         search_query = self.request.GET.get('search_query') or ''
         if search_query:
-            queryset = queryset.filter(client_names__icontains=search_query)
+            queryset = queryset.filter(
+                Q(client_names__icontains=search_query) |
+                Q(client_phone_number__icontains=search_query) |
+                Q(client_email__icontains=search_query) |
+                Q(client_identification_number__icontains=search_query) |
+                Q(client_accountable_person__icontains=search_query) |
+                Q(client_card_code__icontains=search_query)
+            )
         return queryset
 

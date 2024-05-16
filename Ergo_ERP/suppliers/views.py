@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import ListView
 
@@ -14,5 +15,11 @@ class SuppliersList(ListView):
         queryset = super().get_queryset()
         search_query = self.request.GET.get('search_query') or ''
         if search_query:
-            queryset = queryset.filter(supplier_name__icontains=search_query)
+            queryset = queryset.filter(
+                Q(supplier_name__icontains=search_query) |
+                Q(supplier_phone_number__icontains=search_query) |
+                Q(supplier_email__icontains=search_query) |
+                Q(supplier_identification_number__icontains=search_query) |
+                Q(supplier_accountable_person__icontains=search_query)
+            )
         return queryset
