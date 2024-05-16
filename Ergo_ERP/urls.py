@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('Ergo_ERP.common.urls')),
     path('settings/', user_settings_view, name='settings'),
     path('clients/', include('Ergo_ERP.clients.urls')),
+    path('suppliers/', include('Ergo_ERP.suppliers.urls')),
     path('sales/', include('Ergo_ERP.sales.urls')),
     path('inventory/', include('Ergo_ERP.inventory.urls')),
     path('products/', include('Ergo_ERP.products.urls')),

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+
+<div id="suppliers-list-wrapper">
+    <form id=search-bar method="get" action="">
+        <input type="text" name="search_query" placeholder="Search for supplier" value="{{ request.GET.search_query }}">
+        <button type="submit">Search</button>
+    </form>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{% translate 'Name' %}</th>
+                <th>{% translate 'Phone number' %}</th>
+                <th>{% translate 'e-mail' %}</th>
+                <th>{% translate 'Identification number' %}</th>
+                <th>{% translate 'Address' %}</th>
+                <th>{% translate 'Accountable person' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers_list %}
+                <tr>
+                    <td class="numerator">{{ forloop.counter }}</td>
+                    <td class="supplier-name">{{ supplier.supplier_name }}</td>
+                    <td class="supplier-phone">{{ supplier.supplier_phone_number }}</td>
+                    <td class="supplier-email">{{ supplier.supplier_email }}</td>
+                    <td class="supplier-id-number">{{ supplier.supplier_identification_number }}</td>
+                    <td class="supplier-address">{{ supplier.supplier_address }}</td>
+                    <td class="accountable-person">{{ supplier.supplier_accountable_person }}</td>
+                </tr>
+            {% empty %}
+                <div id="no-items">No suppliers found.</div>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock %}
