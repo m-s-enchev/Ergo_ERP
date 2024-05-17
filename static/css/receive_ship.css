@@ -32,7 +32,7 @@
 
 #receive-wrapper #receive-document-header input,
 #ship-wrapper #ship-document-header input {
-    font-size: calc(10px + 0.4vw);
+    font-size: calc(12px + 0.4vw);
 }
 
 #receive-wrapper #date,
@@ -52,27 +52,38 @@
 #receive-wrapper #departments div div,
 #ship-wrapper #date div div,
 #ship-wrapper #departments div div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1vw;
     border: 1px solid black;
     border-radius: 3px;
     padding: 1vw 1vw 1vw 1vw;
-    min-width: 40vw;
+    min-width: 35vw;
 }
 
 
+#id_shipping_department,
+#id_receiving_department {
+    font-size: calc(12px + 0.4vw);
+}
 
 #receive-wrapper .form-group select,
 #receive-wrapper .form-group input,
 #ship-wrapper .form-group select,
 #ship-wrapper .form-group input {
     flex: 1 0 60%;
-    min-width: 50%;
-    text-align: center;
+    min-width: 40%;
+    max-width: 50%;
+    padding: 0.3vw 0.5vw;
 }
 
 #receive-wrapper .form-group label,
 #ship-wrapper .form-group label {
     flex: 0 1 50%;
     min-width: 30%;
+    font-size: calc(12px + 0.4vw);
+    font-weight: bold;
 }
 
 
@@ -85,7 +96,8 @@
 
 #received-products table th,
 #shipped-products table th {
-    font-size: 1.2vw;
+    font-size: calc(10px + 0.4vw);
+    padding: 3px 5px;
     border: 1px solid #5c949f;
     background-color: #e7e7e7;
     height: 2vmax;
@@ -128,4 +140,6 @@
 #received-products .product-form input,
 #shipped-products .product-form input {
     width: 100%;
+    font-size: calc(11px + 0.4vw);
+    padding: 0 3px;
 }

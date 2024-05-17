@@ -75,8 +75,8 @@
 }
 
 #id_is_linked_to_invoice{
-    width: 1.5vw;
-    height: 1.5vw;
+    min-width: 1.5vw;
+    min-height: 1.5vw;
     margin-left: 1vw;
 }
 
@@ -92,18 +92,24 @@
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
+    font-size: calc(11px + 0.4vw);
 }
 
 
 #sales-wrapper .form-group select{
     width: 100%;
     background-color: white;
-    font-size: inherit;
+    font-size: calc(11px + 0.4vw);
+    padding-left: 0.5vw;
+}
+
+#sales-wrapper .form-group input{
     padding-left: 0.5vw;
 }
 
 #sales-wrapper #invoice-number-and-dates{
     font-weight: bold;
+    font-size: calc(11px + 0.4vw);
 }
 
 .quick-select-tile {
@@ -131,7 +137,7 @@
 
 #sold-products table th{
     font-size: calc(10px + 0.4vw);
-    padding: 0 3px;
+    padding: 3px 5px;
     border: 1px solid #5c949f;
     background-color: #e7e7e7;
 }
@@ -139,7 +145,7 @@
 #sales-wrapper .product-form td,
 #sales-wrapper .product-form input,
 #sale-document-header input{
-    font-size: calc(10px + 0.4vw);
+    font-size: calc(11px + 0.4vw);
 }
 
 #sales-wrapper .product-form td {
