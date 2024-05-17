@@ -5,18 +5,17 @@
 <div id="inventory-wrapper">
     <form id=search-bar method="get" action="">
         <input type="text" name="search_query" placeholder="Search for product in inventory" value="{{ request.GET.search_query }}">
-         <select name="department">
-        <option value="">All</option>
-        {% for dept in departments %}
-            <option value="{{ dept.name }}" {% if dept.name == request.GET.department %}selected{% endif %}>
-                {{ dept.name }}
-            </option>
+        <label for="department">in</label>
+        <select name="department">
+            <option value="">All departments</option>
+            {% for dept in departments %}
+                <option value="{{ dept.name }}" {% if dept.name == request.GET.department %}selected{% endif %}>
+                    {{ dept.name }}
+                </option>
         {% endfor %}
         </select>
         <button type="submit">Search</button>
     </form>
-
-
     <table>
         <thead>
             <tr>
