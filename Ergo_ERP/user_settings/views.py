@@ -11,7 +11,7 @@ def user_settings_view(request):
         user_settings_form = UserSettingsForm(request.POST, instance=user_instance)
         if user_settings_form.is_valid():
             user_settings_form.save()
-            return redirect(reverse('settings'))
+            return redirect(reverse('homepage'))
     else:
         user_settings_form = UserSettingsForm(instance=user_instance)
 

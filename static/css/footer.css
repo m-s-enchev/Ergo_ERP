@@ -57,3 +57,11 @@ footer {
 #footer-ok-button:active {
     box-shadow: var(--buttons-active);
 }
+
+#solo-fixed-ok-button {
+    position: fixed;
+    bottom: 1vh;
+    right: 1vw;
+    color: white;
+    box-sizing: border-box;
+}
