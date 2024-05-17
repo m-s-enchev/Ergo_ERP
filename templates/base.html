@@ -28,6 +28,11 @@
                 <a href="/products/new/" target="_blank"><i class="fa-solid fa-plus"></i></a>
             </div>
         {% endif %}
+        {% if template_verbose_name == 'Clients' %}
+            <div id="plus-sign-new">
+                <a href="/clients/new/" target="_blank"><i class="fa-solid fa-plus"></i></a>
+            </div>
+        {% endif %}
         {% if template_verbose_name == 'Sale' %}
             <div id="save">
                 <a href="#"><i class="fa-solid fa-floppy-disk"></i></a>

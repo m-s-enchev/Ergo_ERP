@@ -1,7 +1,9 @@
 from django.db.models import Q
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView
 
+from Ergo_ERP.clients.forms import ClientsModelForm
 from Ergo_ERP.clients.models import Clients
 
 
@@ -25,4 +27,14 @@ class ClientsList(ListView):
                 Q(client_card_code__icontains=search_query)
             )
         return queryset
+
+
+class ClientsCreateView (CreateView):
+    model = Clients
+    form_class = ClientsModelForm
+    template_name = 'clients/clients-create.html'
+    extra_context = {'template_verbose_name': 'Create client'}
+
+    def get_success_url(self):
+        return reverse_lazy('clients_create')
 

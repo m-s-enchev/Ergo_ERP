@@ -18,7 +18,7 @@ class Clients(models.Model):
     client_identification_number = models.CharField(max_length=20, verbose_name='identification_number', null=True, blank=True)
     client_address = models.CharField(max_length=200, verbose_name='Address', null=True, blank=True)
     client_accountable_person = models.CharField(max_length=100, verbose_name='accountable person', null=True, blank=True)
-    client_card_code = models.CharField(max_length=13, verbose_name='card_barcode', blank=True, null=True)
+    client_card_code = models.CharField(max_length=13, verbose_name='card barcode', blank=True, null=True)
     client_representatives = models.ForeignKey(ClientRepresentatives, on_delete=models.CASCADE, verbose_name='Representative', null=True, blank=True)
 
     def __str__(self):

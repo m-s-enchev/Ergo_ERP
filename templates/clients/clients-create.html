@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div id="clients-create-wrapper">
+        <form method="post" action="{% url 'clients_create' %}">
+            {% csrf_token %}
+            <div id="clients-create-fields">
+                {{ form.client_names.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.client_names.id_for_label }}">{{ form.client_names.label }}: </label>
+                    {{ form.client_names }}
+                </div>
+                {{ form.client_phone_number.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.client_phone_number.id_for_label }}">{{ form.client_phone_number.label }}: </label>
+                    {{ form.client_phone_number}}
+                </div>
+                {{ form.client_email.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.client_email.id_for_label }}">{{ form.client_email.label }}: </label>
+                    {{ form.client_email}}
+                </div>
+                {{ form.client_identification_number.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.client_identification_number.id_for_label }}">{{ form.client_identification_number.label }}: </label>
+                    {{ form.client_identification_number}}
+                </div>
+                {{ form.client_address.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.client_address.id_for_label }}">{{ form.client_address.label }}: </label>
+                    {{ form.client_address}}
+                </div>
+                {{ form.client_accountable_person.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.client_accountable_person.id_for_label }}">{{ form.client_accountable_person.label }}: </label>
+                    {{ form.client_accountable_person}}
+                </div>
+                {{ form.client_card_code.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.client_card_code.id_for_label }}">{{ form.client_card_code.label }}: </label>
+                    {{ form.client_card_code}}
+                </div>
+                {{ form.client_representatives.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.client_representatives.id_for_label }}">{{ form.client_representatives.label }}: </label>
+                    {{ form.client_representatives}}
+                </div>
+            </div>
+            <div id="solo-fixed-ok-button">
+                <button id="footer-ok-button" type="submit" ><i class="fa-solid fa-check"></i></button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

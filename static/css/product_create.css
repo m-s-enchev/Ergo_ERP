@@ -1,8 +1,10 @@
-#product-create-wrapper {
+#product-create-wrapper,
+#clients-create-wrapper {
     margin-top: 8vh;
 }
 
-#product-create-fields {
+#product-create-fields,
+#clients-create-fields {
     padding: 1vw 3vw;
     width: 45vw;
     margin-bottom: 9vh;
