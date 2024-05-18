@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from Ergo_ERP.clients.forms import ClientsModelForm
 from Ergo_ERP.clients.models import Clients
@@ -29,11 +29,22 @@ class ClientsList(ListView):
         return queryset
 
 
-class ClientsCreateView (CreateView):
+class ClientsCreate (CreateView):
     model = Clients
     form_class = ClientsModelForm
     template_name = 'clients/clients-create.html'
     extra_context = {'template_verbose_name': 'Create client'}
-    success_url = reverse_lazy('clients_create')
+    success_url = reverse_lazy('clients_list')
 
 
+class ClientsEdit (UpdateView):
+    model = Clients
+    form_class = ClientsModelForm
+    template_name = 'clients/clients-edit.html'
+    extra_context = {'template_verbose_name': 'Edit client'}
+    success_url = reverse_lazy('clients_list')
+
+
+class ClientsDelete (DeleteView):
+    model = Clients
+    success_url = reverse_lazy('clients_list')
