@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div id="suppliers-create-wrapper">
+        <form method="post" action="{% url 'suppliers_create' %}">
+            {% csrf_token %}
+            <div id="suppliers-create-fields">
+                {{ form.supplier_name.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.supplier_name.id_for_label }}">{{ form.supplier_name.label }}: </label>
+                    {{ form.supplier_name }}
+                </div>
+                {{ form.supplier_phone_number.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.supplier_phone_number.id_for_label }}">{{ form.supplier_phone_number.label }}: </label>
+                    {{ form.supplier_phone_number}}
+                </div>
+                {{ form.supplier_email.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.supplier_email.id_for_label }}">{{ form.supplier_email.label }}: </label>
+                    {{ form.supplier_email}}
+                </div>
+                {{ form.supplier_identification_number.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.supplier_identification_number.id_for_label }}">{{ form.supplier_identification_number.label }}: </label>
+                    {{ form.supplier_identification_number}}
+                </div>
+                {{ form.supplier_address.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.supplier_address.id_for_label }}">{{ form.supplier_address.label }}: </label>
+                    {{ form.supplier_address}}
+                </div>
+                {{ form.supplier_accountable_person.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.supplier_accountable_person.id_for_label }}">{{ form.supplier_accountable_person.label }}: </label>
+                    {{ form.supplier_accountable_person}}
+                </div>
+                {{ form.supplier_representatives.errors }}
+                <div class="create-form-group">
+                    <label for="{{ form.supplier_representatives.id_for_label }}">{{ form.supplier_representatives.label }}: </label>
+                    {{ form.supplier_representatives}}
+                </div>
+            </div>
+            <div id="solo-fixed-ok-button">
+                <button id="footer-ok-button" type="submit" ><i class="fa-solid fa-check"></i></button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
