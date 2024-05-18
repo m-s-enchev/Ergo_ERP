@@ -1,7 +1,9 @@
 from django.db.models import Q
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView
 
+from Ergo_ERP.suppliers.forms import SuppliersModelForm
 from Ergo_ERP.suppliers.models import Suppliers
 
 
@@ -23,3 +25,11 @@ class SuppliersList(ListView):
                 Q(supplier_accountable_person__icontains=search_query)
             )
         return queryset
+
+
+class SuppliersCreate(CreateView):
+    model = Suppliers
+    form_class = SuppliersModelForm
+    template_name = 'suppliers/suppliers-create.html'
+    extra_context = {'template_verbose_name': 'Create supplier'}
+    success_url = reverse_lazy('suppliers_create')
