@@ -34,7 +34,6 @@ class ClientsCreateView (CreateView):
     form_class = ClientsModelForm
     template_name = 'clients/clients-create.html'
     extra_context = {'template_verbose_name': 'Create client'}
+    success_url = reverse_lazy('clients_create')
 
-    def get_success_url(self):
-        return reverse_lazy('clients_create')
 

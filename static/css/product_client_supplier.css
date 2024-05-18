@@ -1,10 +1,14 @@
 #product-create-wrapper,
-#clients-create-wrapper {
+#clients-create-wrapper,
+#suppliers-create-wrapper,
+#product-edit-wrapper {
     margin-top: 8vh;
 }
 
 #product-create-fields,
-#clients-create-fields {
+#clients-create-fields,
+#suppliers-create-fields,
+#product-edit-fields {
     padding: 1vw 3vw;
     width: 45vw;
     margin-bottom: 9vh;
@@ -40,4 +44,25 @@
 .create-form-group label {
     font-weight: bold;
     width: 35%;
+}
+
+#delete-button {
+    font-size: calc(12px + 0.4vw);
+    font-weight: bold;
+    color: white;
+    background-color: #e72044;
+    width: 15vmax;
+    border:0;
+    border-radius: 5px;
+    margin-bottom: 1vh;
+    margin-left: 3vw;
+    padding: 0.5vw;
+}
+
+#delete-button:hover {
+    box-shadow: var(--buttons-hover);
+}
+
+#delete-button:active {
+    box-shadow: var(--buttons-active);
 }

@@ -46,7 +46,7 @@ footer {
     color: inherit;
     background-color: lightgreen;
     width: 4vmax;
-    border: 2px solid lightgreen;
+    border: 0;
     border-radius: 5px;
 }
 
