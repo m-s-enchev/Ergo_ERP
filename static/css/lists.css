@@ -76,7 +76,7 @@
 }
 
 #products-list-wrapper .product-manufacturer{
-    width: 12%;
+    width: 15%;
 }
 
 #products-list-wrapper .product-category{
@@ -109,23 +109,23 @@
 
 #client-list-wrapper .client-phone,
 #suppliers-list-wrapper .supplier-phone {
-    width: 12%;
+    width: 14%;
 }
 
 #client-list-wrapper .client-email,
 #suppliers-list-wrapper .supplier-email {
-    width: 15%;
+    width: 16%;
 }
 
 
 #client-list-wrapper .client-id-number,
 #suppliers-list-wrapper .supplier-id-number {
-    width: 10%;
+    width: 11%;
 }
 
 #client-list-wrapper .client-address,
 #suppliers-list-wrapper .supplier-address {
-    width: 17%;
+    width: 20%;
 }
 
 

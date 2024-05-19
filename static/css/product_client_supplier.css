@@ -1,14 +1,18 @@
 #product-create-wrapper,
 #clients-create-wrapper,
 #suppliers-create-wrapper,
-#product-edit-wrapper {
+#product-edit-wrapper,
+#clients-edit-wrapper,
+#suppliers-edit-wrapper {
     margin-top: 8vh;
 }
 
 #product-create-fields,
 #clients-create-fields,
 #suppliers-create-fields,
-#product-edit-fields {
+#product-edit-fields,
+#clients-edit-fields,
+#suppliers-edit-fields {
     padding: 1vw 3vw;
     width: 45vw;
     margin-bottom: 9vh;

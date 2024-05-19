@@ -5,7 +5,7 @@ from Ergo_ERP.products.forms import ProductsModelForm
 from Ergo_ERP.products.models import ProductsModel
 
 
-class ProductsListView(ListView):
+class ProductsList (ListView):
     model = ProductsModel
     template_name = 'products/products-list.html'
     context_object_name = 'products_list'
@@ -19,22 +19,23 @@ class ProductsListView(ListView):
         return queryset
 
 
-class ProductsCreateView(CreateView):
+class ProductsCreate (CreateView):
     model = ProductsModel
     form_class = ProductsModelForm
     template_name = 'products/products-create.html'
     extra_context = {'template_verbose_name': 'Create product'}
-    success_url = reverse_lazy('products_create')
-
-
-class ProductsEditView(UpdateView):
-    model = ProductsModel
-    form_class = ProductsModelForm
-    template_name = 'products/products-edit.html'
     success_url = reverse_lazy('products_list')
 
 
-class ProductsDeleteView(DeleteView):
+class ProductsEdit (UpdateView):
+    model = ProductsModel
+    form_class = ProductsModelForm
+    template_name = 'products/products-edit.html'
+    extra_context = {'template_verbose_name': 'Edit product'}
+    success_url = reverse_lazy('products_list')
+
+
+class ProductsDelete (DeleteView):
     model = ProductsModel
     success_url = reverse_lazy('products_list')
 

@@ -1,10 +1,10 @@
 from django.urls import path
 
-from Ergo_ERP.products.views import ProductsListView, ProductsCreateView, ProductsEditView, ProductsDeleteView
+from Ergo_ERP.products.views import ProductsList, ProductsCreate, ProductsEdit, ProductsDelete
 
 urlpatterns = [
-    path('', ProductsListView.as_view(), name='products_list'),
-    path('new/', ProductsCreateView.as_view(), name='products_create'),
-    path('edit/<int:pk>/', ProductsEditView.as_view(), name='products_edit'),
-    path('delete/<int:pk>/', ProductsDeleteView.as_view(), name='products_delete')
+    path('', ProductsList.as_view(), name='products_list'),
+    path('new/', ProductsCreate.as_view(), name='products_create'),
+    path('edit/<int:pk>/', ProductsEdit.as_view(), name='products_edit'),
+    path('delete/<int:pk>/', ProductsDelete.as_view(), name='products_delete')
 ]
