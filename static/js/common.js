@@ -241,3 +241,18 @@ function getElementsWidth(selectors) {
     });
     return totalWidth;
 }
+
+function deleteRow(e){
+ const row = e.target.closest('tr');
+ const product = row.querySelector('.name input').value;
+      if (row && product) {
+        row.remove();
+      }
+}
+
+
+function addDeleteRowButton(index){
+const deleteButton = document.querySelector(`table tr:nth-child(${index}) .row-delete-button .fa-trash`);
+    deleteButton.addEventListener('click', deleteRow);
+    console.log(`added button to row ${index+1}`)
+}

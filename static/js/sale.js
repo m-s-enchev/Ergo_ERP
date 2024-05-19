@@ -123,6 +123,7 @@ class ProductFormManager {
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total");
                 scrollToBottom('sales-wrapper');
+                addDeleteRowButton(this.formNum-1);
             }
         });
     }
@@ -283,6 +284,7 @@ function initialSaleProductRowFunctions () {
             getProductPrice(index, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
             updateRowTotal(index, "id_sold_products", "product_price_before_tax", "product_total_before_tax");
             updateRowTotal(index, "id_sold_products", "product_price", "product_total");
+            addDeleteRowButton(index+1);
         }
     });
 }
