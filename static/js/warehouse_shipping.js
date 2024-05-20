@@ -115,7 +115,7 @@ class ShippedProductsFormManager {
         this.updateTotalSum();
     }
 
-    addForm() {
+    addRow() {
             let newForm = this.productForms[0].cloneNode(true);
             let formRegex = /transferred_products-0-/g;
             let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
@@ -149,7 +149,7 @@ class ShippedProductsFormManager {
         });
         lastNameField.addEventListener('blur', (e) => {
             if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
-                this.addForm();
+                this.addRow();
                 multicolumnDropdownShip(`#id_transferred_products-${this.formNum - 1}-product_name`);
                 updateRowTotal(this.formNum - 1,"id_transferred_products", "product_purchase_price", "product_value");
                 scrollToBottom('ship-wrapper');

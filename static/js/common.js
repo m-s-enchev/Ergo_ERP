@@ -243,16 +243,28 @@ function getElementsWidth(selectors) {
 }
 
 function deleteRow(e){
- const row = e.target.closest('tr');
- const product = row.querySelector('.name input').value;
-      if (row && product) {
+    const row = e.target.closest('tr');
+    const product = row.querySelector('.name input').value;
+    if (row && product) {
         row.remove();
-      }
+
+    }
+}
+
+function resetNumerators (){
+    const totalForms=document.querySelector('[id$="-TOTAL_FORMS"]');
+    const productFormsCount = document.querySelectorAll(".product-form").length;
+    const numerators = document.querySelectorAll('.numerator');
+    for (let i= 1; i<= productFormsCount; i++) {
+        numerators[i].textContent = `${i}`;
+    }
 }
 
 
 function addDeleteRowButton(index){
 const deleteButton = document.querySelector(`table tr:nth-child(${index}) .row-delete-button .fa-trash`);
-    deleteButton.addEventListener('click', deleteRow);
-    console.log(`added button to row ${index+1}`)
+    deleteButton.addEventListener('click', (e) => {
+        deleteRow(e);
+        resetNumerators();
+    });
 }

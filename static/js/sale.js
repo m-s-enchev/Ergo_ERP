@@ -83,7 +83,7 @@ class ProductFormManager {
         this.updateTotalSum();
     }
 
-    addForm() {
+    addRow() {
             let newForm = this.productForms[0].cloneNode(true);
             let formRegex = /sold_products-0-/g;
             let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
@@ -117,13 +117,13 @@ class ProductFormManager {
         });
         lastNameField.addEventListener('blur', (e) => {
             if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
-                this.addForm();
+                this.addRow();
                 multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
                 getProductPrice(this.formNum - 1, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total");
                 scrollToBottom('sales-wrapper');
-                addDeleteRowButton(this.formNum-1);
+                addDeleteRowButton(this.formNum);
             }
         });
     }
