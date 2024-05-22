@@ -85,7 +85,7 @@
                     <table>
                       <thead>
                         <tr>
-                            <th class="numerator">#</th>
+                            <th class="numerator"></th>
                             <th class="name">{% translate 'Name' %}</th>
                             <th class="quantity">{% translate 'Qty' %}</th>
                             <th class="unit">{% translate 'Unit' %}</th>
@@ -106,7 +106,7 @@
                       <tbody>
                             {% for form in sold_products_formset %}
                                 <tr class="product-form">
-                                    <td class="numerator"><input type="text" value="{{ forloop.counter }}" readonly></td>
+                                    <td class="numerator">{{ forloop.counter }}</td>
                                     <td class="name">
                                         {{ form.product_name.errors }}
                                         {{ form.product_name }}

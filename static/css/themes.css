@@ -3,6 +3,7 @@
     --buttons_background: rgba(0, 119, 119, 0.4);
     --main-background: #3d3d3d;
     --document-background:rgba(235, 235, 235, 0.9);
+    --read-only-fields-background: rgba(230, 230, 230, 0.9);
 
 
     --buttons-hover:  inset 0 0 2px rgba(255, 255, 255, 0.8),

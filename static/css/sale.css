@@ -141,6 +141,10 @@
     border: 1px solid black;
 }
 
+#sold-products th.numerator {
+    border-style: none;
+}
+
 #sales-wrapper .product-form td,
 #sales-wrapper .product-form input,
 #sale-document-header input{
@@ -155,8 +159,10 @@
     padding: 3px 5px;
 }
 
+
+
 #sales-wrapper .product-form .numerator {
-    width: 3%;
+    width: 4%;
 }
 
 #sales-wrapper .product-form .name {
@@ -204,15 +210,14 @@
 #sales-wrapper .product-form .lot input,
 #sales-wrapper .product-form .exp-date input {
     text-align: center;
-    background-color: var(--document-background);
+    background-color: var(--read-only-fields-background);
     border-color: rgb(150, 150, 150);
 }
 
-#sales-wrapper .product-form .numerator input,
 #sales-wrapper .product-form .total-with-tax input,
 #sales-wrapper .product-form .total-before-tax input,
 #sales-wrapper .product-form .total-with-tax input {
-    background-color: var(--document-background);
+    background-color: var(--read-only-fields-background);
     border-color: rgb(150, 150, 150);
 }
 
@@ -324,3 +329,4 @@
         display: block;
     }
 }
+
