@@ -33,14 +33,17 @@ class ShippingDocumentForm(TransferDocumentForm):
 
 
 class TransferredProductsForm(forms.ModelForm):
+    product_unit = forms.CharField(widget=forms.TextInput(attrs={'readonly': True}))
+    product_value = forms.CharField(widget=forms.NumberInput(attrs={'readonly': True}))
+
+
+class ReceivedProductsForm(TransferredProductsForm):
     product_exp_date = forms.DateField(
         required=False,
         input_formats=['%d.%m.%Y'],
         widget=forms.DateInput(format='%d.%m.%Y', attrs={'class': 'datepicker'})
     )
 
-
-class ReceivedProductsForm(TransferredProductsForm):
     class Meta:
         model = ReceivedProducts
         fields = '__all__'
@@ -56,6 +59,13 @@ ReceivedProductsFormSet = inlineformset_factory(
 
 
 class ShippedProductsForm(TransferredProductsForm):
+    product_exp_date = forms.DateField(
+        required=False,
+        input_formats=['%d.%m.%Y'],
+        widget=forms.DateInput(format='%d.%m.%Y', attrs={'readonly': True})
+    )
+    product_lot_number = forms.CharField(widget=forms.TextInput(attrs={'readonly': True}))
+
     class Meta:
         model = ShippedProducts
         fields = '__all__'

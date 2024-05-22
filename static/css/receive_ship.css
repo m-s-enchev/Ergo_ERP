@@ -102,37 +102,43 @@
     height: 2vmax;
 }
 
+#received-products table th.numerator,
+#shipped-products table th.numerator {
+    border-style: none;
+}
+
 #received-products .product-form .numerator,
 #shipped-products .product-form .numerator{
     width: 3%;
 }
 
-#received-products .product-form td:nth-child(2),
-#shipped-products .product-form td:nth-child(2) {
+#received-products .product-form td.name,
+#shipped-products .product-form td.name {
     min-width: 45%;
 }
 
-#received-products .product-form td:nth-child(3),
-#shipped-products .product-form td:nth-child(3) {
+#received-products .product-form td.quantity,
+#shipped-products .product-form td.quantity {
     width: 5%;
 }
 
-#received-products .product-form td:nth-child(4),
-#shipped-products .product-form td:nth-child(4){
+#received-products .product-form td.unit,
+#shipped-products .product-form td.unit{
     width: 7%;
+
 }
 
-#received-products .product-form td:nth-child(5),
-#received-products .product-form td:nth-child(6),
-#shipped-products .product-form td:nth-child(5),
-#shipped-products .product-form td:nth-child(6) {
+#received-products .product-form td.lot,
+#received-products .product-form td.exp-date,
+#shipped-products .product-form td.lot,
+#shipped-products .product-form td.exp-date {
     width: 11%;
 }
 
-#received-products .product-form td:nth-child(7),
-#received-products .product-form td:nth-child(8),
-#shipped-products .product-form td:nth-child(7),
-#shipped-products .product-form td:nth-child(8) {
+#received-products .product-form td.purchase-price,
+#received-products .product-form td.product-total,
+#shipped-products .product-form td.purchase-price,
+#shipped-products .product-form td.product-total {
     width: 9%;
 }
 
@@ -141,4 +147,14 @@
     width: 100%;
     font-size: calc(11px + 0.4vw);
     padding: 0 3px;
+}
+
+#received-products .product-form td.product-total input,
+#shipped-products .product-form td.product-total input,
+#received-products .product-form td.unit input,
+#shipped-products .product-form td.unit input,
+#shipped-products .product-form td.lot input,
+#shipped-products .product-form td.exp-date input {
+    background-color: var(--read-only-fields-background);
+    border-color: rgb(150, 150, 150);
 }
