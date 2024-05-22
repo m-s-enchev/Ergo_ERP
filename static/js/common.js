@@ -253,13 +253,20 @@ function deleteRow(e){
 
 function resetNumerators (){
     const totalForms=document.querySelector('[id$="-TOTAL_FORMS"]');
-    const productFormsCount = document.querySelectorAll(".product-form").length;
+    const productForms = document.querySelectorAll(".product-form");
+    totalForms.value = productForms.length;
     const numerators = document.querySelectorAll('.numerator');
-    for (let i= 1; i<= productFormsCount; i++) {
+    const productRows = document.querySelectorAll('tbody tr');
+    const indexRegex = /-(\d+)-/;
+    for (let i= 1; i<= productForms.length; i++) {
         numerators[i].textContent = `${i}`;
+        let productInputs = productRows[i-1].querySelectorAll('td input')
+        for (let input of productInputs) {
+            input.name = input.name.replace(indexRegex, `-${i-1}-`)
+            input.id = input.id.replace(indexRegex, `-${i-1}-`)
+        }
     }
 }
-
 
 function addDeleteRowButton(index){
 const deleteButton = document.querySelector(`table tr:nth-child(${index}) .row-delete-button .fa-trash`);
