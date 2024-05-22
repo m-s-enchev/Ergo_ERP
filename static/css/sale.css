@@ -29,8 +29,8 @@
 #sale-document {
     display:flex;
     flex-direction: column;
-    padding: 2vw;
-    margin: 2vw;
+    padding: 1.5vw;
+    margin: 1.5vw;
     box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
     justify-content: space-between;
     background-color: var(--document-background);
@@ -151,6 +151,10 @@
     vertical-align: bottom;
 }
 
+.row-delete-button {
+    padding: 3px 5px;
+}
+
 #sales-wrapper .product-form .numerator {
     width: 3%;
 }
@@ -196,12 +200,22 @@
     padding: 0 3px;
 }
 
-
 #sales-wrapper .product-form .unit input,
 #sales-wrapper .product-form .lot input,
 #sales-wrapper .product-form .exp-date input {
     text-align: center;
+    background-color: var(--document-background);
+    border-color: rgb(150, 150, 150);
 }
+
+#sales-wrapper .product-form .numerator input,
+#sales-wrapper .product-form .total-with-tax input,
+#sales-wrapper .product-form .total-before-tax input,
+#sales-wrapper .product-form .total-with-tax input {
+    background-color: var(--document-background);
+    border-color: rgb(150, 150, 150);
+}
+
 
 #sales-wrapper .product-form .quantity input,
 #sales-wrapper .product-form .price-before-tax input,

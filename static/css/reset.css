@@ -25,3 +25,12 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
+input, select {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(118, 118, 118);
+    border-radius: 2px;
+    box-shadow: none;
+    background-color: rgb(255, 255, 255);
+}

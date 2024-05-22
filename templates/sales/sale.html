@@ -106,7 +106,7 @@
                       <tbody>
                             {% for form in sold_products_formset %}
                                 <tr class="product-form">
-                                    <td class="numerator">{{ forloop.counter }}</td>
+                                    <td class="numerator"><input type="text" value="{{ forloop.counter }}" readonly></td>
                                     <td class="name">
                                         {{ form.product_name.errors }}
                                         {{ form.product_name }}
