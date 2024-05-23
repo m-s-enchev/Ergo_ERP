@@ -16,18 +16,16 @@ class Inventory(models.Model):
     product_lot_number = models.CharField(max_length=100, verbose_name='LOT', null=True, blank=True)
     product_exp_date = models.DateField(verbose_name='Exp. date', null=True, blank=True, )
     # price and value are before TAX
-    product_purchase_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price',
-                                                 null=True, blank=True)
-    product_value = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price',
-                                        null=True, blank=True)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True)
+    product_purchase_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price')
+    product_total = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Price')
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
 
 class WarehouseDocument(models.Model):
     date = models.DateField()
     time = models.TimeField(auto_now_add=True)
-    operator = models.CharField(max_length=100, null=True, blank=True)
-    total_sum = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Total', null=True, blank=True)
+    operator = models.CharField(max_length=100)
+    total_sum = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Total')
 
     class Meta:
         abstract = True
@@ -51,10 +49,9 @@ class TransferredProducts(models.Model):
     product_unit = models.CharField(max_length=20, verbose_name='Unit')
     product_lot_number = models.CharField(max_length=100, verbose_name='LOT', null=True, blank=True)
     product_exp_date = models.DateField(verbose_name='Exp. date', null=True, blank=True)
-    product_purchase_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Purchase price',
-                                                 null=True, blank=True)
-    product_value = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Amount', null=True, blank=True)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True)
+    product_purchase_price = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Purchase price')
+    product_total = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Amount')
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
     class Meta:
         abstract = True

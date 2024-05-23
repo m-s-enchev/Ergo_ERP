@@ -44,7 +44,7 @@ class SoldProductsForm(ModelForm, DecimalFieldsValidationMixin):
     product_unit = forms.CharField(widget=forms.TextInput(attrs={'readonly': True}))
     product_exp_date = forms.DateField(input_formats=['%d.%m.%Y'], required=False,
                                        widget=forms.DateInput(attrs={'readonly': True}))
-    product_lot_number = forms.CharField(widget=forms.TextInput(attrs={'readonly': True}))
+    product_lot_number = forms.CharField(required=False, widget=forms.TextInput(attrs={'readonly': True}))
     product_total_before_tax = forms.CharField(widget=forms.NumberInput(attrs={'readonly': True}))
     product_total = forms.CharField(widget=forms.NumberInput(attrs={'readonly': True}))
 

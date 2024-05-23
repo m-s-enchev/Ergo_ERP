@@ -23,18 +23,18 @@ class TransferDocumentForm(forms.ModelForm):
 class ReceivingDocumentForm(TransferDocumentForm):
     class Meta:
         model = ReceivingDocument
-        fields = '__all__'
+        exclude = ('operator',)
 
 
 class ShippingDocumentForm(TransferDocumentForm):
     class Meta:
         model = ShippingDocument
-        fields = '__all__'
+        exclude = ('operator',)
 
 
 class TransferredProductsForm(forms.ModelForm):
     product_unit = forms.CharField(widget=forms.TextInput(attrs={'readonly': True}))
-    product_value = forms.CharField(widget=forms.NumberInput(attrs={'readonly': True}))
+    product_total = forms.CharField(widget=forms.NumberInput(attrs={'readonly': True}))
 
 
 class ReceivedProductsForm(TransferredProductsForm):
@@ -43,10 +43,11 @@ class ReceivedProductsForm(TransferredProductsForm):
         input_formats=['%d.%m.%Y'],
         widget=forms.DateInput(format='%d.%m.%Y', attrs={'class': 'datepicker'})
     )
+    product_lot_number = forms.CharField(required=False)
 
     class Meta:
         model = ReceivedProducts
-        fields = '__all__'
+        exclude = ('department',)
 
 
 ReceivedProductsFormSet = inlineformset_factory(
@@ -64,11 +65,11 @@ class ShippedProductsForm(TransferredProductsForm):
         input_formats=['%d.%m.%Y'],
         widget=forms.DateInput(format='%d.%m.%Y', attrs={'readonly': True})
     )
-    product_lot_number = forms.CharField(widget=forms.TextInput(attrs={'readonly': True}))
+    product_lot_number = forms.CharField(required=False, widget=forms.TextInput(attrs={'readonly': True}))
 
     class Meta:
         model = ShippedProducts
-        fields = '__all__'
+        exclude = ('department',)
 
 
 ShippedProductsFormSet = inlineformset_factory(
