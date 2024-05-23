@@ -44,6 +44,18 @@ def receive_products_dropdown():
     return products_names
 
 
+def check_product_name(document_form, products_formset):
+    valid_name = True
+    for form in products_formset:
+        cleaned_data = form.cleaned_data
+        product_name = cleaned_data.get('product_name')
+        matching_product = ProductsModel.objects.filter(product_name=product_name)
+        if not matching_product.exists():
+            form.add_error('product_name', "No such product!")
+            valid_name = False
+    return valid_name
+
+
 def create_inventory_instance(product_instance):
     new_inventory_instance = Inventory()
     field_names = [field.name for field in new_inventory_instance._meta.fields if field.name != 'id']
@@ -67,6 +79,9 @@ def update_inventory(product_instances, is_receiving: bool, department):
         if matching_inventory_instance:
             if is_receiving:
                 matching_inventory_instance.product_quantity += product_instance.product_quantity
+                matching_inventory_instance.product_total += product_instance.product_total
+                matching_inventory_instance.purchase_price = (matching_inventory_instance.product_total /
+                                                              matching_inventory_instance.product_quantity)
                 matching_inventory_instance.save()
             else:
                 if matching_inventory_instance.product_quantity < product_instance.product_quantity:
@@ -74,23 +89,28 @@ def update_inventory(product_instances, is_receiving: bool, department):
                                           f"with lot {matching_inventory_instance.product_lot_number}.")
                 else:
                     matching_inventory_instance.product_quantity -= product_instance.product_quantity
+                    matching_inventory_instance.product_total -= product_instance.product_total
+                    matching_inventory_instance.purchase_price = (matching_inventory_instance.product_total /
+                                                                  matching_inventory_instance.product_quantity)
                     matching_inventory_instance.save()
         elif is_receiving:
             create_inventory_instance(product_instance)
 
 
 def handle_receiving_document_forms(receiving_document_form, received_products_formset):
-    with transaction.atomic():
-        receive_document_instance = receiving_document_form.save(commit=False)
-        department = receive_document_instance.receiving_department
-        receive_document_instance.save()
-        product_instances = products_list_save_to_document(
-            received_products_formset,
-            receive_document_instance,
-            'linked_warehouse_document'
-            )
-        product_instances_department = add_department_to_products(product_instances, department)
-        update_inventory(product_instances_department, True, department)
+    if check_product_name(receiving_document_form, received_products_formset):
+        print(check_product_name(receiving_document_form, received_products_formset))
+        with transaction.atomic():
+            receive_document_instance = receiving_document_form.save(commit=False)
+            department = receive_document_instance.receiving_department
+            receive_document_instance.save()
+            product_instances = products_list_save_to_document(
+                received_products_formset,
+                receive_document_instance,
+                'linked_warehouse_document'
+                )
+            product_instances_department = add_department_to_products(product_instances, department)
+            update_inventory(product_instances_department, True, department)
 
 
 def receiving_document_create(request):
@@ -115,14 +135,14 @@ def receiving_document_create(request):
         receiving_document_form = ReceivingDocumentForm(initial={
             'receiving_department': user_settings.default_department}
         )
-        context = {
-            'receiving_document_form': receiving_document_form,
-            'received_products_formset': received_products_formset,
-            'products_dropdown': products_dropdown,
-            'user_settings': user_settings,
-            'template_verbose_name': 'Receiving',
-        }
-        return render(request, 'inventory/warehouse_receiving.html', context)
+    context = {
+        'receiving_document_form': receiving_document_form,
+        'received_products_formset': received_products_formset,
+        'products_dropdown': products_dropdown,
+        'user_settings': user_settings,
+        'template_verbose_name': 'Receiving',
+    }
+    return render(request, 'inventory/warehouse_receiving.html', context)
 
 
 def handle_shipping_document_forms(shipping_document_form, shipped_products_formset):
@@ -159,11 +179,11 @@ def shipping_document_create(request):
 
     else:
         shipping_document_form = ShippingDocumentForm(initial={'shipping_department': user_settings.default_department})
-        context = {
-            'shipping_document_form': shipping_document_form,
-            'shipped_products_formset': shipped_products_formset,
-            'products_dropdown': products_dropdown,
-            'user_settings': user_settings,
-            'template_verbose_name': 'Shipping',
-        }
-        return render(request, 'inventory/warehouse_shipping.html', context)
+    context = {
+        'shipping_document_form': shipping_document_form,
+        'shipped_products_formset': shipped_products_formset,
+        'products_dropdown': products_dropdown,
+        'user_settings': user_settings,
+        'template_verbose_name': 'Shipping',
+    }
+    return render(request, 'inventory/warehouse_shipping.html', context)
