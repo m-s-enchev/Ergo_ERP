@@ -97,7 +97,7 @@ function get_purchase_price(index, formsetPrefix, priceSuffix){
                 })
             .then(data => {
                 priceInput.value = data.purchase_price;
-                rowTotal(index, formsetPrefix, priceSuffix, 'product_value');
+                rowTotal(index, formsetPrefix, priceSuffix, 'product_total');
             })
             .catch(error => console.error('There has been a problem with your fetch operation:', error));
     });

@@ -2,8 +2,8 @@
 let productNamesDict = {};
 
 document.addEventListener('DOMContentLoaded', function () {
-    const productFormManager = new ProductFormManager();
-    productFormManager.attachBlurEventToLastField();
+    const addProductFormManager = new AddProductFormManager();
+    addProductFormManager.attachBlurEventToLastField();
     setupInvoiceToggle();
     saleEnterKeyBehavior();
     disableArrowKeys();
@@ -73,7 +73,7 @@ function multicolumnDropdown(selector) {
 /** Handles the adding of a new products row in table, which is a SoldProductsForm instance.
  * If the product_name field of the last row is filled and focus is shifted to another field,
  * a new row is added for the next product */
-class ProductFormManager {
+class AddProductFormManager {
     constructor() {
         this.container = document.querySelector("#sold-products tbody");
         this.totalForms = document.querySelector("#id_sold_products-TOTAL_FORMS");

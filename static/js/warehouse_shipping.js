@@ -99,7 +99,7 @@ function initialShippedProductRowFunctions () {
         for (let index = 0; index < numberOfRows; index++) {
             multicolumnDropdownShip(`#id_transferred_products-${index}-product_name`);
             get_purchase_price(index, "id_transferred_products", "product_purchase_price");
-            updateRowTotal(index, "id_transferred_products", "product_purchase_price", "product_value");
+            updateRowTotal(index, "id_transferred_products", "product_purchase_price", "product_total");
         }
     });
 }
@@ -151,7 +151,7 @@ class ShippedProductsFormManager {
             if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
                 this.addRow();
                 multicolumnDropdownShip(`#id_transferred_products-${this.formNum - 1}-product_name`);
-                updateRowTotal(this.formNum - 1,"id_transferred_products", "product_purchase_price", "product_value");
+                updateRowTotal(this.formNum - 1,"id_transferred_products", "product_purchase_price", "product_total");
                 scrollToBottom('ship-wrapper');
             }
         });
@@ -159,7 +159,7 @@ class ShippedProductsFormManager {
 
        updateTotalSum() {
         this.receivedProductsTable.addEventListener('change', () => {
-            let documentTotalSum = totalSum(this.formNum, "id_total_sum", "id_transferred_products", "product_value");
+            let documentTotalSum = totalSum(this.formNum, "id_total_sum", "id_transferred_products", "product_total");
         });
     }
 
