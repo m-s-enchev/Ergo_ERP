@@ -11,7 +11,7 @@ def is_formset_nonempty(formset):
     return False
 
 
-def products_list_save_to_document(products_formset, document_instance, name_of_foreignkey_field: str):
+def products_list_save_to_document(products_formset, document_instance, name_of_foreignkey_field: str, department=None):
     """
     Handles products form and links their instances to the document instance.
     """
@@ -20,19 +20,11 @@ def products_list_save_to_document(products_formset, document_instance, name_of_
         if products_form.cleaned_data:
             products_instance = products_form.save(commit=False)
             setattr(products_instance, name_of_foreignkey_field, document_instance)
+            if department:
+                setattr(products_instance, 'department', department)
             products_instance.save()
             saved_product_instances.append(products_instance)
     return saved_product_instances
-
-
-def add_department_to_products(product_instances: list, department):
-    """
-    Link product form to department from document
-    """
-    for product_instance in product_instances:
-        product_instance.department = department
-        product_instance.save()
-        return product_instances
 
 
 def get_next_document_number(model, numerator_field_name):

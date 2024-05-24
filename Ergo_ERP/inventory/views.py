@@ -50,7 +50,7 @@ def check_product_name(document_form, products_formset):
         cleaned_data = form.cleaned_data
         product_name = cleaned_data.get('product_name')
         matching_product = ProductsModel.objects.filter(product_name=product_name)
-        if not matching_product.exists():
+        if product_name and not matching_product.exists():
             form.add_error('product_name', "No such product!")
             valid_name = False
     return valid_name
@@ -66,8 +66,9 @@ def create_inventory_instance(product_instance):
 
 def update_inventory(product_instances, is_receiving: bool, department):
     """
-    Adds to and removes from quantities of existing products.
-    Creates new products in inventory
+    Adds to and removes from quantities and value of existing products.
+    Adjusts current median purchase price.
+    Creates new product lots in inventory if necessary.
     """
     for product_instance in product_instances:
         matching_inventory_instance = Inventory.objects.filter(
@@ -89,28 +90,25 @@ def update_inventory(product_instances, is_receiving: bool, department):
                                           f"with lot {matching_inventory_instance.product_lot_number}.")
                 else:
                     matching_inventory_instance.product_quantity -= product_instance.product_quantity
-                    matching_inventory_instance.product_total -= product_instance.product_total
-                    matching_inventory_instance.purchase_price = (matching_inventory_instance.product_total /
-                                                                  matching_inventory_instance.product_quantity)
+                    matching_inventory_instance.product_total -= (product_instance.product_quantity *
+                                                                  matching_inventory_instance.purchase_price)
                     matching_inventory_instance.save()
         elif is_receiving:
             create_inventory_instance(product_instance)
 
 
 def handle_receiving_document_forms(receiving_document_form, received_products_formset):
-    if check_product_name(receiving_document_form, received_products_formset):
-        print(check_product_name(receiving_document_form, received_products_formset))
-        with transaction.atomic():
-            receive_document_instance = receiving_document_form.save(commit=False)
-            department = receive_document_instance.receiving_department
-            receive_document_instance.save()
-            product_instances = products_list_save_to_document(
-                received_products_formset,
-                receive_document_instance,
-                'linked_warehouse_document'
-                )
-            product_instances_department = add_department_to_products(product_instances, department)
-            update_inventory(product_instances_department, True, department)
+    with transaction.atomic():
+        receive_document_instance = receiving_document_form.save(commit=False)
+        department = receive_document_instance.receiving_department
+        receive_document_instance.save()
+        product_instances = products_list_save_to_document(
+            received_products_formset,
+            receive_document_instance,
+            'linked_warehouse_document',
+            department
+            )
+        update_inventory(product_instances, True, department)
 
 
 def receiving_document_create(request):
@@ -128,6 +126,7 @@ def receiving_document_create(request):
                 receiving_document_form.is_valid()
                 and received_products_formset.is_valid()
                 and is_formset_nonempty(received_products_formset)
+                and check_product_name(receiving_document_form, received_products_formset)
         ):
             handle_receiving_document_forms(receiving_document_form, received_products_formset)
             return redirect(reverse('receive-goods'))
