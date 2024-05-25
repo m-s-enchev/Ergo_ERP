@@ -1,73 +1,6 @@
 let productNamesDictShip= {};
 
 
-function fetchProductsByDepartmentShip(departmentId) {
-    if (departmentId) {
-        let url = `/common/get-products-by-department/?department_id=${departmentId}`;
-        return fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                productNamesDictShip = data;
-                return productNamesDictShip;
-            })
-            .catch(error => console.error('Error fetching products:', error));
-    } else {
-        return Promise.resolve(null);
-    }
-}
-
-
-function multicolumnDropdownShip(selector) {
-    let productNames = Object.keys(productNamesDictShip);
-    $(selector).autocomplete({
-        source: productNames,
-        select: function(event, ui) {
-            let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
-            let details = productNamesDictShip[ui.item.value];
-            $(`#${idPrefix}product_unit`).val(details[1]);
-            $(`#${idPrefix}product_lot_number`).val(details[2]);
-            $(`#${idPrefix}product_exp_date`).val(details[3]);
-            return false;
-        },
-        open: function() {
-        let dropdownWidth = 1.02*getElementsWidth([
-            '#id_transferred_products-0-product_name',
-            '#id_transferred_products-0-product_quantity',
-            '#id_transferred_products-0-product_unit',
-            '#id_transferred_products-0-product_lot_number',
-            '#id_transferred_products-0-product_exp_date'
-        ]);
-        $(this).autocomplete("widget").css({
-            "width": dropdownWidth + "px"
-        });
-        }
-
-    }).autocomplete("instance")._renderItem = function(ul, item) {
-        let details = productNamesDictShip[item.value];
-        let label;
-        const lotColumn = document.querySelector('th.lot')
-        if (lotColumn.style.display !== 'none') {
-            label = `<div class="products-dropdown">
-                        <span>${item.value}</span>
-                        <span>${details[0]}</span>
-                        <span>${details[1]}</span>
-                        <span>${details[2]}</span>
-                        <span>${details[3]}</span>
-                    </div>`;
-        } else {
-            label = `<div class="products-dropdown">
-                        <span>${item.value}</span>
-                        <span>${details[0]}</span>
-                        <span>${details[1]}</span>
-                    </div>`;
-        }
-        return $("<li>")
-            .append(`${label}`)
-            .appendTo(ul);
-    };
-}
-
-
 function saleEnterKeyBehavior() {
     const tableBodyContainer = document.querySelector("#shipped-products tbody");
     tableBodyContainer.addEventListener('keydown', function (e) {
@@ -91,11 +24,14 @@ function saleEnterKeyBehavior() {
 
 
 
+
+
+
 function initialShippedProductRowFunctions () {
     let departmentId = document.getElementById('id_shipping_department').value;
     const productForms = document.querySelectorAll(".product-form");
     let numberOfRows = productForms.length;
-    fetchProductsByDepartmentShip(departmentId).then(() => {
+    fetchProductsByDepartment(departmentId, productNamesDictShip ).then(() => {
         for (let index = 0; index < numberOfRows; index++) {
             multicolumnDropdownShip(`#id_transferred_products-${index}-product_name`);
             get_purchase_price(index, "id_transferred_products", "product_purchase_price");
@@ -175,5 +111,9 @@ document.addEventListener('DOMContentLoaded', function () {
     shippedProductsFormManager.attachBlurEventToLastField();
     initialShippedProductRowFunctions();
     saleEnterKeyBehavior();
-    updateProductsDropdown('id_shipping_department', 'id_transferred_products');
+    updateProductsDropdown(
+        'id_shipping_department',
+        'id_transferred_products',
+        productNamesDictShip
+    );
 });

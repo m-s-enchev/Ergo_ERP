@@ -1,40 +1,3 @@
-/** Fetches product price from either Products or Inventory models.
- * In case of Inventory ot matches both by name and lot */
-
-// function getProductPrice(index, modelName, formsetPrefix, priceFieldNoVatSuffix, priceFieldWithVatSuffix=null) {
-//     const productNameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
-//     const productLotInput = document.getElementById(`${formsetPrefix}-${index}-product_lot_number`);
-//     const productPriceInput = document.getElementById(`${formsetPrefix}-${index}-${priceFieldNoVatSuffix}`);
-//
-//     productNameInput.addEventListener('change', function() {
-//         const productName = this.value;
-//         let fetchUrl = `/common/get-product-price/?product_name=${encodeURIComponent(productName)}&model_name=${modelName}`;
-//         if (productLotInput) {
-//             fetchUrl += `&product_lot=${encodeURIComponent(productLotInput.value)}`;
-//         }
-//
-//         fetch(fetchUrl)
-//             .then(response => {
-//                 if (response.ok) {
-//                     return response.json();
-//                 }
-//                 throw new Error('Network response was not ok.');
-//             })
-//             .then(data => {
-//                 productPriceInput.value = data.product_price;
-//                 rowTotal(index, formsetPrefix, priceFieldNoVatSuffix, 'product_total_before_tax');
-//                 if (priceFieldWithVatSuffix) {
-//                     const productPriceInputWithVat = document.getElementById(`${formsetPrefix}-${index}-${priceFieldWithVatSuffix}`);
-//                     productPriceInputWithVat.value = (data.product_vat*0.01+1)*data.product_price
-//                     rowTotal(index, formsetPrefix, priceFieldWithVatSuffix, 'product_total');
-//                 }
-//
-//             })
-//             .catch(error => console.error('There has been a problem with your fetch operation:', error));
-//     });
-// }
-
-
 document.addEventListener('DOMContentLoaded', () => {
     profileTooltip();
 })
@@ -58,7 +21,7 @@ function tableColumnShow (table, ...columnClassNames) {
 }
 
 
-/** Fetches the price and unit of selected product */
+/** Fetches one of the prices of selected product */
 function getProductPrice(index, formsetPrefix, priceNoTaxSuffix, priceWithTaxSuffix, priceType) {
     const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
     const priceNoTaxInput = document.getElementById(`${formsetPrefix}-${index}-${priceNoTaxSuffix}`);
@@ -82,6 +45,8 @@ function getProductPrice(index, formsetPrefix, priceNoTaxSuffix, priceWithTaxSuf
     });
 }
 
+
+/** Fetches the purchase_price and unit of selected product */
 function get_purchase_price(index, formsetPrefix, priceSuffix){
     const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
     const priceInput = document.getElementById(`${formsetPrefix}-${index}-${priceSuffix}`);
@@ -148,22 +113,6 @@ function scrollToBottom(wrapperId) {
     }
 
 
-function fetchProductsByDepartment(departmentId) {
-    if (departmentId) {
-        let url = `/common/get-products-by-department/?department_id=${departmentId}`;
-        return fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                productNamesDict = data;
-                return productNamesDict;
-            })
-            .catch(error => console.error('Error fetching products:', error));
-    } else {
-        return Promise.resolve(null);
-    }
-}
-
-
 function fetchProductsAll() {
     let url = `/common/get-products-all/`;
     return fetch(url)
@@ -175,30 +124,41 @@ function fetchProductsAll() {
         .catch(error => console.error('Error fetching products:', error));
 }
 
-// function updateProductsDropdown() {
-//     const departmentField = document.getElementById('id_department');
-//     departmentField.addEventListener('change', function () {
-//         let productForms = document.querySelectorAll(".product-form");
-//         let departmentId = departmentField.value
-//         let numberOfRows = productForms.length;
-//         fetchProductsByDepartment(departmentId).then(() => {
-//             for (let index = 0; index < numberOfRows; index++) {
-//                 multicolumnDropdown(`#id_sold_products-${index}-product_name`);
-//             }
-//         });
-//     });
-// }
+
+function fetchProductsByDepartment(departmentId, outputDict) {
+    if (departmentId) {
+        let url = `/common/get-products-by-department/?department_id=${departmentId}`;
+        return fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                for (let key in outputDict) {
+                    if (outputDict.hasOwnProperty(key)) {
+                        delete outputDict[key];
+                    }
+                }
+                for (let key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        outputDict[key] = data[key];
+                    }
+                }
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    } else {
+        return Promise.resolve(null);
+    }
+}
 
 
-function updateProductsDropdown(departmentFieldId, formsetPrefix) {
+
+function updateProductsDropdown(departmentFieldId, formsetPrefix, outputDict) {
     const departmentField = document.getElementById(departmentFieldId);
     departmentField.addEventListener('change', function () {
         let productForms = document.querySelectorAll(".product-form");
-        let departmentId = departmentField.value
+        let departmentId = departmentField.value;
         let numberOfRows = productForms.length;
-        fetchProductsByDepartment(departmentId).then(() => {
+        fetchProductsByDepartment(departmentId, outputDict ).then(() => {
             for (let index = 0; index < numberOfRows; index++) {
-                multicolumnDropdown(`#${formsetPrefix}-${index}-product_name`);
+                multicolumnDropdown(`#${formsetPrefix}-${index}-product_name`,outputDict,formsetPrefix);
             }
         });
     });
@@ -272,4 +232,55 @@ const deleteButton = document.querySelector(`table tr:nth-child(${index}) .row-d
         deleteRow(e);
         resetNumerators();
     });
+}
+
+/** A multicolumn dropdown menu that displays choice of products, their unit, lot and exp. date
+ * and available quantity in inventory. After selection name, lot and exp. date fields get filled */
+function multicolumnDropdown(selector, productNamesDict, formsetPrefix) {
+    let productNames = Object.keys(productNamesDict);
+    $(selector).autocomplete({
+        source: productNames,
+        select: function(event, ui) {
+            let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
+            let details = productNamesDict[ui.item.value];
+            $(`#${idPrefix}product_unit`).val(details[1]);
+            $(`#${idPrefix}product_lot_number`).val(details[2]);
+            $(`#${idPrefix}product_exp_date`).val(details[3]);
+            return false;
+        },
+        open: function() {
+            let dropdownWidth = 1.02 * getElementsWidth([
+                `#${formsetPrefix}-0-product_name`,
+                `#${formsetPrefix}-0-product_quantity`,
+                `#${formsetPrefix}-0-product_unit`,
+                `#${formsetPrefix}-0-product_lot_number`,
+                `#${formsetPrefix}-0-product_exp_date`
+            ]);
+            $(this).autocomplete("widget").css({
+                "width": dropdownWidth + "px"
+            });
+        }
+    }).autocomplete("instance")._renderItem = function(ul, item) {
+        let details = productNamesDict[item.value];
+        let label;
+        const lotColumn = document.querySelector('th.lot');
+        if (lotColumn.style.display !== 'none') {
+            label = `<div class="products-dropdown">
+                        <span>${item.value}</span>
+                        <span>${details[0]}</span>
+                        <span>${details[1]}</span>
+                        <span>${details[2]}</span>
+                        <span>${details[3]}</span>
+                    </div>`;
+        } else {
+            label = `<div class="products-dropdown">
+                        <span>${item.value}</span>
+                        <span>${details[0]}</span>
+                        <span>${details[1]}</span>
+                    </div>`;
+        }
+        return $("<li>")
+            .append(`${label}`)
+            .appendTo(ul);
+    };
 }
