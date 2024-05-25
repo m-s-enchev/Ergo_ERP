@@ -59,11 +59,10 @@ function tableColumnShow (table, ...columnClassNames) {
 
 
 /** Fetches the price and unit of selected product */
-function getProductPrice(index, formsetPrefix, priceNoVatSuffix, priceWithVatSuffix, priceType) {
+function getProductPrice(index, formsetPrefix, priceNoTaxSuffix, priceWithTaxSuffix, priceType) {
     const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
-    const priceNoVatInput = document.getElementById(`${formsetPrefix}-${index}-${priceNoVatSuffix}`);
-    const priceWithVatInput = document.getElementById(`${formsetPrefix}-${index}-${priceWithVatSuffix}`);
-
+    const priceNoTaxInput = document.getElementById(`${formsetPrefix}-${index}-${priceNoTaxSuffix}`);
+    const priceWithTaxInput = document.getElementById(`${formsetPrefix}-${index}-${priceWithTaxSuffix}`);
     nameInput.addEventListener('change', function() {
         const productName = this.value;
         fetch(`/common/get-product-price/?product_name=${encodeURIComponent(productName)}&price_type=${priceType}`)
@@ -74,10 +73,10 @@ function getProductPrice(index, formsetPrefix, priceNoVatSuffix, priceWithVatSuf
                 throw new Error('Network response was not ok.');
             })
             .then(data => {
-                priceNoVatInput.value = data.product_price;
-                rowTotal(index, formsetPrefix, priceNoVatSuffix, 'product_total_before_tax');
-                priceWithVatInput.value = ((data.product_vat*0.01+1)*data.product_price).toFixed(2)
-                rowTotal(index, formsetPrefix, priceWithVatSuffix, 'product_total');
+                priceNoTaxInput.value = data.product_price;
+                rowTotal(index, formsetPrefix, priceNoTaxSuffix, 'product_total_before_tax');
+                priceWithTaxInput.value = ((data.product_vat*0.01+1)*data.product_price).toFixed(2)
+                rowTotal(index, formsetPrefix, priceWithTaxSuffix, 'product_total');
             })
             .catch(error => console.error('There has been a problem with your fetch operation:', error));
     });
@@ -163,7 +162,6 @@ function fetchProductsByDepartment(departmentId) {
         return Promise.resolve(null);
     }
 }
-
 
 
 function fetchProductsAll() {

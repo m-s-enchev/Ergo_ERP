@@ -1,6 +1,7 @@
 
 let productNamesDict = {};
 
+
 document.addEventListener('DOMContentLoaded', function () {
     const addProductFormManager = new AddProductFormManager();
     addProductFormManager.attachBlurEventToLastField();
@@ -12,9 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleQuickSelect();
     updateProductsDropdown('id_department', 'id_sold_products');
 });
-
-
-
 
 
 /** A multicolumn dropdown menu that displays choice of products, their lot and exp. date

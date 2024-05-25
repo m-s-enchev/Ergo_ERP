@@ -111,3 +111,7 @@ def products_dict_dropdown(department=None):
                                                 exp_date_formatted
                                                 ]
     return products_dict
+
+
+
+

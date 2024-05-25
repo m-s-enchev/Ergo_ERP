@@ -4,8 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView
 
-from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document, \
-    add_department_to_products
+from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document
 from Ergo_ERP.common.views import products_dict_dropdown
 from Ergo_ERP.inventory.forms import ReceivingDocumentForm, ReceivedProductsFormSet, ShippingDocumentForm, \
     ShippedProductsFormSet
