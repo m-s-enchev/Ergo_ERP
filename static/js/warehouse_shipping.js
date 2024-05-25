@@ -1,44 +1,17 @@
 let productNamesDictShip= {};
 
-
-function saleEnterKeyBehavior() {
-    const tableBodyContainer = document.querySelector("#shipped-products tbody");
-    tableBodyContainer.addEventListener('keydown', function (e) {
-        if (e.target.tagName === 'INPUT' && e.key === 'Enter') {
-            e.preventDefault();
-            const currentId = e.target.id;
-            const integerInId = currentId.match(/\d+/);
-            const currentRowIndex = parseInt(integerInId[0], 10);
-            if (currentId.includes('-product_name')) {
-                const nextInput = document.querySelector(`#id_transferred_products-${currentRowIndex}-product_quantity`);
-                if (nextInput) nextInput.focus();
-            } else {
-                const productForms = document.querySelectorAll(".product-form");
-                const productFormsLength = productForms.length;
-                const nextInput = document.querySelector(`#id_transferred_products-${productFormsLength-1}-product_name`);
-                if (nextInput) nextInput.focus();
-            }
-        }
-    });
-}
-
-
-
-
-
-
-function initialShippedProductRowFunctions () {
-    let departmentId = document.getElementById('id_shipping_department').value;
-    const productForms = document.querySelectorAll(".product-form");
-    let numberOfRows = productForms.length;
-    fetchProductsByDepartment(departmentId, productNamesDictShip ).then(() => {
-        for (let index = 0; index < numberOfRows; index++) {
-            multicolumnDropdown(`#id_transferred_products-${index}-product_name`, productNamesDictShip, 'id_transferred_products');
-            get_purchase_price(index, "id_transferred_products", "product_purchase_price");
-            updateRowTotal(index, "id_transferred_products", "product_purchase_price", "product_total");
-        }
-    });
-}
+document.addEventListener('DOMContentLoaded', function () {
+    const shippedProductsFormManager = new ShippedProductsFormManager();
+    shippedProductsFormManager.attachBlurEventToLastField();
+    disableArrowKeys("ship-document");
+    initialShippedProductRowFunctions();
+    EnterKeyBehavior('shipped-products','id_transferred_products');
+    updateProductsDropdown(
+        'id_shipping_department',
+        'id_transferred_products',
+        productNamesDictShip
+    );
+});
 
 
 class ShippedProductsFormManager {
@@ -101,20 +74,16 @@ class ShippedProductsFormManager {
 
 }
 
+function initialShippedProductRowFunctions () {
+    let departmentId = document.getElementById('id_shipping_department').value;
+    const productForms = document.querySelectorAll(".product-form");
+    let numberOfRows = productForms.length;
+    fetchProductsByDepartment(departmentId, productNamesDictShip ).then(() => {
+        for (let index = 0; index < numberOfRows; index++) {
+            multicolumnDropdown(`#id_transferred_products-${index}-product_name`, productNamesDictShip, 'id_transferred_products');
+            get_purchase_price(index, "id_transferred_products", "product_purchase_price");
+            updateRowTotal(index, "id_transferred_products", "product_purchase_price", "product_total");
+        }
+    });
+}
 
-
-
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    const shippedProductsFormManager = new ShippedProductsFormManager();
-    shippedProductsFormManager.attachBlurEventToLastField();
-    disableArrowKeys("ship-document");
-    initialShippedProductRowFunctions();
-    saleEnterKeyBehavior();
-    updateProductsDropdown(
-        'id_shipping_department',
-        'id_transferred_products',
-        productNamesDictShip
-    );
-});

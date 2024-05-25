@@ -16,6 +16,35 @@ function disableArrowKeys (documentId) {
 }
 
 
+/** Prevents the default behavior of "Enter" key and instead uses it to switch from product_name
+ * to product_quantity and from there to the next row. The purpose is to make its use intuitive
+ * for the user and speed up product entry.*/
+function EnterKeyBehavior(tableId, formsetPrefix) {
+    const tableBodyContainer = document.querySelector(`#${tableId} tbody`);
+    tableBodyContainer.addEventListener('keydown', function (e) {
+        if (e.target.tagName === 'INPUT' && e.key === 'Enter') {
+            e.preventDefault();
+            const currentId = e.target.id;
+            const integerInId = currentId.match(/\d+/);
+            const currentRowIndex = parseInt(integerInId[0], 10);
+            if (currentId.includes('-product_name')) {
+                const nextInput = document.querySelector(`#${formsetPrefix}-${currentRowIndex}-product_quantity`);
+                if (nextInput) nextInput.focus();
+            } else {
+                const productForms = document.querySelectorAll(".product-form");
+                const productFormsLength = productForms.length;
+                const nextInput = document.querySelector(`#${formsetPrefix}-${productFormsLength-1}-product_name`);
+                if (nextInput) nextInput.focus();
+            }
+        }
+    });
+}
+
+
+function scrollToBottom(wrapperId) {
+        const container = document.getElementById(wrapperId);
+        container.scrollTop = container.scrollHeight;
+    }
 
 
 /** Hides on or more columns in a table based on class name of cells */
@@ -121,10 +150,56 @@ function totalSum (formNum, totalSumId, formsetPrefix, sumFieldSuffix) {
 }
 
 
-function scrollToBottom(wrapperId) {
-        const container = document.getElementById(wrapperId);
-        container.scrollTop = container.scrollHeight;
-    }
+/** A multicolumn dropdown menu that displays choice of products, their unit, lot and exp. date
+ * and available quantity in inventory. After selection name, lot and exp. date fields get filled */
+function multicolumnDropdown(selector, productNamesDict, formsetPrefix) {
+    let productNames = Object.keys(productNamesDict);
+    $(selector).autocomplete({
+        source: productNames,
+        select: function(event, ui) {
+            let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
+            let details = productNamesDict[ui.item.value];
+            $(`#${idPrefix}product_unit`).val(details[1]);
+            $(`#${idPrefix}product_lot_number`).val(details[2]);
+            $(`#${idPrefix}product_exp_date`).val(details[3]);
+            return false;
+        },
+        open: function() {
+            let dropdownWidth = 1.02 * getElementsWidth([
+                `#${formsetPrefix}-0-product_name`,
+                `#${formsetPrefix}-0-product_quantity`,
+                `#${formsetPrefix}-0-product_unit`,
+                `#${formsetPrefix}-0-product_lot_number`,
+                `#${formsetPrefix}-0-product_exp_date`
+            ]);
+            $(this).autocomplete("widget").css({
+                "width": dropdownWidth + "px"
+            });
+        }
+    }).autocomplete("instance")._renderItem = function(ul, item) {
+        let details = productNamesDict[item.value];
+        let label;
+        const lotColumn = document.querySelector('th.lot');
+        if (lotColumn.style.display !== 'none') {
+            label = `<div class="products-dropdown">
+                        <span>${item.value}</span>
+                        <span>${details[0]}</span>
+                        <span>${details[1]}</span>
+                        <span>${details[2]}</span>
+                        <span>${details[3]}</span>
+                    </div>`;
+        } else {
+            label = `<div class="products-dropdown">
+                        <span>${item.value}</span>
+                        <span>${details[0]}</span>
+                        <span>${details[1]}</span>
+                    </div>`;
+        }
+        return $("<li>")
+            .append(`${label}`)
+            .appendTo(ul);
+    };
+}
 
 
 function fetchProductsAll() {
@@ -177,6 +252,9 @@ function updateProductsDropdown(departmentFieldId, formsetPrefix, outputDict) {
         });
     });
 }
+
+
+
 
 
 function profileTooltip () {
@@ -248,53 +326,3 @@ const deleteButton = document.querySelector(`table tr:nth-child(${index}) .row-d
     });
 }
 
-/** A multicolumn dropdown menu that displays choice of products, their unit, lot and exp. date
- * and available quantity in inventory. After selection name, lot and exp. date fields get filled */
-function multicolumnDropdown(selector, productNamesDict, formsetPrefix) {
-    let productNames = Object.keys(productNamesDict);
-    $(selector).autocomplete({
-        source: productNames,
-        select: function(event, ui) {
-            let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
-            let details = productNamesDict[ui.item.value];
-            $(`#${idPrefix}product_unit`).val(details[1]);
-            $(`#${idPrefix}product_lot_number`).val(details[2]);
-            $(`#${idPrefix}product_exp_date`).val(details[3]);
-            return false;
-        },
-        open: function() {
-            let dropdownWidth = 1.02 * getElementsWidth([
-                `#${formsetPrefix}-0-product_name`,
-                `#${formsetPrefix}-0-product_quantity`,
-                `#${formsetPrefix}-0-product_unit`,
-                `#${formsetPrefix}-0-product_lot_number`,
-                `#${formsetPrefix}-0-product_exp_date`
-            ]);
-            $(this).autocomplete("widget").css({
-                "width": dropdownWidth + "px"
-            });
-        }
-    }).autocomplete("instance")._renderItem = function(ul, item) {
-        let details = productNamesDict[item.value];
-        let label;
-        const lotColumn = document.querySelector('th.lot');
-        if (lotColumn.style.display !== 'none') {
-            label = `<div class="products-dropdown">
-                        <span>${item.value}</span>
-                        <span>${details[0]}</span>
-                        <span>${details[1]}</span>
-                        <span>${details[2]}</span>
-                        <span>${details[3]}</span>
-                    </div>`;
-        } else {
-            label = `<div class="products-dropdown">
-                        <span>${item.value}</span>
-                        <span>${details[0]}</span>
-                        <span>${details[1]}</span>
-                    </div>`;
-        }
-        return $("<li>")
-            .append(`${label}`)
-            .appendTo(ul);
-    };
-}

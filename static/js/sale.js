@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const addProductFormManager = new AddProductFormManager();
     addProductFormManager.attachBlurEventToLastField();
     setupInvoiceToggle();
-    saleEnterKeyBehavior();
+    EnterKeyBehavior('sold-products','id_sold_products');
     disableArrowKeys("sale-document");
     initialSaleProductRowFunctions();
     getClientNames();
@@ -82,32 +82,6 @@ class AddProductFormManager {
         });
     }
 
-}
-
-
-
-/** Prevents the default behavior of "Enter" key and instead uses it to switch from product_name
- * to product_quantity and from there to the next row. The purpose is to make its use intuitive
- * for the user and speed up product entry.*/
-function saleEnterKeyBehavior() {
-    const tableBodyContainer = document.querySelector("#sold-products tbody");
-    tableBodyContainer.addEventListener('keydown', function (e) {
-        if (e.target.tagName === 'INPUT' && e.key === 'Enter') {
-            e.preventDefault();
-            const currentId = e.target.id;
-            const integerInId = currentId.match(/\d+/);
-            const currentRowIndex = parseInt(integerInId[0], 10);
-            if (currentId.includes('-product_name')) {
-                const nextInput = document.querySelector(`#id_sold_products-${currentRowIndex}-product_quantity`);
-                if (nextInput) nextInput.focus();
-            } else {
-                const productForms = document.querySelectorAll(".product-form");
-                const productFormsLength = productForms.length;
-                const nextInput = document.querySelector(`#id_sold_products-${productFormsLength-1}-product_name`);
-                if (nextInput) nextInput.focus();
-            }
-        }
-    });
 }
 
 
