@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     addProductFormManager.attachBlurEventToLastField();
     setupInvoiceToggle();
     saleEnterKeyBehavior();
-    disableArrowKeys();
+    disableArrowKeys("sale-document");
     initialSaleProductRowFunctions();
     getClientNames();
     toggleQuickSelect();
@@ -64,7 +64,6 @@ class AddProductFormManager {
             if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
                 this.addRow();
                 multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`, productNamesDict, 'id_sold_products');
-                // multicolumnDropdown(`#id_sold_products-${this.formNum - 1}-product_name`);
                 getProductPrice(this.formNum - 1, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price_before_tax", "product_total_before_tax");
                 updateRowTotal(this.formNum - 1,"id_sold_products", "product_price", "product_total");
@@ -109,20 +108,6 @@ function saleEnterKeyBehavior() {
             }
         }
     });
-}
-
-
-
-/** Prevents the ArrowUp and ArrowDown keys from incrementing and decrementing number fields.
- * A users intuitive expectation in a table would be from those key to navigate,
- * so when pressed, the change of value in a field may not be noticed.*/
-function disableArrowKeys () {
-    const saleDocument = document.getElementById('sale-document');
-    saleDocument.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-            e.preventDefault();
-        }
-        });
 }
 
 
@@ -227,7 +212,6 @@ function initialSaleProductRowFunctions () {
     fetchProductsByDepartment(departmentId, productNamesDict).then(() => {
         for (let index = 0; index < numberOfRows; index++) {
             multicolumnDropdown(`#id_sold_products-${index}-product_name`, productNamesDict, 'id_sold_products');
-            // multicolumnDropdown(`#id_sold_products-${index}-product_name`);
             getProductPrice(index, "id_sold_products", "product_price_before_tax", "product_price", "product_retail_price");
             updateRowTotal(index, "id_sold_products", "product_price_before_tax", "product_total_before_tax");
             updateRowTotal(index, "id_sold_products", "product_price", "product_total");

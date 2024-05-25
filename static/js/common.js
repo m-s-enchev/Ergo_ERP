@@ -3,6 +3,20 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 
+/** Prevents the ArrowUp and ArrowDown keys from incrementing and decrementing number fields.
+ * A users intuitive expectation in a table would be from those key to navigate,
+ * so when pressed, the change of value in a field may not be noticed.*/
+function disableArrowKeys (documentId) {
+    const documentSection = document.getElementById(documentId);
+    documentSection.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault();
+        }
+        });
+}
+
+
+
 
 /** Hides on or more columns in a table based on class name of cells */
 function tableColumnHide (table, ...columnClassNames) {

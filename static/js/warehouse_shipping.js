@@ -33,7 +33,7 @@ function initialShippedProductRowFunctions () {
     let numberOfRows = productForms.length;
     fetchProductsByDepartment(departmentId, productNamesDictShip ).then(() => {
         for (let index = 0; index < numberOfRows; index++) {
-            multicolumnDropdownShip(`#id_transferred_products-${index}-product_name`);
+            multicolumnDropdown(`#id_transferred_products-${index}-product_name`, productNamesDictShip, 'id_transferred_products');
             get_purchase_price(index, "id_transferred_products", "product_purchase_price");
             updateRowTotal(index, "id_transferred_products", "product_purchase_price", "product_total");
         }
@@ -86,7 +86,7 @@ class ShippedProductsFormManager {
         lastNameField.addEventListener('blur', (e) => {
             if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
                 this.addRow();
-                multicolumnDropdownShip(`#id_transferred_products-${this.formNum - 1}-product_name`);
+                multicolumnDropdown(`#id_transferred_products-${this.formNum - 1}-product_name`, productNamesDictShip, 'id_transferred_products');
                 updateRowTotal(this.formNum - 1,"id_transferred_products", "product_purchase_price", "product_total");
                 scrollToBottom('ship-wrapper');
             }
@@ -109,6 +109,7 @@ class ShippedProductsFormManager {
 document.addEventListener('DOMContentLoaded', function () {
     const shippedProductsFormManager = new ShippedProductsFormManager();
     shippedProductsFormManager.attachBlurEventToLastField();
+    disableArrowKeys("ship-document");
     initialShippedProductRowFunctions();
     saleEnterKeyBehavior();
     updateProductsDropdown(

@@ -145,6 +145,7 @@ class ReceivedProductsFormManager {
 document.addEventListener('DOMContentLoaded', function () {
     const receivedProductsFormManager = new ReceivedProductsFormManager();
     receivedProductsFormManager.attachBlurEventToLastField();
+    disableArrowKeys("receive-document");
     initialReceiveProductRowFunctions();
     receiveEnterKeyBehavior();
 });
