@@ -82,27 +82,27 @@ class AddProductFormManager {
     }
 
     addRow() {
-            let newForm = this.productForms[0].cloneNode(true);
-            let formRegex = /sold_products-0-/g;
-            let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
-            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `sold_products-${this.formNum}-`);
-            newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex, `<td class="numerator">${this.formNum + 1}</td>`);
-            // Remove error messages from copied form
-            let ulElements = newForm.querySelectorAll('ul');
-            ulElements.forEach(function(ul) {
-                ul.parentNode.removeChild(ul);
-            });
-            // Remove values from fields in copied form
-            let inputs = newForm.querySelectorAll('input');
-            inputs.forEach(input => {
-                if (input.type === 'text' || input.type === 'number') {
-                    input.value = '';
-                }
-            });
-            this.container.appendChild(newForm);
-            this.totalForms.setAttribute('value', `${this.formNum + 1}`);
-            this.formNum++;
-            this.attachBlurEventToLastField();
+        let newForm = this.productForms[0].cloneNode(true);
+        let formRegex = /sold_products-0-/g;
+        let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `sold_products-${this.formNum}-`);
+        newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex, `<td class="numerator">${this.formNum + 1}</td>`);
+        // Remove error messages from copied form
+        let ulElements = newForm.querySelectorAll('ul');
+        ulElements.forEach(function(ul) {
+            ul.parentNode.removeChild(ul);
+        });
+        // Remove values from fields in copied form
+        let inputs = newForm.querySelectorAll('input');
+        inputs.forEach(input => {
+            if (input.type === 'text' || input.type === 'number') {
+                input.value = '';
+            }
+        });
+        this.container.appendChild(newForm);
+        this.totalForms.setAttribute('value', `${this.formNum + 1}`);
+        this.formNum++;
+        this.attachBlurEventToLastField();
         }
 
     attachBlurEventToLastField() {
@@ -126,12 +126,12 @@ class AddProductFormManager {
         });
     }
 
-       updateTotalSum() {
+   updateTotalSum() {
         this.soldProductsTable.addEventListener('change', () => {
-            let sumNoVat = totalSum(this.formNum, "id_sale_total_before_tax", "id_sold_products", "product_total_before_tax");
-            let sumWithVat = totalSum(this.formNum, "id_sale_total_final", "id_sold_products", "product_total");
-            const totalVat = document.getElementById('id_sale_total_tax');
-            totalVat.value = (sumWithVat - sumNoVat).toFixed(2);
+        let sumNoVat = totalSum(this.formNum, "id_sale_total_before_tax", "id_sold_products", "product_total_before_tax");
+        let sumWithVat = totalSum(this.formNum, "id_sale_total_final", "id_sold_products", "product_total");
+        const totalVat = document.getElementById('id_sale_total_tax');
+        totalVat.value = (sumWithVat - sumNoVat).toFixed(2);
         });
     }
 

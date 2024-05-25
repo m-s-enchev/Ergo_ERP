@@ -100,10 +100,14 @@ class ReceivedProductsFormManager {
                 if (input.type === 'text' || input.type === 'number') {
                     input.value = '';
                 }
+                if (input.classList.contains('datepicker')) {
+                input.classList.remove('hasDatepicker');
+                }
             });
             this.container.appendChild(newForm);
             this.totalForms.setAttribute('value', `${this.formNum + 1}`);
             this.formNum++;
+            initializeDatepicker();
             this.attachBlurEventToLastField();
         }
 
