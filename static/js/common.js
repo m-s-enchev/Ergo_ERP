@@ -1,6 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-    profileTooltip();
-})
+
 
 
 /** Prevents the ArrowUp and ArrowDown keys from incrementing and decrementing number fields.
@@ -41,6 +39,7 @@ function EnterKeyBehavior(tableId, formsetPrefix) {
 }
 
 
+/** Auto scrolls the page when entering rows in a document */
 function scrollToBottom(wrapperId) {
         const container = document.getElementById(wrapperId);
         container.scrollTop = container.scrollHeight;
@@ -92,7 +91,6 @@ function getProductPrice(index, formsetPrefix, priceNoTaxSuffix, priceWithTaxSuf
 /** Fetches the purchase_price and unit of selected product */
 function getPurchasePrice(index, formsetPrefix, priceSuffix){
     const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
-    console.log(nameInput)
     const priceInput = document.getElementById(`${formsetPrefix}-${index}-${priceSuffix}`);
     nameInput.addEventListener('change', function() {
         const productName = this.value;
@@ -136,7 +134,7 @@ function updateRowTotal(index, formsetPrefix, priceFieldSuffix, totalFieldSuffix
     })
 }
 
-/** Sums all the values or a specified column and sets that as the value of a specified field */
+/** Sums all the values of a specified column and sets that as the value of a specified field */
 function totalSum (formNum, totalSumId, formsetPrefix, sumFieldSuffix) {
     const totalSumField = document.getElementById(totalSumId);
     let totalSum = 0;
@@ -148,6 +146,18 @@ function totalSum (formNum, totalSumId, formsetPrefix, sumFieldSuffix) {
     }
     totalSumField.value = totalSum.toFixed(2);
     return totalSum.toFixed(2)
+}
+
+
+/** Get the width of a list of dom elements
+ * Accepts a list of elemet ids */
+function getElementsWidth(selectors) {
+    let totalWidth = 0;
+    selectors.forEach(function(selector) {
+        let width = $(selector).outerWidth(true) || 0;
+        totalWidth += width;
+    });
+    return totalWidth;
 }
 
 
@@ -255,6 +265,56 @@ function updateProductsDropdown(departmentFieldId, formsetPrefix, outputDict) {
 }
 
 
+
+
+/** Uses Jquery Autoselect to create a dropdown menu for 'Clients' field.
+ * Populates it with instances of Clients model */
+function getClientNames() {
+    $(document).ready(function() {
+        $("#id_buyer_name").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "/common/get-client-names/",
+                    data: { term: request.term },
+                    dataType: "json",
+                    success: function(data) {
+                        response($.map(data, function(item) {
+                            return {
+                                value: item.client_names,
+                                client_phone_number: item.client_phone_number,
+                                client_email: item.client_email,
+                                client_identification_number: item.client_identification_number,
+                                client_address: item.client_address,
+                                client_accountable_person: item.client_accountable_person,
+                            };
+                        }));
+                    }
+                });
+            },
+            minLength: 2,
+            position: { my : "right top", at: "right bottom" },
+            select: function(event, ui) {
+                $('#id_buyer_identification_number').val(ui.item.client_identification_number);
+                $('#id_buyer_address').val(ui.item.client_address);
+                $('#id_client_email').val(ui.item.client_email);
+                $('#id_buyer_accountable_person').val(ui.item.client_accountable_person);
+            }
+        })
+        .autocomplete("instance")._renderItem = function(ul, item) {
+            return $("<li>")
+                .append(`<div class="clients-dropdown">
+                            <span>${item.value}</span>
+                            <span>${item.client_phone_number}</span> 
+                            <span>${item.client_email}</span>
+                            <span>${item.client_identification_number}</span>
+                         </div>`)
+                .appendTo(ul);
+        };
+    });
+}
+
+
+/** Creates a tooltip when click on user icon */
 function profileTooltip () {
     const target = document.querySelector('#main-navigation #user');
     const popup = document.getElementById('user-profile-tooltip');
@@ -281,15 +341,101 @@ function profileTooltip () {
 }
 
 
-function getElementsWidth(selectors) {
-    let totalWidth = 0;
-    selectors.forEach(function(selector) {
-        let width = $(selector).outerWidth(true) || 0;
-        totalWidth += width;
-    });
-    return totalWidth;
+
+document.addEventListener('DOMContentLoaded', () => {
+    profileTooltip();
+})
+
+
+
+/** Handles the adding of a new products row in table, which is a formset.
+ * If the product_name field of the last row is filled and focus is shifted to another field,
+ * a new row is added for the next product. It attaches event listeners to the new row and
+ * recalculates all sums*/
+class AddProductForm {
+    constructor(containerSelector, totalFormsSelector, formPrefix, tableId, totalSumId) {
+        this.container = document.querySelector(containerSelector);
+        this.totalForms = document.querySelector(totalFormsSelector);
+        this.productForms = document.querySelectorAll(".product-form");
+        this.formPrefix = formPrefix;
+        this.formNum = this.productForms.length;
+        this.table = document.getElementById(tableId);
+        this.totalSumId = totalSumId;
+        this.updateTotalSum();
+        this.attachBlurEventToExistingRows();
+    }
+
+    addRow() {
+        let newForm = this.productForms[0].cloneNode(true);
+        let formRegex = new RegExp(`${this.formPrefix}-0-`, 'g');
+        let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `${this.formPrefix}-${this.formNum}-`);
+        newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex, `<td class="numerator">${this.formNum + 1}</td>`);
+        this.clearErrorMessages(newForm);
+        this.clearFormValues(newForm);
+        this.container.appendChild(newForm);
+        this.totalForms.setAttribute('value', `${this.formNum + 1}`);
+        this.formNum++;
+        this.attachBlurEventToLastField();
+    }
+
+    clearErrorMessages(newForm) {
+        let ulElements = newForm.querySelectorAll('ul');
+        ulElements.forEach(ul => ul.parentNode.removeChild(ul));
+    }
+
+    clearFormValues(newForm) {
+        let inputs = newForm.querySelectorAll('input');
+        inputs.forEach(input => {
+            if (input.type === 'text' || input.type === 'number') {
+                input.value = '';
+            }
+        });
+    }
+
+    attachBlurEventToExistingRows() {
+        for (let i = 0; i < this.formNum; i++) {
+            this.attachBlurEventToField(i);
+        }
+    }
+
+    attachBlurEventToLastField() {
+        this.attachBlurEventToField(this.formNum - 1);
+    }
+
+    attachBlurEventToField(index) {
+        let lastNameField = document.getElementById(`${this.formPrefix}-${index}-product_name`);
+        if (!lastNameField) return;
+        let needsRowAfter = true;
+        lastNameField.addEventListener('focus', (e) => {
+            if (e.target.value) {
+                needsRowAfter = false;
+            }
+        });
+        lastNameField.addEventListener('blur', (e) => {
+            if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
+                this.addRow();
+                this.additionalSetup();
+            }
+        });
+    }
+
+    updateTotalSum() {
+        this.table.addEventListener('change', () => {
+            totalSum(this.formNum, this.totalSumId, this.formPrefix, "product_total");
+        });
+    }
+
+    additionalSetup() {
+    }
 }
 
+
+
+
+
+
+/** Deletes table row that is the parent of a delete button */
 function deleteRow(e){
     const row = e.target.closest('tr');
     const product = row.querySelector('.name input').value;
@@ -299,6 +445,7 @@ function deleteRow(e){
     }
 }
 
+/** Resets table row numerators and TOTAL_FORMS in formset management form*/
 function resetNumerators (){
     const totalForms=document.querySelector('[id$="-TOTAL_FORMS"]');
     const productForms = document.querySelectorAll(".product-form");
@@ -316,6 +463,8 @@ function resetNumerators (){
     }
 }
 
+
+/** Adds a delete button to a table row*/
 function addDeleteRowButton(index){
 const deleteButton = document.querySelector(`table tr:nth-child(${index}) .row-delete-button .fa-trash`);
     deleteButton.addEventListener('click', (e) => {

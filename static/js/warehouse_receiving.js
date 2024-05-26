@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
     receiveEnterKeyBehavior();
 });
 
+
+/** A two column dropdown menu that displays choice of products and their unit */
 function twoColumnDropdown(selector) {
     let productNames = Object.keys(productNamesDictAll);
     $(selector).autocomplete({
@@ -126,6 +128,8 @@ class ReceivedProductsFormManager {
 }
 
 
+/** Goes through all the rows of the product table on initial load or reload after validation errors
+ * and runs functions corresponding to fields - adding dropdown menu and calculating sums and adding buttons */
 function initialReceiveProductRowFunctions () {
     const productForms = document.querySelectorAll(".product-form");
     let numberOfRows = productForms.length;
