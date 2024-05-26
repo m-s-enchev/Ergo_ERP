@@ -10,7 +10,7 @@ function disableArrowKeys (documentId) {
         if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
             e.preventDefault();
         }
-        });
+    });
 }
 
 
@@ -422,7 +422,15 @@ class AddProductForm {
 
     updateTotalSum() {
         this.table.addEventListener('change', () => {
-            totalSum(this.formNum, this.totalSumId, this.formPrefix, "product_total");
+            let totalSumValue = totalSum(this.formNum, this.totalSumId, this.formPrefix, "product_total");
+            const sumBeforeTax = document.getElementById('id_sale_total_before_tax');
+            if (sumBeforeTax) {
+                let totalBeforeTax = totalSum(this.formNum, 'id_sale_total_before_tax', this.formPrefix, "product_total_before_tax");
+                const totalTax = document.getElementById('id_sale_total_tax');
+                if (totalTax) {
+                    totalTax.value = (totalSumValue - totalBeforeTax).toFixed(2);
+                }
+            }
         });
     }
 
