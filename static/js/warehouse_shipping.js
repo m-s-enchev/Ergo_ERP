@@ -60,6 +60,7 @@ class ShippedProductsFormManager {
             if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
                 this.addRow();
                 multicolumnDropdown(`#id_transferred_products-${this.formNum - 1}-product_name`, productNamesDictShip, 'id_transferred_products');
+                getPurchasePrice(this.formNum - 1, "id_transferred_products", "product_purchase_price");
                 updateRowTotal(this.formNum - 1,"id_transferred_products", "product_purchase_price", "product_total");
                 scrollToBottom('ship-wrapper');
             }
@@ -81,7 +82,7 @@ function initialShippedProductRowFunctions () {
     fetchProductsByDepartment(departmentId, productNamesDictShip ).then(() => {
         for (let index = 0; index < numberOfRows; index++) {
             multicolumnDropdown(`#id_transferred_products-${index}-product_name`, productNamesDictShip, 'id_transferred_products');
-            get_purchase_price(index, "id_transferred_products", "product_purchase_price");
+            getPurchasePrice(index, "id_transferred_products", "product_purchase_price");
             updateRowTotal(index, "id_transferred_products", "product_purchase_price", "product_total");
         }
     });

@@ -90,8 +90,9 @@ function getProductPrice(index, formsetPrefix, priceNoTaxSuffix, priceWithTaxSuf
 
 
 /** Fetches the purchase_price and unit of selected product */
-function get_purchase_price(index, formsetPrefix, priceSuffix){
+function getPurchasePrice(index, formsetPrefix, priceSuffix){
     const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
+    console.log(nameInput)
     const priceInput = document.getElementById(`${formsetPrefix}-${index}-${priceSuffix}`);
     nameInput.addEventListener('change', function() {
         const productName = this.value;
@@ -103,7 +104,7 @@ function get_purchase_price(index, formsetPrefix, priceSuffix){
                     throw new Error('Network response was not ok.');
                 })
             .then(data => {
-                priceInput.value = data.purchase_price;
+                priceInput.value = data.product_purchase_price;
                 rowTotal(index, formsetPrefix, priceSuffix, 'product_total');
             })
             .catch(error => console.error('There has been a problem with your fetch operation:', error));
@@ -201,7 +202,7 @@ function multicolumnDropdown(selector, productNamesDict, formsetPrefix) {
     };
 }
 
-
+/** Fetches a dictionary with all product names and units */
 function fetchProductsAll() {
     let url = `/common/get-products-all/`;
     return fetch(url)
@@ -213,7 +214,7 @@ function fetchProductsAll() {
         .catch(error => console.error('Error fetching products:', error));
 }
 
-
+/** Fetches a dictionary with products from a specified Inventory Department */
 function fetchProductsByDepartment(departmentId, outputDict) {
     if (departmentId) {
         let url = `/common/get-products-by-department/?department_id=${departmentId}`;
@@ -238,7 +239,7 @@ function fetchProductsByDepartment(departmentId, outputDict) {
 }
 
 
-
+/** Updates the multicolumnDropdown if the department in document is changed by user */
 function updateProductsDropdown(departmentFieldId, formsetPrefix, outputDict) {
     const departmentField = document.getElementById(departmentFieldId);
     departmentField.addEventListener('change', function () {
@@ -252,9 +253,6 @@ function updateProductsDropdown(departmentFieldId, formsetPrefix, outputDict) {
         });
     });
 }
-
-
-
 
 
 function profileTooltip () {
