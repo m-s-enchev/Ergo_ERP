@@ -1,6 +1,3 @@
-
-
-
 /** Prevents the ArrowUp and ArrowDown keys from incrementing and decrementing number fields.
  * A users intuitive expectation in a table would be from those key to navigate,
  * so when pressed, the change of value in a field may not be noticed.*/
@@ -26,12 +23,14 @@ function EnterKeyBehavior(tableId, formsetPrefix) {
             const integerInId = currentId.match(/\d+/);
             const currentRowIndex = parseInt(integerInId[0], 10);
             if (currentId.includes('-product_name')) {
-                const nextInput = document.querySelector(`#${formsetPrefix}-${currentRowIndex}-product_quantity`);
+                const nextInput =
+                    document.querySelector(`#${formsetPrefix}-${currentRowIndex}-product_quantity`);
                 if (nextInput) nextInput.focus();
             } else {
                 const productForms = document.querySelectorAll(".product-form");
                 const productFormsLength = productForms.length;
-                const nextInput = document.querySelector(`#${formsetPrefix}-${productFormsLength-1}-product_name`);
+                const nextInput =
+                    document.querySelector(`#${formsetPrefix}-${productFormsLength-1}-product_name`);
                 if (nextInput) nextInput.focus();
             }
         }
@@ -66,8 +65,10 @@ function tableColumnShow (table, ...columnClassNames) {
 /** Fetches one of the prices of selected product */
 function getProductPrice(index, formsetPrefix, priceNoTaxSuffix, priceWithTaxSuffix, priceType) {
     const nameInput = document.getElementById(`${formsetPrefix}-${index}-product_name`);
-    const priceNoTaxInput = document.getElementById(`${formsetPrefix}-${index}-${priceNoTaxSuffix}`);
-    const priceWithTaxInput = document.getElementById(`${formsetPrefix}-${index}-${priceWithTaxSuffix}`);
+    const priceNoTaxInput =
+        document.getElementById(`${formsetPrefix}-${index}-${priceNoTaxSuffix}`);
+    const priceWithTaxInput =
+        document.getElementById(`${formsetPrefix}-${index}-${priceWithTaxSuffix}`);
     nameInput.addEventListener('change', function() {
         const productName = this.value;
         fetch(`/common/get-product-price/?product_name=${encodeURIComponent(productName)}&price_type=${priceType}`)
@@ -370,9 +371,11 @@ class AddProductForm {
         let formRegex = new RegExp(`${this.formPrefix}-0-`, 'g');
         let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
         newForm.innerHTML = newForm.innerHTML.replace(formRegex, `${this.formPrefix}-${this.formNum}-`);
-        newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex, `<td class="numerator">${this.formNum + 1}</td>`);
+        newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex,
+            `<td class="numerator">${this.formNum + 1}</td>`);
         this.clearErrorMessages(newForm);
         this.clearFormValues(newForm);
+        this.clearDateClass(newForm);
         this.container.appendChild(newForm);
         this.totalForms.setAttribute('value', `${this.formNum + 1}`);
         this.formNum++;
@@ -389,6 +392,15 @@ class AddProductForm {
         inputs.forEach(input => {
             if (input.type === 'text' || input.type === 'number') {
                 input.value = '';
+            }
+        });
+    }
+
+    clearDateClass(newForm) {
+        let inputs = newForm.querySelectorAll('input');
+        inputs.forEach(input => {
+            if (input.classList.contains('datepicker')) {
+                input.classList.remove('hasDatepicker');
             }
         });
     }
@@ -422,10 +434,20 @@ class AddProductForm {
 
     updateTotalSum() {
         this.table.addEventListener('change', () => {
-            let totalSumValue = totalSum(this.formNum, this.totalSumId, this.formPrefix, "product_total");
+            let totalSumValue = totalSum(
+                this.formNum,
+                this.totalSumId,
+                this.formPrefix,
+                "product_total"
+            );
             const sumBeforeTax = document.getElementById('id_sale_total_before_tax');
             if (sumBeforeTax) {
-                let totalBeforeTax = totalSum(this.formNum, 'id_sale_total_before_tax', this.formPrefix, "product_total_before_tax");
+                let totalBeforeTax = totalSum(
+                    this.formNum,
+                    'id_sale_total_before_tax',
+                    this.formPrefix,
+                    "product_total_before_tax"
+                );
                 const totalTax = document.getElementById('id_sale_total_tax');
                 if (totalTax) {
                     totalTax.value = (totalSumValue - totalBeforeTax).toFixed(2);
@@ -474,7 +496,8 @@ function resetNumerators (){
 
 /** Adds a delete button to a table row*/
 function addDeleteRowButton(index){
-const deleteButton = document.querySelector(`table tr:nth-child(${index}) .row-delete-button .fa-trash`);
+    const deleteButton =
+        document.querySelector(`table tr:nth-child(${index}) .row-delete-button .fa-trash`);
     deleteButton.addEventListener('click', (e) => {
         deleteRow(e);
         resetNumerators();

@@ -1,13 +1,5 @@
 let productNamesDictAll= {};
 
-document.addEventListener('DOMContentLoaded', function () {
-    const receivedProductsFormManager = new ReceivedProductsFormManager();
-    receivedProductsFormManager.attachBlurEventToLastField();
-    disableArrowKeys("receive-document");
-    initialReceiveProductRowFunctions();
-    receiveEnterKeyBehavior();
-});
-
 
 /** A two column dropdown menu that displays choice of products and their unit */
 function twoColumnDropdown(selector) {
@@ -17,7 +9,7 @@ function twoColumnDropdown(selector) {
         select: function(event, ui) {
             let idPrefix = this.id.substring(0, this.id.lastIndexOf("-") + 1);
             let details = productNamesDictAll[ui.item.value];
-            $(`#${idPrefix}product_unit`).val(details[1]);
+            $(`#${idPrefix}product_unit`).val(details);
             return false;
         },
         open: function() {
@@ -35,7 +27,7 @@ function twoColumnDropdown(selector) {
         let details = productNamesDictAll[item.value];
         let label = `<div class="products-dropdown">
                                 <span>${item.value}</span>
-                                <span>${details[1]}</span>
+                                <span>${details}</span>
                             </div>`;
         return $("<li>")
             .append(`${label}`)
@@ -63,69 +55,29 @@ function receiveEnterKeyBehavior() {
 }
 
 
-class ReceivedProductsFormManager {
+class AddProductsFormReceive extends AddProductForm {
     constructor() {
-        this.container = document.querySelector("#received-products tbody");
-        this.totalForms = document.querySelector("#id_transferred_products-TOTAL_FORMS");
-        this.productForms = document.querySelectorAll(".product-form");
-        this.formNum = this.productForms.length;
-        this.receivedProductsTable = document.getElementById('received-products');
-        this.updateTotalSum();
+        super(
+            "#received-products tbody",
+            "#id_transferred_products-TOTAL_FORMS",
+            "id_transferred_products",
+            "received-products",
+            "id_total_sum"
+        );
     }
-
-    addRow() {
-            let newForm = this.productForms[0].cloneNode(true);
-            let formRegex = /transferred_products-0-/g;
-            let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
-            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `transferred_products-${this.formNum}-`);
-            newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex, `<td class="numerator">${this.formNum + 1}</td>`);
-            // Remove error messages from copied form
-            let ulElements = newForm.querySelectorAll('ul');
-            ulElements.forEach(function(ul) {
-                ul.parentNode.removeChild(ul);
-            });
-            // Remove values from fields in copied form
-            let inputs = newForm.querySelectorAll('input');
-            inputs.forEach(input => {
-                if (input.type === 'text' || input.type === 'number') {
-                    input.value = '';
-                }
-                if (input.classList.contains('datepicker')) {
-                input.classList.remove('hasDatepicker');
-                }
-            });
-            this.container.appendChild(newForm);
-            this.totalForms.setAttribute('value', `${this.formNum + 1}`);
-            this.formNum++;
-            initializeDatepicker();
-            this.attachBlurEventToLastField();
-        }
-
-    attachBlurEventToLastField() {
-        let lastNameField = document.getElementById(`id_transferred_products-${this.formNum - 1}-product_name`);
-        let needsRowAfter = true;
-        lastNameField.addEventListener('focus',  (e) => {
-            if (e.target.value) {
-                needsRowAfter = false;
-            }
-        });
-        lastNameField.addEventListener('blur', (e) => {
-            if (e.target.value && e.target === lastNameField && needsRowAfter === true) {
-                this.addRow();
-                twoColumnDropdown(`#id_transferred_products-${this.formNum - 1}-product_name`);
-                updateRowTotal(this.formNum - 1,"id_transferred_products", "product_purchase_price", "product_total");
-                scrollToBottom('receive-wrapper');
-            }
-        });
+    additionalSetup() {
+        twoColumnDropdown(`#id_transferred_products-${this.formNum - 1}-product_name`);
+        updateRowTotal(
+            this.formNum - 1,
+            "id_transferred_products",
+            "product_purchase_price",
+            "product_total"
+        );
+        scrollToBottom('receive-wrapper');
+        initializeDatepicker();
     }
-
-       updateTotalSum() {
-        this.receivedProductsTable.addEventListener('change', () => {
-            let documentTotalSum = totalSum(this.formNum, "id_total_sum", "id_transferred_products", "product_total");
-        });
-    }
-
 }
+
 
 
 /** Goes through all the rows of the product table on initial load or reload after validation errors
@@ -141,5 +93,13 @@ function initialReceiveProductRowFunctions () {
     });
 }
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    const addProductFormReceive = new AddProductsFormReceive();
+    // receivedProductsFormManager.attachBlurEventToLastField();
+    disableArrowKeys("receive-document");
+    initialReceiveProductRowFunctions();
+    receiveEnterKeyBehavior();
+});
 
 

@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views.generic import ListView
 
 from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document
-from Ergo_ERP.common.views import products_dict_dropdown
+from Ergo_ERP.common.views import inventory_products_dict
 from Ergo_ERP.inventory.forms import ReceivingDocumentForm, ReceivedProductsFormSet, ShippingDocumentForm, \
     ShippedProductsFormSet
 from Ergo_ERP.inventory.models import Inventory, Department
@@ -162,7 +162,7 @@ def shipping_document_create(request):
     Handles shipping goods from warehouse and removing them from inventory
     """
     shipped_products_formset = ShippedProductsFormSet(request.POST or None, prefix='transferred_products')
-    products_dropdown = products_dict_dropdown()
+    products_dropdown = inventory_products_dict()
     user_settings = get_object_or_404(UserSettings, user=request.user)
 
     if request.method == 'POST':

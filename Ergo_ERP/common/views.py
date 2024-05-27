@@ -54,17 +54,47 @@ def get_purchase_price(request):
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
+def inventory_products_dict(department=None):
+    if department is not None:
+        products = Inventory.objects.filter(department=department)
+    else:
+        products = Inventory.objects.all()
+    products_dict = {}
+    for product in products:
+        if product.product_exp_date:
+            exp_date_formatted = product.product_exp_date.strftime('%d.%m.%Y')
+            lot_number = product.product_lot_number
+        else:
+            exp_date_formatted = ""
+            lot_number = ""
+        products_dict[product.product_name] = [
+                                                format(product.product_quantity.normalize(), 'f'),
+                                                product.product_unit,
+                                                lot_number,
+                                                exp_date_formatted
+                                                ]
+    return products_dict
+
+
 def get_products_by_department(request):
     department_id = request.GET.get('department_id')
     if department_id:
-        products_dropdown = products_dict_dropdown(department_id)
+        products_dropdown = inventory_products_dict(department_id)
         return JsonResponse(products_dropdown, safe=False)
     else:
         return JsonResponse({'error': 'Department not provided'}, status=400)
 
 
+def products_all_dict():
+    products = ProductsModel.objects.all()
+    products_dict = {}
+    for product in products:
+        products_dict[product.product_name] = product.product_unit
+    return products_dict
+
+
 def get_products_all(request):
-    products_dropdown = products_dict_dropdown()
+    products_dropdown = products_all_dict()
     return JsonResponse(products_dropdown, safe=False)
 
 
@@ -91,26 +121,7 @@ def get_client_names(request):
     return JsonResponse(clients_list, safe=False)
 
 
-def products_dict_dropdown(department=None):
-    if department is not None:
-        products = Inventory.objects.filter(department=department)
-    else:
-        products = Inventory.objects.all()
-    products_dict = {}
-    for product in products:
-        if product.product_exp_date:
-            exp_date_formatted = product.product_exp_date.strftime('%d.%m.%Y')
-            lot_number = product.product_lot_number
-        else:
-            exp_date_formatted = ""
-            lot_number = ""
-        products_dict[product.product_name] = [
-                                                format(product.product_quantity.normalize(), 'f'),
-                                                product.product_unit,
-                                                lot_number,
-                                                exp_date_formatted
-                                                ]
-    return products_dict
+
 
 
 

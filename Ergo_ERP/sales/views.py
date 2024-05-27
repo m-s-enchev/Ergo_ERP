@@ -78,7 +78,7 @@ def handle_sales_and_invoice_forms(request, sales_document_form, sold_products_f
         )
 
 
-# def products_dict_dropdown(department=None):
+# def inventory_products_dict(department=None):
 #     if department is not None:
 #         products = Inventory.objects.filter(department=department)
 #     else:
