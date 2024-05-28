@@ -1,5 +1,8 @@
 from django.db.models import Max
 
+from Ergo_ERP.inventory.models import Inventory
+from Ergo_ERP.products.models import ProductsModel
+
 
 def is_formset_nonempty(formset):
     """
@@ -38,3 +41,52 @@ def get_next_document_number(model, numerator_field_name):
     else:
         document_number = last_number + 1
     return document_number
+
+
+def inventory_products_dict(department=None):
+    """
+    Filters Inventory instances by Department and returns a dictionary
+    of product names, quantities, units, lots and exp. dates.
+    """
+    if department is not None:
+        products = Inventory.objects.filter(department=department)
+    else:
+        products = Inventory.objects.all()
+    products_dict = {}
+    for product in products:
+        if product.product_exp_date:
+            exp_date_formatted = product.product_exp_date.strftime('%d.%m.%Y')
+            lot_number = product.product_lot_number
+        else:
+            exp_date_formatted = ""
+            lot_number = ""
+        products_dict[product.product_name] = [
+            format(product.product_quantity.normalize(), 'f'),
+            product.product_unit,
+            lot_number,
+            exp_date_formatted
+            ]
+    return products_dict
+
+
+def products_all_dict():
+    """
+    Returns a dictionary of all instances in ProductsModel, with
+    product names, quantities, units, lots and exp. dates.
+    """
+    products = ProductsModel.objects.all()
+    products_dict = {}
+    for product in products:
+        products_dict[product.product_name] = product.product_unit
+    return products_dict
+
+
+def add_document_type(queryset_objects: list):
+    names_dict = {
+        'salesdocument': 'Sale',
+        'receivingdocument': 'Receiving',
+        'shippingdocument': 'Shipping'
+    }
+    for obj in queryset_objects:
+        obj.document_type = names_dict[obj._meta.model_name]
+    return queryset_objects

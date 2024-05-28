@@ -65,10 +65,20 @@
                     <td class="doc-date">{{ doc.date }}</td>
                     <td class="doc-time">{{ doc.time }}</td>
                     <td class="doc-operator">{{ doc.operator }}</td>
-
+                    <td class="doc-type">{{ doc.document_type }}</td>
                     {% with department=doc.department shipping=doc.shipping_department %}
+                        <td class="shipping-department">
+                        {{ department|default:shipping}}
+                        </td>
+                    {% endwith %}
+                    {% with sale_total_final=doc.sale_total_final total_sum=doc.total_sum %}
                         <td class="client-names">
-                        {{ department|default:shipping|default:"No department or shipping information" }}
+                        {{ sale_total_final|default:total_sum }}
+                        </td>
+                    {% endwith %}
+                    {% with buyer_name=doc.buyer_name receiving_department=doc.receiving_department %}
+                        <td class="client-names">
+                        {{ buyer_name|default:receiving_department }}
                         </td>
                     {% endwith %}
 
