@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+
+<div id="documents-list-wrapper">
+
+    <form id=search-bar method="get" action="">
+        <label for="date">Date</label>
+        <select name="date">
+            <option value="">All</option>
+            {% for dept in departments %}
+                <option value="{{ dept.name }}" {% if dept.name == request.GET.department %}selected{% endif %}>
+                    {{ dept.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <label for="operator">Operator</label>
+        <select name="operator">
+            <option value="">All</option>
+            {% for dept in departments %}
+                <option value="{{ dept.name }}" {% if dept.name == request.GET.department %}selected{% endif %}>
+                    {{ dept.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <label for="type">Document type</label>
+        <select name="type">
+            <option value="">All</option>
+            {% for dept in departments %}
+                <option value="{{ dept.name }}" {% if dept.name == request.GET.department %}selected{% endif %}>
+                    {{ dept.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <label for="department">Department</label>
+        <select name="department">
+            <option value="">All</option>
+            {% for dept in departments %}
+                <option value="{{ dept.name }}" {% if dept.name == request.GET.department %}selected{% endif %}>
+                    {{ dept.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{% translate 'Date' %}</th>
+                <th>{% translate 'Time' %}</th>
+                <th>{% translate 'Operator' %}</th>
+                <th>{% translate 'Type' %}</th>
+                <th>{% translate 'From department' %}</th>
+                <th>{% translate 'Total' %}</th>
+                <th>{% translate 'To' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc in final_list %}
+                <tr>
+                    <td class="numerator">{{ forloop.counter }}</td>
+                    <td class="doc-date">{{ doc.date }}</td>
+                    <td class="doc-time">{{ doc.time }}</td>
+                    <td class="doc-operator">{{ doc.operator }}</td>
+
+                    {% with department=doc.department shipping=doc.shipping_department %}
+                        <td class="client-names">
+                        {{ department|default:shipping|default:"No department or shipping information" }}
+                        </td>
+                    {% endwith %}
+
+{#                    <td><a href="{% url 'clients_edit' pk=client.id %}"><i class="fa-solid fa-pen-to-square"></i></a></td>#}
+                </tr>
+            {% empty %}
+                <div id="no-items">No documents found.</div>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock %}
