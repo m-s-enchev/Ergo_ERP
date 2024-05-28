@@ -14,6 +14,9 @@ from Ergo_ERP.user_settings.models import UserSettings
 
 
 class InventoryView(ListView):
+    """
+    A view for the list of inventory items with a filter by Department and search
+    """
     model = Inventory
     template_name = 'inventory/inventory.html'
     context_object_name = 'inventory_list'
@@ -36,6 +39,10 @@ class InventoryView(ListView):
 
 
 def receive_products_dropdown():
+    """
+    Returns a simple list pf product names specifically for Warehouse receiving,
+    since it is different from other documents.
+    """
     products = ProductsModel.objects.all()
     products_names = []
     for product in products:
@@ -44,6 +51,9 @@ def receive_products_dropdown():
 
 
 def check_product_name(document_form, products_formset):
+    """
+    Check if a product name is present in ProductsModel and is therefore a valid entry in the form
+    """
     valid_name = True
     for form in products_formset:
         cleaned_data = form.cleaned_data
@@ -56,6 +66,9 @@ def check_product_name(document_form, products_formset):
 
 
 def create_inventory_instance(product_instance):
+    """
+    Creates a new instance of in Inventory
+    """
     new_inventory_instance = Inventory()
     field_names = [field.name for field in new_inventory_instance._meta.fields if field.name != 'id']
     for field_name in field_names:
@@ -97,6 +110,10 @@ def update_inventory(product_instances, is_receiving: bool, department):
 
 
 def handle_receiving_document_forms(receiving_document_form, received_products_formset):
+    """
+    Saves receive document form and the product form formset, after setting document as
+    linked_warehouse_document for each product in formset. Updates Inventory afterwords
+    """
     with transaction.atomic():
         receive_document_instance = receiving_document_form.save(commit=False)
         department = receive_document_instance.receiving_department
@@ -144,6 +161,10 @@ def receiving_document_create(request):
 
 
 def handle_shipping_document_forms(shipping_document_form, shipped_products_formset):
+    """
+    Saves shipping document form and the product form formset, after setting document as
+    linked_warehouse_document for each product in formset. Updates Inventory afterwords
+    """
     with transaction.atomic():
         shipping_document_instance = shipping_document_form.save(commit=False)
         department = shipping_document_instance.shipping_department
@@ -153,8 +174,7 @@ def handle_shipping_document_forms(shipping_document_form, shipped_products_form
             shipping_document_instance,
             'linked_warehouse_document'
             )
-        product_instances_department = add_department_to_products(product_instances, department)
-        update_inventory(product_instances_department, False, department)
+        update_inventory(product_instances, False, department)
 
 
 def shipping_document_create(request):

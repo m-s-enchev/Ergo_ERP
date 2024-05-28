@@ -7,6 +7,9 @@ from Ergo_ERP.suppliers.models import Suppliers
 
 
 class SuppliersList (ListView):
+    """
+    A view for a list of Suppliers instances with multi-field search
+    """
     model = Suppliers
     template_name = 'suppliers/suppliers-list.html'
     context_object_name = 'suppliers_list'

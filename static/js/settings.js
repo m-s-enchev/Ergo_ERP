@@ -1,10 +1,15 @@
-
-// Auto scroll to section when nav button is clicked
-let navButtonSale = document.getElementById('sale-settings-nav')
-
-function scrollToSection (sectionId) {
-    let sectionElement = document.getElementById(sectionId);
-    const scrollOffset = sectionElement.offsetTop - window.innerHeight/9;
+function scrollToSection (section) {
+    const scrollOffset = section.offsetTop - window.innerHeight/9;
     window.scrollTo({ top: scrollOffset, behavior: 'smooth' });
 }
-navButtonSale.addEventListener('click', () => { scrollToSection('sale-settings') });
+
+/** Scroll to s section of settings form when corresponding nav button is clicked*/
+function settingsNavigation () {
+    const navButtons = document.querySelectorAll('#settings-navigation button');
+    const navSections = document.querySelectorAll('#settings-list form section');
+    for (let i=0; i<navButtons.length; i++) {
+        navButtons[i].addEventListener('click', () => { scrollToSection(navSections[i]) })
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {settingsNavigation()})

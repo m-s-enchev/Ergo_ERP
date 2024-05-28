@@ -29,7 +29,8 @@ def products_list_save_to_document(products_formset, document_instance, name_of_
 
 def get_next_document_number(model, numerator_field_name):
     """
-    Check what is the last numerator field value in a model and determines the next one
+    Check what is the last numerator field value in a model and determines the next one.
+    Used for invoice document numbers which are separate from their Ids
     """
     last_number = model.objects.aggregate(Max(numerator_field_name))[f'{numerator_field_name}__max']
     if last_number is None:

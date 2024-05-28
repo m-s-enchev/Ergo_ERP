@@ -22,6 +22,9 @@ def homepage_view(request):
 
 
 def get_product_price(request):
+    """
+    Returns one of the 3 prices of a product from ProductModel
+    """
     product_name = request.GET.get('product_name', None)
     price_type = request.GET.get('price_type', None)
     if product_name:
@@ -40,6 +43,9 @@ def get_product_price(request):
 
 
 def get_purchase_price(request):
+    """
+    Returns the purchase price of a product from Inventory model
+    """
     product_name = request.GET.get('product_name', None)
     if product_name:
         product = Inventory.objects.filter(product_name=product_name).first()
@@ -55,6 +61,10 @@ def get_purchase_price(request):
 
 
 def inventory_products_dict(department=None):
+    """
+    Filters Inventory instances by Department and returns a dictionary
+    of product names, quantities, units, lots and exp. dates.
+    """
     if department is not None:
         products = Inventory.objects.filter(department=department)
     else:
@@ -68,11 +78,11 @@ def inventory_products_dict(department=None):
             exp_date_formatted = ""
             lot_number = ""
         products_dict[product.product_name] = [
-                                                format(product.product_quantity.normalize(), 'f'),
-                                                product.product_unit,
-                                                lot_number,
-                                                exp_date_formatted
-                                                ]
+            format(product.product_quantity.normalize(), 'f'),
+            product.product_unit,
+            lot_number,
+            exp_date_formatted
+            ]
     return products_dict
 
 
@@ -86,6 +96,10 @@ def get_products_by_department(request):
 
 
 def products_all_dict():
+    """
+    Returns a dictionary of all instances in ProductsModel, with
+    product names, quantities, units, lots and exp. dates.
+    """
     products = ProductsModel.objects.all()
     products_dict = {}
     for product in products:
@@ -99,6 +113,9 @@ def get_products_all(request):
 
 
 def get_client_names(request):
+    """
+    Returns a list of all instances in Clients.
+    """
     term = request.GET.get('term', '')
     clients = Clients.objects.filter(
         Q(client_names__icontains=term) |

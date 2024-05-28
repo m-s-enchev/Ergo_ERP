@@ -7,8 +7,10 @@ from Ergo_ERP.clients.forms import ClientsModelForm
 from Ergo_ERP.clients.models import Clients
 
 
-# Create your views here.
 class ClientsList(ListView):
+    """
+    A view for a list of Suppliers instances with multi-field search
+    """
     model = Clients
     template_name = 'clients/clients-list.html'
     context_object_name = 'clients_list'

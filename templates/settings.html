@@ -6,20 +6,14 @@
 <div id="settings-wrapper">
 
     <nav id="settings-navigation">
-        <button class="settings-navigation-button">
+        <button class="settings-navigation-button" id="general-settings-nav">
+            <p>General</p>
+        </button>
+        <button class="settings-navigation-button" id="main-menu-settings-nav">
             <p>Main menu</p>
         </button>
         <button class="settings-navigation-button" id="sale-settings-nav">
             <p>Sale</p>
-        </button>
-        <button class="settings-navigation-button">
-            <p>General</p>
-        </button>
-        <button class="settings-navigation-button">
-            <p>General</p>
-        </button>
-        <button class="settings-navigation-button">
-            <p>General</p>
         </button>
     </nav>
 
@@ -28,13 +22,17 @@
         {% csrf_token %}
             <section id="general-settings">
                 <h2>General settings</h2>
-                <label for="id_default_department">Default department </label>
-                {{ user_settings_form.default_department }}
+                <div class="form-group">
+                    <label for="id_default_department">Default department: </label>
+                    {{ user_settings_form.default_department }}
+                </div>
             </section>
             <section id="main-menu-settings">
                 <h2>Main menu settings</h2>
-                <label for="id_show_main_menu_shortcuts">Shortcuts in main menu </label>
-                {{ user_settings_form.show_main_menu_shortcuts }}
+                <div class="form-group-checkbox">
+                    <label for="id_show_main_menu_shortcuts">Shortcuts in main menu </label>
+                    {{ user_settings_form.show_main_menu_shortcuts }}
+                </div>
                 <div id="settings-shortcuts-fields">
                     <div class="main-menu-settings-group">
                         <span>
@@ -100,19 +98,19 @@
             </section>
             <section id="sale-settings">
                 <h2>Sales document settings</h2>
-                <div class="sales-settings-group">
+                <div class="form-group-checkbox">
                     <label for="id_default_sales_doc_is_invoice">Default sales document is an invoice </label>
                     {{user_settings_form.default_sales_doc_is_invoice}}
                 </div>
-                <div class="sales-settings-group">
+                <div class="form-group">
                     <label for="id_default_client">Default client </label>
                     {{ user_settings_form.default_client }}
                 </div>
-                <div class="sales-settings-group">
+                <div class="form-group-checkbox">
                     <label for="id_show_lot_and_exp_columns">Show LOT and expiration date columns </label>
                     {{ user_settings_form.show_lot_and_exp_columns }}
                 </div>
-                <div class="sales-settings-group">
+                <div class="form-group-checkbox">
                     <label for="id_show_sale_quick_select">Show quick select widget </label>
                     {{ user_settings_form.show_sale_quick_select }}
                 </div>

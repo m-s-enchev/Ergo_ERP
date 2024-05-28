@@ -1,17 +1,19 @@
 #settings-wrapper {
     display: flex;
-    margin-top: 7vh;
+    margin-top: 8vh;
 }
 
 #settings-list {
     margin-left: calc(50px + 10vw);
     padding: 2vh 2vw;
-    width: 100%
+    width: 100%;
 }
 
+
+#main-menu-settings,
 #sale-settings {
-    margin-top: 5vh;
-    padding-top: 2vh;
+    margin-top: 10vh;
+    padding-top: 3vh;
     border-top: 1px solid black;
     width: 100%
 }
@@ -24,7 +26,7 @@
     height: 100%;
     background-color: rgb(18,149,152,0.5);
     gap: 1vh;
-    padding: 1vh 1vw;
+    padding: 3vh 1vw;
     position: fixed;
 }
 
@@ -54,7 +56,7 @@
 
 #settings-list h2{
     color: #4b4b4b;
-    margin-bottom: 2vh;
+    margin-bottom: 5vh;
 }
 
 #settings-list .main-menu-settings-group {
@@ -80,3 +82,47 @@
     display: flex;
     flex-direction: column;
 }
+
+
+#settings-wrapper .form-group {
+    display: flex;
+    gap: 2vw;
+    align-items: center;
+    font-weight: bold;
+    font-size: calc(11px + 0.4vw);
+    margin: 1vh 0;
+}
+
+
+#settings-wrapper .form-group-checkbox {
+    display: flex;
+    gap: 2vw;
+    align-items: center;
+    font-weight: bold;
+    font-size: calc(11px + 0.4vw);
+    margin: 1vh 0;
+}
+
+#settings-wrapper .form-group label,
+#settings-wrapper .form-group-checkbox label{
+    font-size: calc(11px + 0.4vw);
+    width: 14vw;
+}
+
+#settings-wrapper .form-group select {
+    font-size: calc(11px + 0.4vw);
+    padding: 3px 5px;
+    border-radius: 5px;
+}
+
+#settings-wrapper .form-group-checkbox input {
+    width: 1.5vw;
+    height: 1.5vw;
+}
+
+#settings-wrapper #sale-settings .form-group label,
+#settings-wrapper #sale-settings .form-group-checkbox label {
+    width: 23vw;
+}
+
+
