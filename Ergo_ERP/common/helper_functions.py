@@ -82,6 +82,20 @@ def products_all_dict():
 
 
 def add_document_type(queryset_objects: list, verbose_names_dict:dict):
+    """
+    Adds a verbose name of the model to it instances in a list
+    """
     for obj in queryset_objects:
         obj.document_type = verbose_names_dict[obj._meta.model_name]
     return queryset_objects
+
+
+def combine_objects_in_list(*args):
+    """
+    Combines instances of models in one list
+    """
+    combined_list = []
+    for model in args:
+        objects_list = model.objects.all()
+        combined_list += list(objects_list)
+    return combined_list

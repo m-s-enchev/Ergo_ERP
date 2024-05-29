@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static %}
 {% block content %}
 
 <div id="documents-list-wrapper">
 
     <form id=search-bar method="get" action="">
         <label for="date">Date</label>
-        <input name="date" class="datepicker">
+        <input type="text" name="date" class="datepicker">
         <label for="operator">Operator</label>
         <select name="operator">
             <option value="">All</option>
@@ -34,7 +35,7 @@
                 </option>
             {% endfor %}
         </select>
-        <label for="receive-department">To </label>
+        <label for="q">To </label>
         <select name="receive-department">
             <option value="">All</option>
             {% for obj in final_list %}
@@ -45,6 +46,11 @@
                 {% endwith %}
             {% endfor %}
         </select>
+        <label for="q">To </label>
+        <form method="GET" action="">
+            <input type="text" name="q" value="{{ search_query }}" placeholder="All">
+            <button type="submit">Search</button>
+        </form>
 
         <button type="submit">Filter</button>
     </form>
@@ -66,8 +72,8 @@
             {% for doc in final_list %}
                 <tr>
                     <td class="numerator">{{ forloop.counter }}</td>
-                    <td class="doc-date">{{ doc.date }}</td>
-                    <td class="doc-time">{{ doc.time }}</td>
+                    <td class="doc-date">{{ doc.date|date:"d.m.Y" }}</td>
+                    <td class="doc-time">{{ doc.time|time:"H:i:s" }}</td>
                     <td class="doc-operator">{{ doc.operator }}</td>
                     <td class="doc-type">{{ doc.document_type }}</td>
                     {% with department=doc.department shipping=doc.shipping_department %}
@@ -96,4 +102,10 @@
     </table>
 </div>
 
+{% endblock %}
+{% block extra_scripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{% static 'js/date_picker.js' %}"></script>
 {% endblock %}

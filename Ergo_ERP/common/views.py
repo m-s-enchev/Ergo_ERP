@@ -5,7 +5,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from Ergo_ERP.clients.models import Clients
-from Ergo_ERP.common.helper_functions import inventory_products_dict, products_all_dict, add_document_type
+from Ergo_ERP.common.helper_functions import inventory_products_dict, products_all_dict, add_document_type, \
+    combine_objects_in_list
 from Ergo_ERP.inventory.models import Inventory, ReceivingDocument, ShippingDocument, Department
 from Ergo_ERP.products.models import ProductsModel
 from Ergo_ERP.sales.models import SalesDocument
@@ -109,24 +110,35 @@ def documents_list_view(request):
         'receivingdocument': 'Receiving',
         'shippingdocument': 'Shipping'
     }
-    sales_documents = SalesDocument.objects.all()
-    receive_documents = ReceivingDocument.objects.all()
-    shipping_documents = ShippingDocument.objects.all()
-    combined_list = sorted(
-        list(sales_documents)+list(receive_documents)+list(shipping_documents),
-        key=lambda x: (x.date, x.time)
+    search_query = request.GET.get('q', '')
+    combined_documents_list = combine_objects_in_list(
+        SalesDocument,
+        ReceivingDocument,
+        ShippingDocument
     )
-    final_list = add_document_type(combined_list, names_dict)
+    filtered_documents_list = []
+    search_query_lower = search_query.lower()
+    for doc in combined_documents_list:
+        if isinstance(doc, SalesDocument):
+            buyer_name = doc.buyer_name.lower() if doc.buyer_name else ''
+            if search_query_lower in buyer_name:
+                filtered_documents_list.append(doc)
+        elif isinstance(doc, ReceivingDocument) or isinstance(doc, ShippingDocument):
+            receiving_department = doc.receiving_department.name.lower() if doc.receiving_department else ''
+            if search_query_lower in receiving_department:
+                filtered_documents_list.append(doc)
 
+    sorted_documents_list = sorted(filtered_documents_list, key=lambda x: (x.date, x.time))
+    final_documents_list = add_document_type(sorted_documents_list, names_dict)
     departments = Department.objects.all()
     operators = User.objects.all()
-
     context = {
-        'final_list': final_list,
+        'final_list': final_documents_list,
         'names_dict': names_dict,
         'departments': departments,
         'operators': operators,
         'template_verbose_name': 'Documents',
+        'search_query': search_query,
     }
     return render(request, template_name='documents-list.html', context=context)
 
