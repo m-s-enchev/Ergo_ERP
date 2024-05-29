@@ -6,39 +6,43 @@
 
     <form id=search-bar method="get" action="">
         <label for="date">Date</label>
-        <select name="date">
-            <option value="">All</option>
-            {% for dept in departments %}
-                <option value="{{ dept.name }}" {% if dept.name == request.GET.department %}selected{% endif %}>
-                    {{ dept.name }}
-                </option>
-            {% endfor %}
-        </select>
+        <input name="date" class="datepicker">
         <label for="operator">Operator</label>
         <select name="operator">
             <option value="">All</option>
-            {% for dept in departments %}
-                <option value="{{ dept.name }}" {% if dept.name == request.GET.department %}selected{% endif %}>
-                    {{ dept.name }}
+            {% for operator in operators %}
+                <option value="{{ operator.username }}" {% if operator.username == request.GET.department %}selected{% endif %}>
+                    {{ operator.username}}
                 </option>
             {% endfor %}
         </select>
         <label for="type">Document type</label>
         <select name="type">
             <option value="">All</option>
+            {% for type in names_dict.values %}
+                <option value="{{ type }}" {% if type == request.GET.type %}selected{% endif %}>
+                    {{ type }}
+                </option>
+            {% endfor %}
+        </select>
+        <label for="ship-department">From Department</label>
+        <select name="ship-department">
+            <option value="">All</option>
             {% for dept in departments %}
                 <option value="{{ dept.name }}" {% if dept.name == request.GET.department %}selected{% endif %}>
                     {{ dept.name }}
                 </option>
             {% endfor %}
         </select>
-        <label for="department">Department</label>
-        <select name="department">
+        <label for="receive-department">To </label>
+        <select name="receive-department">
             <option value="">All</option>
-            {% for dept in departments %}
-                <option value="{{ dept.name }}" {% if dept.name == request.GET.department %}selected{% endif %}>
-                    {{ dept.name }}
-                </option>
+            {% for obj in final_list %}
+                 {% with buyer_name=doc.buyer_name receiving_department=doc.receiving_department %}
+                    <option value=" {{ buyer_name|default:receiving_department }}" {% if dept.name == request.GET.receiver %}selected{% endif %}>
+                         {{ buyer_name|default:receiving_department }}
+                    </option>
+                {% endwith %}
             {% endfor %}
         </select>
 

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -5,7 +6,7 @@ from django.urls import reverse
 
 from Ergo_ERP.clients.models import Clients
 from Ergo_ERP.common.helper_functions import inventory_products_dict, products_all_dict, add_document_type
-from Ergo_ERP.inventory.models import Inventory, ReceivingDocument, ShippingDocument
+from Ergo_ERP.inventory.models import Inventory, ReceivingDocument, ShippingDocument, Department
 from Ergo_ERP.products.models import ProductsModel
 from Ergo_ERP.sales.models import SalesDocument
 from Ergo_ERP.user_settings.models import UserSettings
@@ -103,6 +104,11 @@ def get_client_names(request):
 
 
 def documents_list_view(request):
+    names_dict = {
+        'salesdocument': 'Sale',
+        'receivingdocument': 'Receiving',
+        'shippingdocument': 'Shipping'
+    }
     sales_documents = SalesDocument.objects.all()
     receive_documents = ReceivingDocument.objects.all()
     shipping_documents = ShippingDocument.objects.all()
@@ -110,9 +116,16 @@ def documents_list_view(request):
         list(sales_documents)+list(receive_documents)+list(shipping_documents),
         key=lambda x: (x.date, x.time)
     )
-    final_list = add_document_type(combined_list)
+    final_list = add_document_type(combined_list, names_dict)
+
+    departments = Department.objects.all()
+    operators = User.objects.all()
+
     context = {
         'final_list': final_list,
+        'names_dict': names_dict,
+        'departments': departments,
+        'operators': operators,
         'template_verbose_name': 'Documents',
     }
     return render(request, template_name='documents-list.html', context=context)

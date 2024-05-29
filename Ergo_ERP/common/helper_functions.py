@@ -81,12 +81,7 @@ def products_all_dict():
     return products_dict
 
 
-def add_document_type(queryset_objects: list):
-    names_dict = {
-        'salesdocument': 'Sale',
-        'receivingdocument': 'Receiving',
-        'shippingdocument': 'Shipping'
-    }
+def add_document_type(queryset_objects: list, verbose_names_dict:dict):
     for obj in queryset_objects:
-        obj.document_type = names_dict[obj._meta.model_name]
+        obj.document_type = verbose_names_dict[obj._meta.model_name]
     return queryset_objects
