@@ -1,9 +1,12 @@
 #products-list-wrapper,
 #inventory-wrapper,
 #client-list-wrapper,
-#suppliers-list-wrapper,
-#documents-list-wrapper{
+#suppliers-list-wrapper {
     margin: 10vh 3vw 0 3vw;
+}
+
+#documents-list-wrapper{
+    margin: 12vh 3vw 0 3vw;
 }
 
 #products-list-wrapper #search-bar input,
@@ -14,26 +17,66 @@
     width: 30%;
     font-size: calc(12px + 0.4vw);
     padding-left: 5px;
+    border-radius: 5px;
 }
 
-#inventory-wrapper #search-bar label,
-#documents-list-wrapper #search-bar label{
+#inventory-wrapper #search-bar label{
     font-size: calc(12px + 0.4vw);
     font-weight: bold;
-    margin: 0 10px;
+    margin:0 10px;
+}
+
+#documents-list-wrapper #search-bar label{
+    font-size: calc(11px + 0.4vw);
+    font-weight: bold;
+    margin-right: 0.5%;
+    margin-left: 1.5%;
+}
+
+#documents-list-wrapper #search-bar > label:nth-child(1) {
+    margin-left: 0;
 }
 
 #documents-list-wrapper #search-bar select {
-    width: 10vw
+    width: 15%;
+    font-size: calc(11px + 0.4vw);
+    padding: 3px 5px;
+    border-radius: 5px;
 }
+
+#documents-list-wrapper #search-bar #type {
+    width: 10%;
+    font-size: calc(11px + 0.4vw);
+    border-radius: 5px;
+}
+
+
+#documents-list-wrapper #search-bar .datepicker {
+    width: 8%;
+    font-size: calc(11px + 0.4vw);
+}
+
+
+#documents-list-wrapper #search-bar #search-query {
+    width: 15%;
+    font-size: calc(11px + 0.4vw);
+    padding: 1px 5px;
+    border-radius: 5px;
+}
+
 
 #products-list-wrapper #search-bar button,
 #inventory-wrapper #search-bar button,
 #client-list-wrapper #search-bar button,
-#suppliers-list-wrapper #search-bar button,
+#suppliers-list-wrapper #search-bar button {
+    padding: 3px 5px;
+    font-size: calc(12px + 0.4vw);
+}
+
 #documents-list-wrapper #search-bar button {
     padding: 3px 5px;
     font-size: calc(12px + 0.4vw);
+    margin-left: 1%;
 }
 
 #products-list-wrapper table,
@@ -68,8 +111,7 @@
 #products-list-wrapper .numerator,
 #inventory-wrapper .numerator,
 #client-list-wrapper .numerator,
-#suppliers-list-wrapper .numerator,
-#documents-list-wrapper .numerator{
+#suppliers-list-wrapper .numerator {
     width: 3%;
 }
 
@@ -147,6 +189,31 @@
 
 
 
+#documents-list-wrapper .numerator {
+    width: 5%;
+}
+
+#documents-list-wrapper .doc-date {
+    width: 9%;
+    text-align: center;
+}
+
+#documents-list-wrapper .doc-time {
+    width: 8%;
+    text-align: center;
+}
+
+#documents-list-wrapper .doc-operator,
+#documents-list-wrapper .shipping-department,
+#documents-list-wrapper .doc-type,
+#documents-list-wrapper .receiver {
+    width: 17%;
+}
+
+#documents-list-wrapper .total-sum {
+    width: 10%;
+    text-align: right;
+}
 
 
 

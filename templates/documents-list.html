@@ -17,8 +17,8 @@
                 </option>
             {% endfor %}
         </select>
-        <label for="type">Document type</label>
-        <select name="type">
+        <label for="type">Type</label>
+        <select name="type" id="type">
             <option value="">All</option>
             {% for type in names_dict.values %}
                 <option value="{{ type }}" {% if type == request.GET.type %}selected{% endif %}>
@@ -26,7 +26,7 @@
                 </option>
             {% endfor %}
         </select>
-        <label for="ship-department">From Department</label>
+        <label for="ship-department">From</label>
         <select name="ship-department">
             <option value="">All</option>
             {% for dept in departments %}
@@ -36,22 +36,7 @@
             {% endfor %}
         </select>
         <label for="q">To </label>
-        <select name="receive-department">
-            <option value="">All</option>
-            {% for obj in final_list %}
-                 {% with buyer_name=doc.buyer_name receiving_department=doc.receiving_department %}
-                    <option value=" {{ buyer_name|default:receiving_department }}" {% if dept.name == request.GET.receiver %}selected{% endif %}>
-                         {{ buyer_name|default:receiving_department }}
-                    </option>
-                {% endwith %}
-            {% endfor %}
-        </select>
-        <label for="q">To </label>
-        <form method="GET" action="">
-            <input type="text" name="q" value="{{ search_query }}" placeholder="All">
-            <button type="submit">Search</button>
-        </form>
-
+            <input type="text" id="search-query" name="q" value="{{ search_query }}" placeholder="All">
         <button type="submit">Filter</button>
     </form>
 
@@ -82,12 +67,12 @@
                         </td>
                     {% endwith %}
                     {% with sale_total_final=doc.sale_total_final total_sum=doc.total_sum %}
-                        <td class="client-names">
+                        <td class="total-sum">
                         {{ sale_total_final|default:total_sum }}
                         </td>
                     {% endwith %}
                     {% with buyer_name=doc.buyer_name receiving_department=doc.receiving_department %}
-                        <td class="client-names">
+                        <td class="receiver">
                         {{ buyer_name|default:receiving_department }}
                         </td>
                     {% endwith %}
