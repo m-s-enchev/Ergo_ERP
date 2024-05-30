@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -24,8 +25,8 @@ class Inventory(models.Model):
 class WarehouseDocument(models.Model):
     date = models.DateField()
     time = models.TimeField(auto_now_add=True)
-    operator = models.CharField(max_length=100)
     total_sum = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Total')
+    operator = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         abstract = True

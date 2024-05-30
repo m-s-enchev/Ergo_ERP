@@ -1,4 +1,4 @@
-
+from django.contrib.auth.models import User
 from django.db import models, transaction
 from django.db.models import Max
 
@@ -15,7 +15,6 @@ class SalesDocument(models.Model):
     ]
     date = models.DateField()
     time = models.TimeField(auto_now_add=True)
-    operator = models.CharField(max_length=100)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     buyer_name = models.CharField(max_length=100, verbose_name='Client')
     sale_total_before_tax = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Subtotal')
@@ -23,6 +22,7 @@ class SalesDocument(models.Model):
     sale_total_final = models.DecimalField(decimal_places=2, max_digits=10, verbose_name='TOTAL')
     payment_method = models.CharField(max_length=30, choices=payment_method_choices)
     is_linked_to_invoice = models.BooleanField(default=False)
+    operator = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class SoldProductsBaseModel(models.Model):

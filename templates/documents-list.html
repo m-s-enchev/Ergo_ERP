@@ -7,12 +7,12 @@
 
     <form id=search-bar method="get" action="">
         <label for="date">Date</label>
-        <input type="text" name="date" class="datepicker">
+        <input type="text" name="date" id="date" class="datepicker" placeholder="All" value="{{ date }}">
         <label for="operator">Operator</label>
         <select name="operator">
             <option value="">All</option>
             {% for operator in operators %}
-                <option value="{{ operator.username }}" {% if operator.username == request.GET.department %}selected{% endif %}>
+                <option value="{{ operator.username }}" {% if operator.username == request.GET.operator %}selected{% endif %}>
                     {{ operator.username}}
                 </option>
             {% endfor %}
@@ -26,18 +26,19 @@
                 </option>
             {% endfor %}
         </select>
-        <label for="ship-department">From</label>
-        <select name="ship-department">
+        <label for="shipper">From</label>
+        <select name="shipper">
             <option value="">All</option>
-            {% for dept in departments %}
-                <option value="{{ dept.name }}" {% if dept.name == request.GET.department %}selected{% endif %}>
-                    {{ dept.name }}
+            {% for department in departments %}
+                <option value="{{ department.name }}" {% if department.name == request.GET.shipper %}selected{% endif %}>
+                    {{ department.name }}
                 </option>
             {% endfor %}
         </select>
-        <label for="q">To </label>
-            <input type="text" id="search-query" name="q" value="{{ search_query }}" placeholder="All">
+        <label for="search_query">To </label>
+            <input type="text" id="search-query" name="search_query" value="{{ search_query }}" placeholder="All">
         <button type="submit">Filter</button>
+        <button type="reset" id="reset-button">Clear</button>
     </form>
 
     <table>

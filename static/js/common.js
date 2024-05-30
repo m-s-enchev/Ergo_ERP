@@ -498,9 +498,9 @@ function resetNumerators (){
 function addDeleteRowButton(index){
     const deleteButton =
         document.querySelector(`table tr:nth-child(${index}) .row-delete-button .fa-trash`);
-    deleteButton.addEventListener('click', (e) => {
-        deleteRow(e);
-        resetNumerators();
-    });
+        deleteButton.addEventListener('click', (e) => {
+            deleteRow(e);
+            resetNumerators();
+        });
 }
 

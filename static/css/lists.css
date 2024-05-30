@@ -29,8 +29,7 @@
 #documents-list-wrapper #search-bar label{
     font-size: calc(11px + 0.4vw);
     font-weight: bold;
-    margin-right: 0.5%;
-    margin-left: 1.5%;
+    margin-left: 2%;
 }
 
 #documents-list-wrapper #search-bar > label:nth-child(1) {
@@ -38,7 +37,7 @@
 }
 
 #documents-list-wrapper #search-bar select {
-    width: 15%;
+    width: 14%;
     font-size: calc(11px + 0.4vw);
     padding: 3px 5px;
     border-radius: 5px;
@@ -54,6 +53,7 @@
 #documents-list-wrapper #search-bar .datepicker {
     width: 8%;
     font-size: calc(11px + 0.4vw);
+    text-align: center;
 }
 
 
@@ -204,7 +204,7 @@
 }
 
 #documents-list-wrapper .doc-operator,
-#documents-list-wrapper .shipping-department,
+#documents-list-wrapper .shipper,
 #documents-list-wrapper .doc-type,
 #documents-list-wrapper .receiver {
     width: 17%;

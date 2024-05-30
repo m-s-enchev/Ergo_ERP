@@ -4,6 +4,16 @@ function initializeDatepicker (){
     });
 }
 
+function clearDateInput() {
+    const dateInputFieldInForm = document.getElementById('date');
+    const resetButton = document.getElementById('reset-button');
+    resetButton.addEventListener('click',()=>{
+        dateInputFieldInForm.removeAttribute("value");
+    });
+}
+
 $(document).ready(function() {
     initializeDatepicker();
+    // clearDateInput()
 });
+

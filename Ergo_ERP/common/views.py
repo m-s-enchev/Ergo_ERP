@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import JsonResponse
@@ -105,33 +107,57 @@ def get_client_names(request):
 
 
 def documents_list_view(request):
+    departments = Department.objects.all()
+    operators = User.objects.all()
     names_dict = {
         'salesdocument': 'Sale',
         'receivingdocument': 'Receiving',
         'shippingdocument': 'Shipping'
     }
-    search_query = request.GET.get('q', '')
-    combined_documents_list = combine_objects_in_list(
-        SalesDocument,
-        ReceivingDocument,
-        ShippingDocument
-    )
-    filtered_documents_list = []
-    search_query_lower = search_query.lower()
-    for doc in combined_documents_list:
-        if isinstance(doc, SalesDocument):
-            buyer_name = doc.buyer_name.lower() if doc.buyer_name else ''
-            if search_query_lower in buyer_name:
-                filtered_documents_list.append(doc)
-        elif isinstance(doc, ReceivingDocument) or isinstance(doc, ShippingDocument):
-            receiving_department = doc.receiving_department.name.lower() if doc.receiving_department else ''
-            if search_query_lower in receiving_department:
-                filtered_documents_list.append(doc)
+    search_query = request.GET.get('search_query') or ""
+    document_type = request.GET.get('type') or ""
+    shipping_department = request.GET.get('shipper') or ""
+    operator = request.GET.get('operator') or ""
+    date = request.GET.get('date') or ""
 
-    sorted_documents_list = sorted(filtered_documents_list, key=lambda x: (x.date, x.time))
+    sales_documents = SalesDocument.objects.all()
+    receiving_documents = ReceivingDocument.objects.all()
+    shipping_documents = ShippingDocument.objects.all()
+
+    original_date_format = ""
+
+    if date:
+        try:
+            original_date_format = datetime.strptime(date, "%d.%m.%Y").strftime("%d.%m.%Y")
+            date = datetime.strptime(date, "%d.%m.%Y").strftime("%Y-%m-%d")
+        except ValueError:
+            date = ""
+
+    if date:
+        sales_documents = sales_documents.filter(Q(date=date))
+        receiving_documents = receiving_documents.filter(Q(date=date))
+        shipping_documents = shipping_documents.filter(Q(date=date))
+
+    if shipping_department:
+        sales_documents = sales_documents.filter(Q(department__name__icontains=shipping_department))
+        receiving_documents = receiving_documents.filter(Q(shipping_department__name__icontains=shipping_department))
+        shipping_documents = shipping_documents.filter(Q(shipping_department__name__icontains=shipping_department))
+
+    if operator:
+        sales_documents = sales_documents.filter(Q(operator__username__icontains=operator))
+        receiving_documents = receiving_documents.filter(Q(operator__username__icontains=operator))
+        shipping_documents = shipping_documents.filter(Q(operator__username__icontains=operator))
+
+    if search_query:
+        sales_documents = sales_documents.filter(Q(buyer_name__icontains=search_query))
+        receiving_documents = receiving_documents.filter(Q(receiving_department__name__icontains=search_query))
+        shipping_documents = shipping_documents.filter(Q(receiving_department__name__icontains=search_query))
+
+    combined_documents_list = list(sales_documents) + list(receiving_documents) + list(shipping_documents)
+
+    sorted_documents_list = sorted(combined_documents_list, key=lambda x: (x.date, x.time))
     final_documents_list = add_document_type(sorted_documents_list, names_dict)
-    departments = Department.objects.all()
-    operators = User.objects.all()
+
     context = {
         'final_list': final_documents_list,
         'names_dict': names_dict,
@@ -139,6 +165,7 @@ def documents_list_view(request):
         'operators': operators,
         'template_verbose_name': 'Documents',
         'search_query': search_query,
+        'date': original_date_format,
     }
     return render(request, template_name='documents-list.html', context=context)
 
