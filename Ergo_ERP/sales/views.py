@@ -78,28 +78,6 @@ def handle_sales_and_invoice_forms(request, sales_document_form, sold_products_f
         )
 
 
-# def inventory_products_dict(department=None):
-#     if department is not None:
-#         products = Inventory.objects.filter(department=department)
-#     else:
-#         products = Inventory.objects.all()
-#     products_dict = {}
-#     for product in products:
-#         if product.product_exp_date:
-#             exp_date_formatted = product.product_exp_date.strftime('%d.%m.%Y')
-#             lot_number = product.product_lot_number
-#         else:
-#             exp_date_formatted = ""
-#             lot_number = ""
-#         products_dict[product.product_name] = [
-#                                                 format(product.product_quantity.normalize(), 'f'),
-#                                                 product.product_unit,
-#                                                 lot_number,
-#                                                 exp_date_formatted
-#                                                 ]
-#     return products_dict
-
-
 def check_inventory(sales_document_form, sold_products_formset):
     all_valid = True
     department = sales_document_form.cleaned_data.get('department')
