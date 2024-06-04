@@ -463,8 +463,6 @@ class AddProductForm {
 
 
 
-
-
 /** Deletes table row that is the parent of a delete button */
 function deleteRow(e){
     const row = e.target.closest('tr');

@@ -9,7 +9,7 @@
         <label for="date">Date</label>
         <input type="text" name="date" id="date" class="datepicker" placeholder="All" value="{{ date }}">
         <label for="operator">Operator</label>
-        <select name="operator">
+        <select name="operator" id="operator">
             <option value="">All</option>
             {% for operator in operators %}
                 <option value="{{ operator.username }}" {% if operator.username == request.GET.operator %}selected{% endif %}>
@@ -27,7 +27,7 @@
             {% endfor %}
         </select>
         <label for="shipper">From</label>
-        <select name="shipper">
+        <select name="shipper" id="shipper">
             <option value="">All</option>
             {% for department in departments %}
                 <option value="{{ department.name }}" {% if department.name == request.GET.shipper %}selected{% endif %}>
@@ -94,4 +94,5 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{% static 'js/date_picker.js' %}"></script>
+    <script src="{% static 'js/documents-list.js' %}"></script>
 {% endblock %}
