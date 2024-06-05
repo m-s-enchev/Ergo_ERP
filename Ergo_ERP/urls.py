@@ -31,5 +31,11 @@ urlpatterns = [
     path('products/', include('Ergo_ERP.products.urls')),
     path('common/', include('Ergo_ERP.common.urls')),
     path('user/', include('Ergo_ERP.user_profile.urls')),
+    path('401/', TemplateView.as_view(template_name='401.html'), name='401'),
+    path('403/', TemplateView.as_view(template_name='403.html'), name='403'),
     path('404/', TemplateView.as_view(template_name='404.html'), name='404'),
+    path('500/', TemplateView.as_view(template_name='500.html'), name='500'),
+    path('502/', TemplateView.as_view(template_name='502.html'), name='502'),
+    path('503/', TemplateView.as_view(template_name='503.html'), name='503'),
+    path('504/', TemplateView.as_view(template_name='504.html'), name='504'),
 ]

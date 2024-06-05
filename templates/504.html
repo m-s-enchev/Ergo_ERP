@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block  content %}
+<div id="error-page">
+    <h1>{% translate 'There is a temporary issue with our servers'%}</h1>
+    <h2>{% translate 'We appologize for the inconveience'%}</h2>
+    <h2>{% translate 'Please try again in a few minutes'%}</h2>
+</div>
+{% endblock %}
+
