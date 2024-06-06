@@ -4,8 +4,7 @@ from django.urls import reverse
 
 from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document, \
     get_next_document_number
-from Ergo_ERP.inventory.models import Inventory
-from Ergo_ERP.inventory.views import update_inventory
+from Ergo_ERP.inventory.helper_functions import check_inventory, update_inventory
 from Ergo_ERP.sales.forms import SalesDocumentForm, SoldProductsFormSet, InvoiceDataForm
 from Ergo_ERP.sales.models import InvoicedProducts, InvoiceData
 from Ergo_ERP.user_settings.models import UserSettings
@@ -33,52 +32,6 @@ def products_copy_to_document(
             setattr(copied_product_instance, field_name, getattr(products_instance, field_name))
         setattr(copied_product_instance, name_of_foreignkey_field, document_instance)
         copied_product_instance.save()
-
-
-
-# def handle_sales_document_form_only(request, sales_document_form, sold_products_formset):
-#     department = sales_document_form.cleaned_data.get('department')
-#     with transaction.atomic():
-#         sales_document_instance = sales_document_form.save(commit=False)
-#         sales_document_instance.operator = request.user
-#         sales_document_instance.save()
-#         sold_product_instances = products_list_save_to_document(
-#                                     sold_products_formset,
-#                                     sales_document_instance,
-#                                     'sales_document_in_which_sold'
-#                                  )
-#         update_inventory(sold_product_instances, False, department)
-#
-#
-# def handle_sales_and_invoice_forms(request, sales_document_form, sold_products_formset, invoice_data_form):
-#     """
-#     A separate InvoiceData instance with linked InvoicedProducts instances are created,
-#     since the date and included products might be different from sales_document instance
-#     """
-#     department = sales_document_form.cleaned_data.get('department')
-#     with transaction.atomic():
-#         sales_document_instance = sales_document_form.save(commit=False)
-#         sales_document_instance.operator = request.user
-#         sales_document_instance.save()
-#         sold_product_instances = products_list_save_to_document(
-#                                     sold_products_formset,
-#                                     sales_document_instance,
-#                                     'sales_document_in_which_sold'
-#                                  )
-#         update_inventory(sold_product_instances, False, department)
-#         fields_to_copy = InvoicedProducts.get_fields_to_copy()
-#         invoice_document_instance = invoice_data_form.save(commit=False)
-#         invoice_document_instance.sales_document_for_invoice = sales_document_instance
-#         invoice_document_instance.save()
-#         products_copy_to_document(
-#             invoice_document_instance,
-#             sold_product_instances,
-#             fields_to_copy,
-#             InvoicedProducts,
-#             'invoice_document_in_which_included'
-#         )
-
-
 
 
 def handle_sale_forms(request, sales_document_form, sold_products_formset):
@@ -118,31 +71,7 @@ def handle_invoice_forms(sales_document_instance, sold_product_instances, invoic
         )
 
 
-def check_inventory(sales_document_form, sold_products_formset):
-    all_valid = True
-    department = sales_document_form.cleaned_data.get('department')
-    for form in sold_products_formset:
-        cleaned_data = form.cleaned_data
-        product_name = cleaned_data.get('product_name')
-        product_lot_number = cleaned_data.get('product_lot_number')
-        product_quantity = cleaned_data.get('product_quantity')
-        matching_inventory = Inventory.objects.filter(
-            product_name=product_name,
-            product_lot_number=product_lot_number,
-            department=department
-        )
-        if matching_inventory.exists():
-            matching_instance = matching_inventory.first()
-            if matching_instance.product_quantity < product_quantity:
-                form.add_error('product_quantity', "Insufficient quantity !")
-                all_valid = False
-        else:
-            form.add_error('product_name', "No such product or lot !")
-            all_valid = False
-        return all_valid
-
-
-def sales_document_create(request):
+def sales_document_create_view(request):
     """
     View function handling a new sales event in two cases - with or without an invoice
     """

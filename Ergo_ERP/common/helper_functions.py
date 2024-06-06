@@ -99,3 +99,30 @@ def combine_objects_in_list(*args):
         objects_list = model.objects.all()
         combined_list += list(objects_list)
     return combined_list
+
+
+def check_product_name(document_form, products_formset):
+    """
+    Check if a product name is present in ProductsModel and is therefore a valid entry in the form
+    """
+    valid_name = True
+    for form in products_formset:
+        cleaned_data = form.cleaned_data
+        product_name = cleaned_data.get('product_name')
+        matching_product = ProductsModel.objects.filter(product_name=product_name)
+        if product_name and not matching_product.exists():
+            form.add_error('product_name', "No such product!")
+            valid_name = False
+    return valid_name
+
+
+def two_column_products_dict():
+    """
+    Returns a simple list of product names specifically for Warehouse receiving,
+    since it is different from other documents.
+    """
+    products = ProductsModel.objects.all()
+    products_names = []
+    for product in products:
+        products_names.append(product.product_name)
+    return products_names
