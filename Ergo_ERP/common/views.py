@@ -1,14 +1,14 @@
 from datetime import datetime
 
 from django.contrib.auth.models import User
+from django.core.exceptions import FieldError
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from Ergo_ERP.clients.models import Clients
-from Ergo_ERP.common.helper_functions import inventory_products_dict, products_all_dict, add_document_type, \
-    combine_objects_in_list
+from Ergo_ERP.common.helper_functions import inventory_products_dict, products_all_dict
 from Ergo_ERP.inventory.models import Inventory, ReceivingDocument, ShippingDocument, Department
 from Ergo_ERP.products.models import ProductsModel
 from Ergo_ERP.sales.models import SalesDocument
@@ -27,7 +27,7 @@ def homepage_view(request):
         return redirect(reverse('user-login'))
 
 
-def get_product_price(request):
+def get_product_price_view(request):
     """
     Returns one of the 3 prices of a product from ProductModel
     """
@@ -48,7 +48,7 @@ def get_product_price(request):
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
-def get_purchase_price(request):
+def get_purchase_price_view(request):
     """
     Returns the purchase price of a product from Inventory model
     """
@@ -66,7 +66,7 @@ def get_purchase_price(request):
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
-def get_products_by_department(request):
+def get_products_by_department_view(request):
     department_id = request.GET.get('department_id')
     if department_id:
         products_dropdown = inventory_products_dict(department_id)
@@ -75,12 +75,12 @@ def get_products_by_department(request):
         return JsonResponse({'error': 'Department not provided'}, status=400)
 
 
-def get_products_all(request):
+def get_products_all_view(request):
     products_dropdown = products_all_dict()
     return JsonResponse(products_dropdown, safe=False)
 
 
-def get_client_names(request):
+def get_client_names_view(request):
     """
     Returns a list of all instances in Clients.
     """
@@ -106,6 +106,69 @@ def get_client_names(request):
     return JsonResponse(clients_list, safe=False)
 
 
+def format_date(date_str):
+    """
+    Formats a date in standard format
+    """
+    try:
+        return datetime.strptime(date_str, "%d.%m.%Y").date()
+    except ValueError:
+        return None
+
+
+def build_filters(date, shipping_department, operator, search_query):
+    """
+    Creates a dictionary where keys are the names of the fields to
+    filter by and values are the corresponding values to filter with.
+    """
+    filters = {}
+    if date:
+        filters['date'] = date
+    if shipping_department:
+        filters['department__name__icontains'] = shipping_department
+        filters['shipping_department__name__icontains'] = shipping_department
+    if operator:
+        filters['operator__username__icontains'] = operator
+    if search_query:
+        filters['buyer_name__icontains'] = search_query
+        filters['receiving_department__name__icontains'] = search_query
+    return filters
+
+
+def add_document_type(queryset_objects: list, verbose_names_dict:dict):
+    """
+    Adds a verbose name of the model to it instances in a list
+    """
+    for obj in queryset_objects:
+        obj.document_type = verbose_names_dict[obj._meta.model_name]
+    return queryset_objects
+
+
+def apply_filters(queryset, filters):
+    """
+    Filters a queryset by a dictionary where keys are the names of the fields to
+    filter by and values are the corresponding values to filter with.
+    """
+    for key, value in filters.items():
+        if value:
+            try:
+                queryset = queryset.filter(**{key: value})
+            except FieldError:
+                continue
+    return queryset
+
+
+def get_combined_documents(filters):
+    """
+    Filter querysets and combine them in a list
+    """
+    sales_documents = apply_filters(SalesDocument.objects.all(), filters)
+    receiving_documents = apply_filters(ReceivingDocument.objects.all(), filters)
+    shipping_documents = apply_filters(ShippingDocument.objects.all(), filters)
+    combined_documents = list(sales_documents) + list(receiving_documents) + list(shipping_documents)
+    return combined_documents
+
+
 def documents_list_view(request):
     departments = Department.objects.all()
     operators = User.objects.all()
@@ -118,48 +181,18 @@ def documents_list_view(request):
     document_type = request.GET.get('type') or ""
     shipping_department = request.GET.get('shipper') or ""
     operator = request.GET.get('operator') or ""
-    date = request.GET.get('date') or ""
-
-    sales_documents = SalesDocument.objects.all()
-    receiving_documents = ReceivingDocument.objects.all()
-    shipping_documents = ShippingDocument.objects.all()
-
-    original_date_format = ""
-
-    if date:
-        try:
-            original_date_format = datetime.strptime(date, "%d.%m.%Y").strftime("%d.%m.%Y")
-            date = datetime.strptime(date, "%d.%m.%Y").strftime("%Y-%m-%d")
-        except ValueError:
-            date = ""
-
-    if date:
-        sales_documents = sales_documents.filter(Q(date=date))
-        receiving_documents = receiving_documents.filter(Q(date=date))
-        shipping_documents = shipping_documents.filter(Q(date=date))
-
-    if shipping_department:
-        sales_documents = sales_documents.filter(Q(department__name__icontains=shipping_department))
-        receiving_documents = receiving_documents.filter(Q(shipping_department__name__icontains=shipping_department))
-        shipping_documents = shipping_documents.filter(Q(shipping_department__name__icontains=shipping_department))
-
-    if operator:
-        sales_documents = sales_documents.filter(Q(operator__username__icontains=operator))
-        receiving_documents = receiving_documents.filter(Q(operator__username__icontains=operator))
-        shipping_documents = shipping_documents.filter(Q(operator__username__icontains=operator))
-
-    if search_query:
-        sales_documents = sales_documents.filter(Q(buyer_name__icontains=search_query))
-        receiving_documents = receiving_documents.filter(Q(receiving_department__name__icontains=search_query))
-        shipping_documents = shipping_documents.filter(Q(receiving_department__name__icontains=search_query))
-
-    combined_documents_list = list(sales_documents) + list(receiving_documents) + list(shipping_documents)
-
+    date_str = request.GET.get('date', "")
+    original_date_format = date_str
+    date = format_date(date_str)
+    filters = build_filters(date, shipping_department, operator, search_query)
+    combined_documents_list = get_combined_documents(filters)
+    combined_documents_list = add_document_type(combined_documents_list, names_dict)
+    if document_type:
+        combined_documents_list = [doc for doc in combined_documents_list if doc.document_type == document_type]
     sorted_documents_list = sorted(combined_documents_list, key=lambda x: (x.date, x.time))
-    final_documents_list = add_document_type(sorted_documents_list, names_dict)
 
     context = {
-        'final_list': final_documents_list,
+        'final_list': sorted_documents_list,
         'names_dict': names_dict,
         'departments': departments,
         'operators': operators,
@@ -168,8 +201,6 @@ def documents_list_view(request):
         'date': original_date_format,
     }
     return render(request, template_name='documents-list.html', context=context)
-
-
 
 
 

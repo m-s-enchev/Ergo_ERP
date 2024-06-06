@@ -81,26 +81,6 @@ def products_all_dict():
     return products_dict
 
 
-def add_document_type(queryset_objects: list, verbose_names_dict:dict):
-    """
-    Adds a verbose name of the model to it instances in a list
-    """
-    for obj in queryset_objects:
-        obj.document_type = verbose_names_dict[obj._meta.model_name]
-    return queryset_objects
-
-
-def combine_objects_in_list(*args):
-    """
-    Combines instances of models in one list
-    """
-    combined_list = []
-    for model in args:
-        objects_list = model.objects.all()
-        combined_list += list(objects_list)
-    return combined_list
-
-
 def check_product_name(document_form, products_formset):
     """
     Check if a product name is present in ProductsModel and is therefore a valid entry in the form
@@ -126,3 +106,6 @@ def two_column_products_dict():
     for product in products:
         products_names.append(product.product_name)
     return products_names
+
+
+
