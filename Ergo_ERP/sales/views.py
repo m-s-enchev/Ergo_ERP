@@ -35,7 +35,57 @@ def products_copy_to_document(
         copied_product_instance.save()
 
 
-def handle_sales_document_form_only(request, sales_document_form, sold_products_formset):
+
+# def handle_sales_document_form_only(request, sales_document_form, sold_products_formset):
+#     department = sales_document_form.cleaned_data.get('department')
+#     with transaction.atomic():
+#         sales_document_instance = sales_document_form.save(commit=False)
+#         sales_document_instance.operator = request.user
+#         sales_document_instance.save()
+#         sold_product_instances = products_list_save_to_document(
+#                                     sold_products_formset,
+#                                     sales_document_instance,
+#                                     'sales_document_in_which_sold'
+#                                  )
+#         update_inventory(sold_product_instances, False, department)
+#
+#
+# def handle_sales_and_invoice_forms(request, sales_document_form, sold_products_formset, invoice_data_form):
+#     """
+#     A separate InvoiceData instance with linked InvoicedProducts instances are created,
+#     since the date and included products might be different from sales_document instance
+#     """
+#     department = sales_document_form.cleaned_data.get('department')
+#     with transaction.atomic():
+#         sales_document_instance = sales_document_form.save(commit=False)
+#         sales_document_instance.operator = request.user
+#         sales_document_instance.save()
+#         sold_product_instances = products_list_save_to_document(
+#                                     sold_products_formset,
+#                                     sales_document_instance,
+#                                     'sales_document_in_which_sold'
+#                                  )
+#         update_inventory(sold_product_instances, False, department)
+#         fields_to_copy = InvoicedProducts.get_fields_to_copy()
+#         invoice_document_instance = invoice_data_form.save(commit=False)
+#         invoice_document_instance.sales_document_for_invoice = sales_document_instance
+#         invoice_document_instance.save()
+#         products_copy_to_document(
+#             invoice_document_instance,
+#             sold_product_instances,
+#             fields_to_copy,
+#             InvoicedProducts,
+#             'invoice_document_in_which_included'
+#         )
+
+
+
+
+def handle_sale_forms(request, sales_document_form, sold_products_formset):
+    """
+    Creates a Sale consisting by handling the Sales Document Forms and
+    the Sold Products for set linked to it.
+    """
     department = sales_document_form.cleaned_data.get('department')
     with transaction.atomic():
         sales_document_instance = sales_document_form.save(commit=False)
@@ -47,24 +97,14 @@ def handle_sales_document_form_only(request, sales_document_form, sold_products_
                                     'sales_document_in_which_sold'
                                  )
         update_inventory(sold_product_instances, False, department)
+        return sales_document_instance, sold_product_instances
 
 
-def handle_sales_and_invoice_forms(request, sales_document_form, sold_products_formset, invoice_data_form):
+def handle_invoice_forms(sales_document_instance, sold_product_instances, invoice_data_form):
     """
-    A separate InvoiceData instance with linked InvoicedProducts instances are created,
-    since the date and included products might be different from sales_document instance
+    Handles the creation of an Invoice linked to a Sale
     """
-    department = sales_document_form.cleaned_data.get('department')
     with transaction.atomic():
-        sales_document_instance = sales_document_form.save(commit=False)
-        sales_document_instance.operator = request.user
-        sales_document_instance.save()
-        sold_product_instances = products_list_save_to_document(
-                                    sold_products_formset,
-                                    sales_document_instance,
-                                    'sales_document_in_which_sold'
-                                 )
-        update_inventory(sold_product_instances, False, department)
         fields_to_copy = InvoicedProducts.get_fields_to_copy()
         invoice_document_instance = invoice_data_form.save(commit=False)
         invoice_document_instance.sales_document_for_invoice = sales_document_instance
@@ -118,11 +158,13 @@ def sales_document_create(request):
             and check_inventory(sales_document_form, sold_products_formset)
         ):
             if not sales_document_form.cleaned_data['is_linked_to_invoice']:
-                handle_sales_document_form_only(request, sales_document_form, sold_products_formset)
+                handle_sale_forms(request, sales_document_form, sold_products_formset)
                 return redirect(reverse('sale_new'))
             elif sales_document_form.cleaned_data['is_linked_to_invoice'] and invoice_data_form.is_valid():
-                handle_sales_and_invoice_forms(request, sales_document_form, sold_products_formset, invoice_data_form)
-                return redirect(reverse('sale_new'))
+                with transaction.atomic():
+                    sales_document_instance, sold_product_instances = handle_sale_forms(request, sales_document_form, sold_products_formset)
+                    handle_invoice_forms(sales_document_instance, sold_product_instances, invoice_data_form)
+                    return redirect(reverse('sale_new'))
     else:
         sales_document_form = SalesDocumentForm(initial={
             'department': user_settings.default_department,

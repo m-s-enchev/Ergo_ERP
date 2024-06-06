@@ -34,7 +34,7 @@ class InventoryView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['departments'] = Department.objects.all()  # Add the list of departments to the context
+        context['departments'] = Department.objects.all()
         return context
 
 
@@ -76,8 +76,27 @@ def create_inventory_instance(product_instance):
     new_inventory_instance.save()
 
 
-# def receive_in_inventory(product_instance):
-#
+def receive_in_inventory(matching_inventory_instance, product_instance):
+    if matching_inventory_instance:
+        matching_inventory_instance.product_quantity += product_instance.product_quantity
+        matching_inventory_instance.product_total += product_instance.product_total
+        matching_inventory_instance.purchase_price = (matching_inventory_instance.product_total /
+                                                      matching_inventory_instance.product_quantity)
+        matching_inventory_instance.save()
+    else:
+        create_inventory_instance(product_instance)
+
+
+def subtract_from_inventory(matching_inventory_instance, product_instance):
+    if matching_inventory_instance.product_quantity < product_instance.product_quantity:
+        raise ValidationError(f"There is not enough of product {matching_inventory_instance.product_name} "
+                              f"with lot {matching_inventory_instance.product_lot_number}.")
+    else:
+        matching_inventory_instance.product_quantity -= product_instance.product_quantity
+        matching_inventory_instance.product_total -= (product_instance.product_quantity *
+                                                      matching_inventory_instance.product_purchase_price)
+        matching_inventory_instance.save()
+
 
 def update_inventory(product_instances, is_receiving: bool, department):
     """
@@ -92,27 +111,61 @@ def update_inventory(product_instances, is_receiving: bool, department):
             department=department
         ).first()
 
-        if matching_inventory_instance:
-            if is_receiving:
-                matching_inventory_instance.product_quantity += product_instance.product_quantity
-                matching_inventory_instance.product_total += product_instance.product_total
-                matching_inventory_instance.purchase_price = (matching_inventory_instance.product_total /
-                                                              matching_inventory_instance.product_quantity)
-                matching_inventory_instance.save()
-            else:
-                if matching_inventory_instance.product_quantity < product_instance.product_quantity:
-                    raise ValidationError(f"There is not enough of product {matching_inventory_instance.product_name} "
-                                          f"with lot {matching_inventory_instance.product_lot_number}.")
-                else:
-                    matching_inventory_instance.product_quantity -= product_instance.product_quantity
-                    matching_inventory_instance.product_total -= (product_instance.product_quantity *
-                                                                  matching_inventory_instance.product_purchase_price)
-                    matching_inventory_instance.save()
-        elif is_receiving:
-            create_inventory_instance(product_instance)
+        if is_receiving:
+            receive_in_inventory(matching_inventory_instance, product_instance)
+        else:
+            subtract_from_inventory(matching_inventory_instance, product_instance)
 
 
-def handle_receiving_document_forms(receiving_document_form, received_products_formset):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def update_inventory(product_instances, is_receiving: bool, department):
+#     """
+#     Adds to and removes from quantities and value of existing products.
+#     Adjusts current median purchase price.
+#     Creates new product lots in inventory if necessary.
+#     """
+#     for product_instance in product_instances:
+#         matching_inventory_instance = Inventory.objects.filter(
+#             product_name=product_instance.product_name,
+#             product_lot_number=product_instance.product_lot_number,
+#             department=department
+#         ).first()
+#
+#         if matching_inventory_instance:
+#             if is_receiving:
+#                 matching_inventory_instance.product_quantity += product_instance.product_quantity
+#                 matching_inventory_instance.product_total += product_instance.product_total
+#                 matching_inventory_instance.purchase_price = (matching_inventory_instance.product_total /
+#                                                               matching_inventory_instance.product_quantity)
+#                 matching_inventory_instance.save()
+#             else:
+#                 if matching_inventory_instance.product_quantity < product_instance.product_quantity:
+#                     raise ValidationError(f"There is not enough of product {matching_inventory_instance.product_name} "
+#                                           f"with lot {matching_inventory_instance.product_lot_number}.")
+#                 else:
+#                     matching_inventory_instance.product_quantity -= product_instance.product_quantity
+#                     matching_inventory_instance.product_total -= (product_instance.product_quantity *
+#                                                                   matching_inventory_instance.product_purchase_price)
+#                     matching_inventory_instance.save()
+#         elif is_receiving:
+#             create_inventory_instance(product_instance)
+
+
+def handle_receiving_document_forms(request, receiving_document_form, received_products_formset):
     """
     Saves receive document form and the product form formset, after setting document as
     linked_warehouse_document for each product in formset. Updates Inventory afterwords
@@ -120,6 +173,7 @@ def handle_receiving_document_forms(receiving_document_form, received_products_f
     with transaction.atomic():
         receive_document_instance = receiving_document_form.save(commit=False)
         department = receive_document_instance.receiving_department
+        receive_document_instance.operator = request.user
         receive_document_instance.save()
         product_instances = products_list_save_to_document(
             received_products_formset,
@@ -147,7 +201,7 @@ def receiving_document_create(request):
                 and is_formset_nonempty(received_products_formset)
                 and check_product_name(receiving_document_form, received_products_formset)
         ):
-            handle_receiving_document_forms(receiving_document_form, received_products_formset)
+            handle_receiving_document_forms(request, receiving_document_form, received_products_formset)
             return redirect(reverse('receive-goods'))
     else:
         receiving_document_form = ReceivingDocumentForm(initial={
@@ -163,7 +217,7 @@ def receiving_document_create(request):
     return render(request, 'inventory/warehouse_receiving.html', context)
 
 
-def handle_shipping_document_forms(shipping_document_form, shipped_products_formset):
+def handle_shipping_document_forms(request, shipping_document_form, shipped_products_formset):
     """
     Saves shipping document form and the product form formset, after setting document as
     linked_warehouse_document for each product in formset. Updates Inventory afterwords
@@ -171,11 +225,13 @@ def handle_shipping_document_forms(shipping_document_form, shipped_products_form
     with transaction.atomic():
         shipping_document_instance = shipping_document_form.save(commit=False)
         department = shipping_document_instance.shipping_department
+        shipping_document_instance.operator = request.user
         shipping_document_instance.save()
         product_instances = products_list_save_to_document(
             shipped_products_formset,
             shipping_document_instance,
-            'linked_warehouse_document'
+            'linked_warehouse_document',
+            department
             )
         update_inventory(product_instances, False, department)
 
@@ -195,7 +251,7 @@ def shipping_document_create(request):
                 and shipped_products_formset.is_valid()
                 and is_formset_nonempty(shipped_products_formset)
         ):
-            handle_shipping_document_forms(shipping_document_form, shipped_products_formset)
+            handle_shipping_document_forms(request, shipping_document_form, shipped_products_formset)
             return redirect(reverse('ship-goods'))
 
     else:
