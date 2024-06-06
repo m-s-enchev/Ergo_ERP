@@ -76,6 +76,9 @@ def create_inventory_instance(product_instance):
     new_inventory_instance.save()
 
 
+# def receive_in_inventory(product_instance):
+#
+
 def update_inventory(product_instances, is_receiving: bool, department):
     """
     Adds to and removes from quantities and value of existing products.
@@ -103,7 +106,7 @@ def update_inventory(product_instances, is_receiving: bool, department):
                 else:
                     matching_inventory_instance.product_quantity -= product_instance.product_quantity
                     matching_inventory_instance.product_total -= (product_instance.product_quantity *
-                                                                  matching_inventory_instance.purchase_price)
+                                                                  matching_inventory_instance.product_purchase_price)
                     matching_inventory_instance.save()
         elif is_receiving:
             create_inventory_instance(product_instance)

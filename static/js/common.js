@@ -369,8 +369,11 @@ class AddProductForm {
     addRow() {
         let newForm = this.productForms[0].cloneNode(true);
         let formRegex = new RegExp(`${this.formPrefix}-0-`, 'g');
+        let nameFormPrefix = this.formPrefix.replace(/^id_/, '');
+        let nameRegex = new RegExp(`(name="${nameFormPrefix}-)\\d+(-)`, 'g');
         let numeratorRegex = /(<td class="numerator">)\d+(<\/td>)/g;
         newForm.innerHTML = newForm.innerHTML.replace(formRegex, `${this.formPrefix}-${this.formNum}-`);
+        newForm.innerHTML = newForm.innerHTML.replace(nameRegex, `$1${this.formNum}$2`);
         newForm.innerHTML = newForm.innerHTML.replace(numeratorRegex,
             `<td class="numerator">${this.formNum + 1}</td>`);
         this.clearErrorMessages(newForm);
