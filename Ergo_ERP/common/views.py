@@ -82,7 +82,7 @@ def get_products_all_view(request):
 
 def get_client_names_view(request):
     """
-    Returns a list of all instances in Clients.
+    Returns a list of all instances in Clients filtered by a search term.
     """
     term = request.GET.get('term', '')
     clients = Clients.objects.filter(
@@ -160,7 +160,7 @@ def apply_filters(queryset, filters):
 
 def get_combined_documents(filters):
     """
-    Filter querysets and combine them in a list
+    Filters query sets and combine them in a list
     """
     sales_documents = apply_filters(SalesDocument.objects.all(), filters)
     receiving_documents = apply_filters(ReceivingDocument.objects.all(), filters)

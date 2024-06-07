@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.db import DatabaseError
 
 from Ergo_ERP.inventory.models import Inventory
 
@@ -42,7 +43,12 @@ def create_inventory_instance(product_instance):
     field_names = [field.name for field in new_inventory_instance._meta.fields if field.name != 'id']
     for field_name in field_names:
         setattr(new_inventory_instance, field_name, getattr(product_instance, field_name))
-    new_inventory_instance.save()
+    try:
+        new_inventory_instance.save()
+    except DatabaseError as de:
+        raise DatabaseError(f"Database error while saving Sales document instance: {de}")
+    except Exception as e:
+        raise Exception(f"An unexpected error occurred while saving Sales document instance: {e}")
 
 
 def receive_in_inventory(matching_inventory_instance, product_instance):
@@ -54,7 +60,12 @@ def receive_in_inventory(matching_inventory_instance, product_instance):
         matching_inventory_instance.product_total += product_instance.product_total
         matching_inventory_instance.purchase_price = (matching_inventory_instance.product_total /
                                                       matching_inventory_instance.product_quantity)
-        matching_inventory_instance.save()
+        try:
+            matching_inventory_instance.save()
+        except DatabaseError as de:
+            raise DatabaseError(f"Database error while saving Sales document instance: {de}")
+        except Exception as e:
+            raise Exception(f"An unexpected error occurred while saving Sales document instance: {e}")
     else:
         create_inventory_instance(product_instance)
 
@@ -70,14 +81,19 @@ def subtract_from_inventory(matching_inventory_instance, product_instance):
         matching_inventory_instance.product_quantity -= product_instance.product_quantity
         matching_inventory_instance.product_total -= (product_instance.product_quantity *
                                                       matching_inventory_instance.product_purchase_price)
-        matching_inventory_instance.save()
+        try:
+            matching_inventory_instance.save()
+        except DatabaseError as de:
+            raise DatabaseError(f"Database error while saving Sales document instance: {de}")
+        except Exception as e:
+            raise Exception(f"An unexpected error occurred while saving Sales document instance: {e}")
 
 
 def update_inventory(product_instances, is_receiving: bool, department):
     """
-    Adds to and removes from quantities and value of existing products.
+    Adds to and removes from quantities and value of existing products in Inventory.
     Adjusts current median purchase price.
-    Creates new product lots in inventory if necessary.
+    Creates new product lots in Inventory if necessary.
     """
     for product_instance in product_instances:
         matching_inventory_instance = Inventory.objects.filter(

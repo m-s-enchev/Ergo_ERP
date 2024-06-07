@@ -1,3 +1,4 @@
+from django.db import DatabaseError
 from django.db.models import Max
 
 from Ergo_ERP.inventory.models import Inventory
@@ -16,7 +17,8 @@ def is_formset_nonempty(formset):
 
 def products_list_save_to_document(products_formset, document_instance, name_of_foreignkey_field: str, department=None):
     """
-    Handles products form and links their instances to the document instance.
+    Handles product forms in a formset and links their instances to the document instance.
+    Returns a list of saved instances.
     """
     saved_product_instances = []
     for products_form in products_formset:
@@ -25,14 +27,19 @@ def products_list_save_to_document(products_formset, document_instance, name_of_
             setattr(products_instance, name_of_foreignkey_field, document_instance)
             if department:
                 setattr(products_instance, 'department', department)
-            products_instance.save()
+            try:
+                products_instance.save()
+            except DatabaseError as de:
+                raise DatabaseError(f"Database error while saving Product instance: {de}")
+            except Exception as e:
+                raise Exception(f"An unexpected error occurred while saving Product instance: {e}")
             saved_product_instances.append(products_instance)
     return saved_product_instances
 
 
 def get_next_document_number(model, numerator_field_name):
     """
-    Check what is the last numerator field value in a model and determines the next one.
+    Checks what is the last numerator field value in a model and determines the next one.
     Used for invoice document numbers which are separate from their Ids
     """
     last_number = model.objects.aggregate(Max(numerator_field_name))[f'{numerator_field_name}__max']
@@ -98,8 +105,7 @@ def check_product_name(document_form, products_formset):
 
 def two_column_products_dict():
     """
-    Returns a simple list of product names specifically for Warehouse receiving,
-    since it is different from other documents.
+    Returns a simple list of product names specifically for Warehouse Receiving
     """
     products = ProductsModel.objects.all()
     products_names = []

@@ -1,4 +1,4 @@
-from django.db import transaction
+from django.db import transaction, DatabaseError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
@@ -18,7 +18,7 @@ def products_copy_to_document(
         name_of_foreignkey_field: str
 ):
     """
-    Creates copies of product instances, with specified fields
+    Creates copies of product form instances from a formset, with specified fields
     and associates them to a specified document model instance.
     """
     field_names = [
@@ -31,19 +31,30 @@ def products_copy_to_document(
         for field_name in field_names:
             setattr(copied_product_instance, field_name, getattr(products_instance, field_name))
         setattr(copied_product_instance, name_of_foreignkey_field, document_instance)
-        copied_product_instance.save()
+        try:
+            copied_product_instance.save()
+        except DatabaseError as de:
+            raise DatabaseError(f"Database error while saving copied product instance: {de}")
+        except Exception as e:
+            raise Exception(f"An unexpected error occurred while saving copied product instance: {e}")
 
 
 def handle_sale_forms(request, sales_document_form, sold_products_formset):
     """
-    Creates a Sale consisting by handling the Sales Document Forms and
-    the Sold Products for set linked to it.
+    Handles the SalesDocumentForm instance and the SoldProductsForm instances,
+    from the formset, which are linked to it. Updates the Inventory afterwords.
+    In that way it creates a Sales document.
     """
     department = sales_document_form.cleaned_data.get('department')
     with transaction.atomic():
         sales_document_instance = sales_document_form.save(commit=False)
         sales_document_instance.operator = request.user
-        sales_document_instance.save()
+        try:
+            sales_document_instance.save()
+        except DatabaseError as de:
+            raise DatabaseError(f"Database error while saving Sales document instance: {de}")
+        except Exception as e:
+            raise Exception(f"An unexpected error occurred while saving Sales document instance: {e}")
         sold_product_instances = products_list_save_to_document(
                                     sold_products_formset,
                                     sales_document_instance,
@@ -55,13 +66,21 @@ def handle_sale_forms(request, sales_document_form, sold_products_formset):
 
 def handle_invoice_forms(sales_document_instance, sold_product_instances, invoice_data_form):
     """
-    Handles the creation of an Invoice linked to a Sale
+    Handles the InvoiceDataForm instance. Copies the SodProductsForm instances and creates
+    InvoicedProductsForm instances, which are linked to InvoiceDataForm. In that way it creates an
+    Invoice document based on the Sales document.
     """
     with transaction.atomic():
         fields_to_copy = InvoicedProducts.get_fields_to_copy()
         invoice_document_instance = invoice_data_form.save(commit=False)
         invoice_document_instance.sales_document_for_invoice = sales_document_instance
         invoice_document_instance.save()
+        try:
+            invoice_document_instance.save()
+        except DatabaseError as de:
+            raise DatabaseError(f"Database error while saving Invoice document instance: {de}")
+        except Exception as e:
+            raise Exception(f"An unexpected error occurred while saving Invoice document instance: {e}")
         products_copy_to_document(
             invoice_document_instance,
             sold_product_instances,
@@ -73,7 +92,7 @@ def handle_invoice_forms(sales_document_instance, sold_product_instances, invoic
 
 def sales_document_create_view(request):
     """
-    View function handling a new sales event in two cases - with or without an invoice
+    View function handling a new Sales event in two cases - with or without an invoice
     """
     sold_products_formset = SoldProductsFormSet(request.POST or None, prefix='sold_products')
     user_settings = get_object_or_404(UserSettings, user=request.user)

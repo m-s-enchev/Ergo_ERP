@@ -1,4 +1,4 @@
-from django.db import transaction
+from django.db import transaction, DatabaseError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView
@@ -47,7 +47,12 @@ def handle_receiving_document_forms(request, receiving_document_form, received_p
         receive_document_instance = receiving_document_form.save(commit=False)
         department = receive_document_instance.receiving_department
         receive_document_instance.operator = request.user
-        receive_document_instance.save()
+        try:
+            receive_document_instance.save()
+        except DatabaseError as de:
+            raise DatabaseError(f"Database error while saving Warehouse Receive document instance: {de}")
+        except Exception as e:
+            raise Exception(f"An unexpected error occurred while saving Warehouse Receive document instance: {e}")
         product_instances = products_list_save_to_document(
             received_products_formset,
             receive_document_instance,
@@ -99,7 +104,12 @@ def handle_shipping_document_forms(request, shipping_document_form, shipped_prod
         shipping_document_instance = shipping_document_form.save(commit=False)
         department = shipping_document_instance.shipping_department
         shipping_document_instance.operator = request.user
-        shipping_document_instance.save()
+        try:
+            shipping_document_instance.save()
+        except DatabaseError as de:
+            raise DatabaseError(f"Database error while saving Warehouse Shipping document instance: {de}")
+        except Exception as e:
+            raise Exception(f"An unexpected error occurred while saving Warehouse Shipping document instance: {e}")
         product_instances = products_list_save_to_document(
             shipped_products_formset,
             shipping_document_instance,
