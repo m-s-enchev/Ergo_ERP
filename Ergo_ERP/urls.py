@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.urls import path, include
 from django.views.generic import TemplateView
 
@@ -23,19 +24,12 @@ from Ergo_ERP.user_settings.views import user_settings_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Ergo_ERP.common.urls')),
-    path('settings/', user_settings_view, name='settings'),
+    path('settings/', login_required(user_settings_view, login_url='/user/login'), name='settings'),
     path('clients/', include('Ergo_ERP.clients.urls')),
     path('suppliers/', include('Ergo_ERP.suppliers.urls')),
     path('sales/', include('Ergo_ERP.sales.urls')),
     path('inventory/', include('Ergo_ERP.inventory.urls')),
     path('products/', include('Ergo_ERP.products.urls')),
-    path('common/', include('Ergo_ERP.common.urls')),
     path('user/', include('Ergo_ERP.user_profile.urls')),
-    path('401/', TemplateView.as_view(template_name='401.html'), name='401'),
-    path('403/', TemplateView.as_view(template_name='403.html'), name='403'),
-    path('404/', TemplateView.as_view(template_name='404.html'), name='404'),
-    path('500/', TemplateView.as_view(template_name='500.html'), name='500'),
-    path('502/', TemplateView.as_view(template_name='502.html'), name='502'),
-    path('503/', TemplateView.as_view(template_name='503.html'), name='503'),
-    path('504/', TemplateView.as_view(template_name='504.html'), name='504'),
+
 ]
