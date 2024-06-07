@@ -113,5 +113,3 @@ def two_column_products_dict():
         products_names.append(product.product_name)
     return products_names
 
-
-
