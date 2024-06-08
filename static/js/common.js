@@ -71,7 +71,7 @@ function getProductPrice(index, formsetPrefix, priceNoTaxSuffix, priceWithTaxSuf
         document.getElementById(`${formsetPrefix}-${index}-${priceWithTaxSuffix}`);
     nameInput.addEventListener('change', function() {
         const productName = this.value;
-        fetch(`/common/get-product-price/?product_name=${encodeURIComponent(productName)}&price_type=${priceType}`)
+        fetch(`/get-product-price/?product_name=${encodeURIComponent(productName)}&price_type=${priceType}`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -95,7 +95,7 @@ function getPurchasePrice(index, formsetPrefix, priceSuffix){
     const priceInput = document.getElementById(`${formsetPrefix}-${index}-${priceSuffix}`);
     nameInput.addEventListener('change', function() {
         const productName = this.value;
-        fetch(`/common/get-purchase-price/?product_name=${encodeURIComponent(productName)}`)
+        fetch(`/get-purchase-price/?product_name=${encodeURIComponent(productName)}`)
             .then(response => {
                     if (response.ok) {
                         return response.json();
@@ -215,7 +215,7 @@ function multicolumnDropdown(selector, productNamesDict, formsetPrefix) {
 
 /** Fetches a dictionary with all product names and units */
 function fetchProductsAll() {
-    let url = `/common/get-products-all/`;
+    let url = `/get-products-all/`;
     return fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -228,7 +228,7 @@ function fetchProductsAll() {
 /** Fetches a dictionary with products from a specified Inventory Department */
 function fetchProductsByDepartment(departmentId, outputDict) {
     if (departmentId) {
-        let url = `/common/get-products-by-department/?department_id=${departmentId}`;
+        let url = `/get-products-by-department/?department_id=${departmentId}`;
         return fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -275,7 +275,7 @@ function getClientNames() {
         $("#id_buyer_name").autocomplete({
             source: function(request, response) {
                 $.ajax({
-                    url: "/common/get-client-names/",
+                    url: "/get-client-names/",
                     data: { term: request.term },
                     dataType: "json",
                     success: function(data) {

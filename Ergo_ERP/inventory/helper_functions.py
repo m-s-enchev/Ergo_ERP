@@ -29,10 +29,10 @@ def check_inventory(document_form, products_formset):
             if matching_instance.product_quantity < product_quantity:
                 form.add_error('product_quantity', "Insufficient quantity !")
                 all_valid = False
-        else:
+        elif product_name:
             form.add_error('product_name', "No such product or lot !")
             all_valid = False
-        return all_valid
+    return all_valid
 
 
 def create_inventory_instance(product_instance):

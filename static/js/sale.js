@@ -36,7 +36,7 @@ class AddProductFormSale extends AddProductForm {
             "product_price",
             "product_total");
         scrollToBottom('sales-wrapper');
-        // addDeleteRowButton(this.formNum);
+        addDeleteRowButton(this.formNum);
     }
 }
 
