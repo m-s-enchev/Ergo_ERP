@@ -74,10 +74,10 @@ def receiving_document_create_view(request):
     if request.method == 'POST':
         receiving_document_form = ReceivingDocumentForm(request.POST)
         if (
-                receiving_document_form.is_valid()
-                and received_products_formset.is_valid()
-                and is_formset_nonempty(received_products_formset)
-                and check_product_name(receiving_document_form, received_products_formset)
+            receiving_document_form.is_valid()
+            and received_products_formset.is_valid()
+            and is_formset_nonempty(received_products_formset)
+            and check_product_name(receiving_document_form, received_products_formset)
         ):
             handle_receiving_document_forms(request, receiving_document_form, received_products_formset)
             return redirect(reverse('receive-goods'))
@@ -130,10 +130,10 @@ def shipping_document_create_view(request):
     if request.method == 'POST':
         shipping_document_form = ShippingDocumentForm(request.POST)
         if (
-                shipping_document_form.is_valid()
-                and shipped_products_formset.is_valid()
-                and is_formset_nonempty(shipped_products_formset)
-                and check_inventory(shipping_document_form, shipped_products_formset)
+            shipping_document_form.is_valid()
+            and shipped_products_formset.is_valid()
+            and is_formset_nonempty(shipped_products_formset)
+            and check_inventory(shipping_document_form, shipped_products_formset)
         ):
             handle_shipping_document_forms(request, shipping_document_form, shipped_products_formset)
             return redirect(reverse('ship-goods'))

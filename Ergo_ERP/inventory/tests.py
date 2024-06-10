@@ -3,6 +3,9 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.forms import Form
 from unittest.mock import MagicMock
+
+from django.urls import reverse
+
 from .models import Inventory, Department, ReceivingDocument, ReceivedProducts, ShippingDocument, ShippedProducts
 from .helper_functions import check_inventory, create_inventory_instance, receive_in_inventory, subtract_from_inventory, \
     update_inventory
@@ -344,3 +347,90 @@ class UpdateInventoryTest(TestCase):
         self.assertEqual(Inventory.objects.first().product_total, 30)
         self.assertEqual(Inventory.objects.first().product_purchase_price, 5.00)
 
+
+class HandleReceivingDocumentFormsTest(TestCase):
+    def setUp(self):
+
+        self.department_receive = Department.objects.create(name='Store', location='Sofia')
+        self.department_ship = Department.objects.create(name='Warehouse', location='Plovdiv')
+        self.user = User.objects.create(username='test_user', password='test_password')
+        self.receiving_document_form = MagicMock(
+            date='2025-05-05',
+            time='22:19:55',
+            total_sum=55.44,
+            operator=self.user,
+            shipping_department=self.department_ship,
+            receiving_department=self.department_receive,
+        )
+
+        self.product_instance = ReceivedProducts.objects.create(
+            product_name='Bucket',
+            product_quantity=10,
+            product_unit='pieces',
+            product_purchase_price=10,
+            product_total=100,
+            department=self.department_receive,
+            linked_warehouse_document=self.receiving_document
+        )
+
+# -------------------- TEST Views -----------------------
+
+
+class InventoryViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+        self.client.login(username='testuser', password='password')
+        self.first_matching_name = 'Bucket'
+        self.second_matching_name = 'Socket'
+        self.department = Department.objects.create(name='Warehouse', location='Plovdiv')
+        self.first_inventory_instance = Inventory.objects.create(
+            product_name=self.first_matching_name,
+            product_unit='pieces',
+            product_lot_number='L123',
+            department=self.department,
+            product_quantity=10,
+            product_purchase_price=5,
+            product_total=50
+        )
+
+        self.second_inventory_instance = Inventory.objects.create(
+            product_name='Mop',
+            product_unit='pieces',
+            product_lot_number='L456',
+            department=self.department,
+            product_quantity=10,
+            product_purchase_price=5,
+            product_total=50
+        )
+
+    def test_get_queryset_one_match(self):
+        response = self.client.get(reverse('inventory'), {'search_query': 'Buck', 'department': self.department})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Bucket')
+        self.assertNotContains(response, 'Mop')
+
+    def test_get_queryset_two_matches(self):
+        self.second_inventory_instance.product_name = self.second_matching_name
+        self.second_inventory_instance.save()
+        response = self.client.get(reverse('inventory'), {'search_query': 'cket', 'department': self.department})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Bucket')
+        self.assertContains(response, 'Socket')
+
+    def test_get_queryset_no_search_query_no_department(self):
+        response = self.client.get(reverse('inventory'), {'search_query': '', 'department': ''})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Bucket')
+        self.assertContains(response, 'Mop')
+
+    def test_get_queryset_no_search_query_with_department(self):
+        response = self.client.get(reverse('inventory'), {'search_query': '', 'department': self.department})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Bucket')
+        self.assertContains(response, 'Mop')
+
+    def test_get_context_data(self):
+        response = self.client.get(reverse('inventory'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['departments']), 1)
+        self.assertIn(self.department, response.context['departments'])

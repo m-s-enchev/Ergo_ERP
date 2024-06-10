@@ -22,9 +22,12 @@ def products_list_save_to_document(products_formset, document_instance, name_of_
     """
     saved_product_instances = []
     for products_form in products_formset:
+        print(products_form)
         if products_form.cleaned_data:
             products_instance = products_form.save(commit=False)
+            print(products_instance.name_of_foreignkey_field)
             setattr(products_instance, name_of_foreignkey_field, document_instance)
+            print(products_instance.name_of_foreignkey_field)
             if department:
                 setattr(products_instance, 'department', department)
             try:
