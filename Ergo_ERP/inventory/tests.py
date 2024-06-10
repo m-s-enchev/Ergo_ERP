@@ -336,9 +336,8 @@ class UpdateInventoryTest(TestCase):
 
     def test_shipping_a_product(self):
         self.product_instances_shipping = [self.product_instance_shipped_1]
-        print(self.product_instance_shipped_1.product_quantity)
-        print(Inventory.objects.first().product_quantity)
-        Inventory.objects.first().department = self.department_ship
+        self.matching_inventory_instance.department = self.department_ship
+        self.matching_inventory_instance.save()
         update_inventory(self.product_instances_shipping, False, self.department_ship)
         self.assertEqual(Inventory.objects.all().count(), 1)
         self.assertEqual(Inventory.objects.first().product_quantity, 6)

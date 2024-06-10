@@ -104,5 +104,5 @@ def update_inventory(product_instances, is_receiving: bool, department):
 
         if is_receiving:
             receive_in_inventory(matching_inventory_instance, product_instance)
-        else:
+        elif matching_inventory_instance:
             subtract_from_inventory(matching_inventory_instance, product_instance)
