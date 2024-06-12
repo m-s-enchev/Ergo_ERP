@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 from django import forms
 from django.forms import formset_factory
@@ -54,25 +54,30 @@ class IsFormsetNonemptyTest(TestCase):
         self.assertFalse(is_formset_nonempty(formset))
 
 
-class ProductsListSaveToDocumentTest (TestCase):
+class ProductsListSaveToDocumentTest(TestCase):
     def setUp(self):
-        self.TestFormSet = formset_factory(TestForm, extra=1)
-        self.name_of_foreignkey_field = 'sales_document'
         self.document_instance = MagicMock()
-        self.document_instance.configure_mock(id=1, date='2024-05-05')
+        self.document_instance.id = 1
 
     def test_document_no_department(self):
-        formset = self.TestFormSet(data={
-            'form-TOTAL_FORMS': '2',
-            'form-INITIAL_FORMS': '0',
-            'form-0-name': 'Bucket',
-            'form-0-quantity': '1',
-            'form-0-sales_document': '',
-            'form-1-name': 'Socket',
-            'form-1-quantity': '2',
-            'form-1-sales_document': '',
+        form1 = MagicMock()
+        form1.cleaned_data = {'name': 'Bucket', 'quantity': 1, 'sales_document': ''}
+        form1.save.return_value = form1
 
-        })
-        formset.is_valid()
-        saved_product_instances = products_list_save_to_document(formset, self.document_instance, self.name_of_foreignkey_field)
-        self.assertEqual(len(saved_product_instances), 1)
+        form2 = MagicMock()
+        form2.cleaned_data = {'name': 'Socket', 'quantity': 2, 'sales_document': ''}
+        form2.save.return_value = form2
+
+        formset = [form1, form2]
+
+        with patch('Ergo_ERP.common.helper_functions.DatabaseError', Exception):
+            saved_product_instances = products_list_save_to_document(formset, self.document_instance, 'sales_document')
+
+        self.assertEqual(len(saved_product_instances), 2)
+        self.assertEqual(saved_product_instances[0].cleaned_data['name'], 'Bucket')
+        self.assertEqual(saved_product_instances[0].cleaned_data['quantity'], 1)
+        self.assertEqual(saved_product_instances[1].cleaned_data['name'], 'Socket')
+        self.assertEqual(saved_product_instances[1].cleaned_data['quantity'], 2)
+
+        form1.save.assert_called_once()
+        form2.save.assert_called_once()
