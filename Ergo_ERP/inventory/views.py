@@ -77,7 +77,7 @@ def receiving_document_create_view(request):
             receiving_document_form.is_valid()
             and received_products_formset.is_valid()
             and is_formset_nonempty(received_products_formset)
-            and check_product_name(receiving_document_form, received_products_formset)
+            and check_product_name(received_products_formset)
         ):
             handle_receiving_document_forms(request, receiving_document_form, received_products_formset)
             return redirect(reverse('receive-goods'))
