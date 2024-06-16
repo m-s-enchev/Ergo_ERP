@@ -112,6 +112,11 @@
     width: 3%;
 }
 
+#received-products .product-form td,
+#shipped-products .product-form td {
+    vertical-align: bottom;
+}
+
 #received-products .product-form td.name,
 #shipped-products .product-form td.name {
     min-width: 45%;

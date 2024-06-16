@@ -9,6 +9,15 @@
     margin: 12vh 3vw 0 3vw;
 }
 
+#products-list-wrapper #search-bar,
+#inventory-wrapper #search-bar,
+#client-list-wrapper #search-bar,
+#suppliers-list-wrapper #search-bar,
+#documents-list-wrapper #search-bar {
+    display: flex;
+    align-items: center;
+}
+
 #products-list-wrapper #search-bar input,
 #inventory-wrapper #search-bar input,
 #inventory-wrapper #search-bar select,
@@ -16,7 +25,7 @@
 #suppliers-list-wrapper #search-bar input {
     width: 30%;
     font-size: calc(12px + 0.4vw);
-    padding-left: 5px;
+    padding: 3px 0 3px 5px;
     border-radius: 5px;
 }
 
@@ -30,6 +39,7 @@
     font-size: calc(11px + 0.4vw);
     font-weight: bold;
     margin-left: 2%;
+    margin-right: 0.5%;
 }
 
 #documents-list-wrapper #search-bar > label:nth-child(1) {
@@ -39,7 +49,7 @@
 #documents-list-wrapper #search-bar select {
     width: 14%;
     font-size: calc(11px + 0.4vw);
-    padding: 3px 5px;
+    padding: 4px 0 4px 5px;
     border-radius: 5px;
 }
 
@@ -54,13 +64,15 @@
     width: 8%;
     font-size: calc(11px + 0.4vw);
     text-align: center;
+    padding: 4px 0 4px 5px;
+    border-radius: 5px;
 }
 
 
 #documents-list-wrapper #search-bar #search-query {
     width: 14%;
     font-size: calc(11px + 0.4vw);
-    padding: 1px 5px;
+    padding: 4px 0 4px 5px;
     border-radius: 5px;
 }
 
@@ -69,8 +81,9 @@
 #inventory-wrapper #search-bar button,
 #client-list-wrapper #search-bar button,
 #suppliers-list-wrapper #search-bar button {
-    padding: 3px 5px;
+    padding: 1px 5px;
     font-size: calc(12px + 0.4vw);
+    margin-left: 1%;
 }
 
 #documents-list-wrapper #search-bar button {
