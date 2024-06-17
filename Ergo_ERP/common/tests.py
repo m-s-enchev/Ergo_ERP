@@ -3,60 +3,33 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 from _decimal import Decimal
-from django import forms
-from django.forms import formset_factory
 
 from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document, \
-    get_next_document_number, inventory_products_dict, products_all_dict, check_product_name
+    get_next_document_number, inventory_products_dict, products_all_dict, check_product_name, products_names_list
 from Ergo_ERP.inventory.models import Inventory, Department
 from Ergo_ERP.products.models import ProductsModel
 
 
 # -------------------- TEST Helper Functions-----------------------
 
-class TestForm(forms.Form):
-    field = forms.CharField(required=False)
-
-
 class IsFormsetNonemptyTest(TestCase):
     def setUp(self):
-        self.TestFormSet = formset_factory(TestForm, extra=1)
+        self.form1 = MagicMock()
+        self.form1.cleaned_data = {'name': 'Bucket', 'quantity': 1}
+        self.form2 = MagicMock()
+        self.form2.cleaned_data = {}
+        self.formset = [self.form1, self.form2]
 
-    def test_empty_formset(self):
-        formset = self.TestFormSet(data={'form-TOTAL_FORMS': '3', 'form-INITIAL_FORMS': '0'})
-        formset.is_valid()
-        self.assertFalse(is_formset_nonempty(formset))
+    def test_formset_is_empty(self):
+        self.form1.cleaned_data = {}
+        self.assertFalse(is_formset_nonempty(self.formset))
 
-    def test_formset_with_one_empty_form(self):
-        formset = self.TestFormSet(data={
-            'form-TOTAL_FORMS': '1',
-            'form-INITIAL_FORMS': '0',
-            'form-0-field': '',
-        })
-        formset.is_valid()
-        self.assertFalse(is_formset_nonempty(formset))
+    def test_formset_with_one_non_empty(self):
+        self.assertTrue(is_formset_nonempty(self.formset))
 
-    def test_formset_with_one_nonempty_form(self):
-        formset = self.TestFormSet(data={
-            'form-TOTAL_FORMS': '3',
-            'form-INITIAL_FORMS': '0',
-            'form-0-field': 'Some value',
-            'form-1-field': '',
-            'form-2-field': '',
-        })
-        formset.is_valid()
-        self.assertTrue(is_formset_nonempty(formset))
-
-    def test_formset_with_multiple_empty_forms(self):
-        formset = self.TestFormSet(data={
-            'form-TOTAL_FORMS': '3',
-            'form-INITIAL_FORMS': '0',
-            'form-0-field': '',
-            'form-1-field': '',
-            'form-2-field': '',
-        })
-        formset.is_valid()
-        self.assertFalse(is_formset_nonempty(formset))
+    def test_formset_with_all_non_empty(self):
+        self.form2.cleaned_data = {'name': 'Socket', 'quantity': 5}
+        self.assertTrue(is_formset_nonempty(self.formset))
 
 
 class ProductsListSaveToDocumentTest(TestCase):
@@ -174,31 +147,47 @@ class ProductsAllDictTest(TestCase):
 
 class CheckProductNameTest(TestCase):
     def setUp(self):
+        self.valid_form = MagicMock()
+        self.valid_form.cleaned_data = {'product_name': 'Bucket'}
+        self.invalid_form = MagicMock()
+        self.invalid_form.cleaned_data = {'product_name': 'Coke'}
+
+    @patch('Ergo_ERP.common.helper_functions.ProductsModel.objects.filter')
+    def test_product_is_valid(self, mock_filter):
+        mock_filter.return_value.exists.return_value = True
+        products_formset = [self.valid_form]
+        self.assertTrue(check_product_name(products_formset))
+        mock_filter.assert_called_once_with(product_name='Bucket')
+
+    @patch('Ergo_ERP.common.helper_functions.ProductsModel.objects.filter')
+    def test_product_is_not_valid(self, mock_filter):
+        mock_filter.return_value.exists.return_value = False
+        products_formset = [self.invalid_form]
+        self.assertFalse(check_product_name(products_formset))
+        mock_filter.assert_called_once_with(product_name='Coke')
+        self.invalid_form.add_error.assert_called_once_with('product_name', "No such product!")
+
+
+class ProductsNamesListTest(TestCase):
+    def setUp(self):
         self.first_product = MagicMock(
             spec=ProductsModel,
             product_name='Bucket',
             product_unit='pieces'
         )
-
         self.second_product = MagicMock(
             spec=ProductsModel,
             product_name='Socket',
             product_unit='pieces'
         )
 
-        self.valid_form = MagicMock()
-        self.valid_form.cleaned_data = {'product_name': 'Bucket'}
-        self.invalid_form = MagicMock()
-        self.invalid_form.cleaned_data = {'product_name': 'Coke'}
+    @patch('Ergo_ERP.common.helper_functions.ProductsModel.objects.all')
+    def test_products_all_dict(self, products):
+        products.return_value = [self.first_product, self.second_product]
+        returned_list = products_names_list()
+        self.assertEqual(len(returned_list), 2)
+        self.assertEqual(returned_list[0], 'Bucket')
+        self.assertEqual(returned_list[1], 'Socket')
 
-    @patch('Ergo_ERP.common.helper_functions.ProductsModel.objects')
-    def test_product_is_valid(self, product_objects_all):
-        product_objects_all.return_value = [self.first_product, self.second_product]
-        self.products_formset =[self.valid_form]
-        self.assertTrue(check_product_name(self.products_formset))
 
-    @patch('Ergo_ERP.common.helper_functions.ProductsModel.objects')
-    def test_product_is_not_valid(self, product_objects_all):
-        product_objects_all.return_value = [self.first_product, self.second_product]
-        self.products_formset = [self.invalid_form]
-        self.assertFalse(check_product_name(self.products_formset))
+

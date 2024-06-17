@@ -103,7 +103,7 @@ def check_product_name(products_formset):
     return valid_name
 
 
-def two_column_products_dict():
+def products_names_list():
     """
     Returns a simple list of product names specifically for Warehouse Receiving
     """

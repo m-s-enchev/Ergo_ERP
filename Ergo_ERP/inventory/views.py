@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.generic import ListView
 
 from Ergo_ERP.common.helper_functions import is_formset_nonempty, products_list_save_to_document, check_product_name, \
-    two_column_products_dict
+    products_names_list
 from Ergo_ERP.common.views import inventory_products_dict
 from Ergo_ERP.inventory.forms import ReceivingDocumentForm, ReceivedProductsFormSet, ShippingDocumentForm, \
     ShippedProductsFormSet
@@ -68,7 +68,7 @@ def receiving_document_create_view(request):
     """
 
     received_products_formset = ReceivedProductsFormSet(request.POST or None, prefix='transferred_products')
-    products_dropdown = two_column_products_dict()
+    products_dropdown = products_names_list()
     user_settings = get_object_or_404(UserSettings, user=request.user)
 
     if request.method == 'POST':
