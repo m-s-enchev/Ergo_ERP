@@ -37,27 +37,47 @@ class ProductsListSaveToDocumentTest(TestCase):
         self.document_instance = MagicMock()
         self.document_instance.id = 1
 
-    def test_document_no_department(self):
-        form1 = MagicMock()
-        form1.cleaned_data = {'name': 'Bucket', 'quantity': 1, 'sales_document': ''}
-        form1.save.side_effect = [form1, form1]
+        self.valid_form = MagicMock()
+        self.valid_form.cleaned_data = {'product_name': 'Bucket', 'quantity': 10}
+        self.valid_form.save.return_value = self.valid_form
 
-        form2 = MagicMock()
-        form2.cleaned_data = {'name': 'Socket', 'quantity': 2, 'sales_document': ''}
-        form2.save.side_effect = [form2, form2]
+        self.invalid_form = MagicMock()
+        self.invalid_form.cleaned_data = {}
 
-        formset = [form1, form2]
+    def test_with_valid_forms(self):
+        products_formset = [self.valid_form, self.invalid_form]
+        with patch.object(self.valid_form, 'save', return_value=self.valid_form) as mock_save:
+            saved_product_instances = products_list_save_to_document(
+                products_formset,
+                self.document_instance,
+                'sales_document'
+            )
+            self.assertEqual(len(saved_product_instances), 1)
+            self.assertEqual(saved_product_instances[0], self.valid_form)
+            self.assertEqual(getattr(saved_product_instances[0], 'sales_document'), self.document_instance)
 
-        with patch('Ergo_ERP.common.helper_functions.DatabaseError', Exception):
-            saved_product_instances = products_list_save_to_document(formset, self.document_instance, 'sales_document')
+    def test_with_valid_forms_and_department(self):
+        products_formset = [self.valid_form, self.invalid_form]
+        department = MagicMock()
+        with patch.object(self.valid_form, 'save', return_value=self.valid_form) as mock_save:
+            saved_product_instances = products_list_save_to_document(
+                products_formset,
+                self.document_instance,
+                'sales_document',
+                department=department
+            )
+            self.assertEqual(len(saved_product_instances), 1)
+            self.assertEqual(saved_product_instances[0], self.valid_form)
+            self.assertEqual(getattr(saved_product_instances[0], 'sales_document'), self.document_instance)
+            self.assertEqual(getattr(saved_product_instances[0], 'department'), department)
 
-        self.assertEqual(len(saved_product_instances), 2)
-        self.assertEqual(saved_product_instances[0].cleaned_data['name'], 'Bucket')
-        self.assertEqual(saved_product_instances[0].cleaned_data['quantity'], 1)
-        self.assertEqual(saved_product_instances[1].cleaned_data['name'], 'Socket')
-        self.assertEqual(saved_product_instances[1].cleaned_data['quantity'], 2)
-        self.assertEqual(form1.save.call_count, 2)
-        self.assertEqual(form2.save.call_count, 2)
+    def test_with_invalid_form(self):
+        products_formset = [self.invalid_form]
+        saved_product_instances = products_list_save_to_document(products_formset, self.document_instance, 'sales_document')
+        self.assertEqual(len(saved_product_instances), 0)
+        self.invalid_form.save.assert_not_called()
+
+
 
 
 class GetNextDocumentNumberTest(TestCase):
