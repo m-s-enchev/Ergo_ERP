@@ -315,7 +315,7 @@ function getClientNames() {
 }
 
 
-/** Creates a tooltip when click on user icon */
+/** Creates a tooltip when clicking on user icon */
 function profileTooltip () {
     const target = document.querySelector('#main-navigation #user');
     const popup = document.getElementById('user-profile-tooltip');

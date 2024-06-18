@@ -25,6 +25,7 @@
                 <th>{% translate 'Exp. date' %}</th>
                 <th>{% translate 'Qty' %}</th>
                 <th>{% translate 'Unit' %}</th>
+                <th>{% translate 'Department' %}</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +37,7 @@
                     <td class="product-exp-date">{{ item.product_exp_date }}</td>
                     <td class="product-quantity">{{ item.product_quantity }}</td>
                     <td class="product-unit">{{ item.product_unit }}</td>
+                    <td class="department">{{ item.department }}</td>
                 </tr>
             {% empty %}
                 <div id="no-items">No items found in inventory.</div>
