@@ -1,6 +1,6 @@
 from datetime import datetime
 from unittest import TestCase
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch, call
 
 from _decimal import Decimal
 
@@ -47,11 +47,9 @@ class ProductsListSaveToDocumentTest(TestCase):
     def test_with_valid_forms(self):
         products_formset = [self.valid_form, self.invalid_form]
         with patch.object(self.valid_form, 'save', return_value=self.valid_form) as mock_save:
-            saved_product_instances = products_list_save_to_document(
-                products_formset,
-                self.document_instance,
-                'sales_document'
-            )
+            saved_product_instances = products_list_save_to_document(products_formset, self.document_instance, 'sales_document')
+            calls = [call(commit=False), call()]
+            mock_save.assert_has_calls(calls)
             self.assertEqual(len(saved_product_instances), 1)
             self.assertEqual(saved_product_instances[0], self.valid_form)
             self.assertEqual(getattr(saved_product_instances[0], 'sales_document'), self.document_instance)
@@ -60,12 +58,9 @@ class ProductsListSaveToDocumentTest(TestCase):
         products_formset = [self.valid_form, self.invalid_form]
         department = MagicMock()
         with patch.object(self.valid_form, 'save', return_value=self.valid_form) as mock_save:
-            saved_product_instances = products_list_save_to_document(
-                products_formset,
-                self.document_instance,
-                'sales_document',
-                department=department
-            )
+            saved_product_instances = products_list_save_to_document(products_formset, self.document_instance, 'sales_document', department=department)
+            calls = [call(commit=False), call()]
+            mock_save.assert_has_calls(calls)
             self.assertEqual(len(saved_product_instances), 1)
             self.assertEqual(saved_product_instances[0], self.valid_form)
             self.assertEqual(getattr(saved_product_instances[0], 'sales_document'), self.document_instance)
