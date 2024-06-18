@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from Ergo_ERP.user_settings.models import UserSettings
+
+admin.site.register(UserSettings)
