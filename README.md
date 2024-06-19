@@ -12,6 +12,9 @@ Environment Setup - please use the requirements.txt file to install the necessar
 ```bash
 pip install -r requirements.txt
 ```
+
+The project uses PostgreSQL as a database. Please make sure you have it installed and running. Create a database and user for the project and update the settings.py file with the correct credentials.
+
 After setting up your environment and running migrations, load the initial data using the fixtures provided:
 
 ```bash
