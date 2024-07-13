@@ -1,9 +1,47 @@
+/*:root {*/
+/*    --nav_bar_background: #38889a;*/
+/*    --buttons_background: rgba(0, 119, 119, 0.4);*/
+/*    --main-background: #3d3d3d;*/
+/*    --background-image:url("/static/images/background_8.png");*/
+/*    --document-background:rgba(240, 240, 240, 0.9);*/
+/*    --read-only-fields-background: rgba(240, 240, 240);*/
+/*    --navigation-text-color: #FFFFFF;*/
+/*    --navigation-tile-border-color: #FFFFFF;*/
+
+
+/*    --buttons-hover:  inset 0 0 2px rgba(255, 255, 255, 0.8),*/
+/*                      inset 0 0 4px rgba(255, 255, 255, 0.8),*/
+/*                      inset 0 0 8px rgba(255, 255, 255, 0.8),*/
+/*                      inset 0 0 16px rgba(255, 255, 255, 0.8),*/
+/*                      0 0 2px rgba(255, 255, 255, 0.8),*/
+/*                      0 0 4px rgba(255, 255, 255, 0.8),*/
+/*                      0 0 8px rgba(255, 255, 255, 0.8),*/
+/*                      0 0 16px rgba(255, 255, 255, 0.8);*/
+
+/*    --buttons-active: inset 0 0 16px rgba(0, 255, 209, 0.8),*/
+/*                      inset 0 0 32px rgba(0, 255, 209, 0.8),*/
+/*                      inset 0 0 64px rgba(0, 255, 209, 0.8),*/
+/*                      inset 0 0 128px rgba(0, 255, 209, 0.8),*/
+/*                      0 0 2px rgba(255, 255, 255, 0.8),*/
+/*                      0 0 4px rgba(255, 255, 255, 0.8),*/
+/*                      0 0 8px rgba(255, 255, 255, 0.8),*/
+/*                      0 0 16px rgba(255, 255, 255, 0.8);*/
+
+/*    --table-header-background: #e7e7e7;*/
+/*    --table-data-background: white;*/
+/*}*/
+
+
+/* -----------------------------Parameters for a second color theme -------------------------*/
 :root {
-    --nav_bar_background: #38889a;
+    --nav_bar_background: #0b0c10;
     --buttons_background: rgba(0, 119, 119, 0.4);
-    --main-background: #3d3d3d;
-    --document-background:rgba(240, 240, 240, 0.9);
+    --main-background: #1F2833;
+    --background-image:none;
+    --document-background:rgba(245, 245, 245);
     --read-only-fields-background: rgba(240, 240, 240);
+    --navigation-text-color: #66FCF1;
+    --navigation-tile-border-color: #45a29e;
 
 
     --buttons-hover:  inset 0 0 2px rgba(255, 255, 255, 0.8),
@@ -27,6 +65,11 @@
     --table-header-background: #e7e7e7;
     --table-data-background: white;
 }
+
+
+
+
+
 
 
 

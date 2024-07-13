@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     position: fixed;
-    color: white;
+    color: var(--navigation-text-color);
     box-sizing: border-box;
     width: 100%;
     height: 7vh;
