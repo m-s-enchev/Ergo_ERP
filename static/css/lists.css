@@ -84,13 +84,31 @@
     padding: 1px 5px;
     font-size: calc(12px + 0.4vw);
     margin-left: 1%;
+
 }
 
 #documents-list-wrapper #search-bar button {
-    padding: 3px 5px;
+    padding: 3px 7px;
     font-size: calc(12px + 0.4vw);
     margin-left: 1%;
+    font-weight: bold;
+    color: var(--navigation-text-color);
+    background-color: var(--buttons_background);
+    border: 2px solid var(--navigation-tile-border-color);
+    border-radius: 5px;
 }
+
+#documents-list-wrapper #search-bar button:hover {
+    box-shadow: var(--buttons-hover);
+}
+
+
+#documents-list-wrapper #search-bar button:active {
+    box-shadow: var(--buttons-active);
+    color: darkslategray;
+}
+
+
 
 #products-list-wrapper table,
 #inventory-wrapper table,
@@ -230,7 +248,9 @@
 
 
 
-
+.row-edit {
+    color: var(--navigation-tile-border-color)
+}
 
 
 

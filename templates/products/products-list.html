@@ -30,7 +30,10 @@
                         <td class="product-manufacturer">{{ product.product_manufacturer }}</td>
                         <td class="product-category">{{ product.product_category }}</td>
                         <td class="product-made-in">{{product.product_made_in_department}}</td>
-                        <td><a href="{% url 'products_edit' pk=product.id %}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                        <td><a class="row-edit" href="{% url 'products_edit' pk=product.id %}">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </td>
                     </tr>
 
             {% empty %}
