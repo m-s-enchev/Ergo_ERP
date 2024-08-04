@@ -34,12 +34,12 @@
 
 /* -----------------------------Parameters for a second color theme -------------------------*/
 :root {
-    --nav_bar_background: #0b0c10;
-    --buttons_background: rgba(0, 119, 119, 0.4);
+    --nav_bar_background: rgb(11, 12, 16);
+    --buttons_background: rgba(10, 69, 69, 0.4);
     --main-background: #1F2833;
     --background-image:url("/static/images/background-dark.jpg");
-    --document-background:rgba(245, 245, 245);
-    --read-only-fields-background: rgba(240, 240, 240);
+    --document-background: rgb(240, 240, 240);
+    --read-only-fields-background: rgb(240, 240, 240);
     --navigation-text-color: rgb(102, 252, 241);
     --navigation-tile-border-color: rgb(69, 162, 158);
 
@@ -62,7 +62,7 @@
                       0 0 8px rgba(255, 255, 255, 0.8),
                       0 0 16px rgba(255, 255, 255, 0.8);
 
-    --table-header-background: #e7e7e7;
+    --table-header-background: rgb(102, 252, 241);
     --table-data-background: white;
 }
 
