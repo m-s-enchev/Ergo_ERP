@@ -4,6 +4,8 @@
 /*    --main-background: #3d3d3d;*/
 /*    --background-image:url("/static/images/background_8.png");*/
 /*    --document-background:rgba(240, 240, 240, 0.9);*/
+/*    --document-text-color: black;*/
+/*    --document-fields-background-color: white;*/
 /*    --read-only-fields-background: rgba(240, 240, 240);*/
 /*    --navigation-text-color: #FFFFFF;*/
 /*    --navigation-tile-border-color: #FFFFFF;*/
@@ -34,12 +36,14 @@
 
 /* -----------------------------Parameters for a second color theme -------------------------*/
 :root {
-    --nav_bar_background: rgb(11, 12, 16);
+    --nav_bar_background: rgb(10, 40, 40);
     --buttons_background: rgba(10, 69, 69, 0.4);
     --main-background: #1F2833;
     --background-image:url("/static/images/background-dark.jpg");
-    --document-background: rgb(240, 240, 240);
-    --read-only-fields-background: rgb(240, 240, 240);
+    --document-background: rgba(50, 60, 70, 0.9);
+    --document-text-color: white;
+    --document-fields-background-color: rgb(140, 140, 140);
+    --read-only-fields-background: rgb(130, 140, 140);
     --navigation-text-color: rgb(102, 252, 241);
     --navigation-tile-border-color: rgb(69, 162, 158);
 
