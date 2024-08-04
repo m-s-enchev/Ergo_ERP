@@ -30,7 +30,7 @@
     flex-direction: column;
     padding: 2vh;
     margin: 1.5vh;
-    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 30px var(--navigation-tile-border-color);
     justify-content: space-between;
     background-color: var(--document-background);
     color:var(--document-text-color);
