@@ -33,13 +33,14 @@
     box-shadow: 0px 0px 30px var(--navigation-tile-border-color);
     justify-content: space-between;
     background-color: var(--document-background);
-    color:var(--document-text-color);
+    color:var(--document-header-text-color);
 }
 
 #sale-document input,
 #sale-document select{
     color: inherit;
     background-color: var(--document-fields-background-color);
+    border-color: var(--document-input-border-color);
 }
 
 #sale-document-header {
@@ -56,7 +57,7 @@
 }
 
 #sales-wrapper #department-and-date div div{
-    border: 1px solid black;
+    border: 1px solid var(--document-header-border);
     border-radius: 3px;
     padding: 1vw 1vw 1vw 1vw;
     min-width: 26vw;
@@ -66,6 +67,10 @@
 #client-and-invoice-data {
     display: flex;
     justify-content: space-between;
+}
+
+#client-and-invoice-data > div {
+    border: 1px solid var(--document-header-border);
 }
 
 #invoice-number-and-dates, #buyer-data {
@@ -88,6 +93,7 @@
 #invoice-toggled-fields, #buyer-data-toggle-fields {
     display: flex;
     flex-direction: column;
+    gap: 0.5vh;
 }
 
 
@@ -143,7 +149,8 @@
 #sold-products table th{
     font-size: calc(10px + 0.4vw);
     padding: 3px 5px;
-    border: 1px solid black;
+    border: 2px solid var(--document-header-border);
+    border-radius: 5px;
 }
 
 
@@ -152,6 +159,7 @@
 #sales-wrapper .product-form input,
 #sale-document-header input{
     font-size: calc(11px + 0.4vw);
+    border-color: var(--document-input-border-color);
 }
 
 #sales-wrapper .product-form td {
@@ -207,6 +215,7 @@
 #sales-wrapper .product-form input {
     width: 100%;
     padding: 0 3px;
+    color: var(--document-text-color);
 }
 
 #sales-wrapper .product-form .unit input,

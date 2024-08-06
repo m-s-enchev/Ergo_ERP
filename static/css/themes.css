@@ -4,8 +4,11 @@
 /*    --main-background: #3d3d3d;*/
 /*    --background-image:url("/static/images/background_8.png");*/
 /*    --document-background:rgba(240, 240, 240, 0.9);*/
+/*    --document-header-border: rgb(69,162,158);*/
+/*    --document-header-text-color: black*/
 /*    --document-text-color: black;*/
 /*    --document-fields-background-color: white;*/
+/*    --document-input-border-color: black;*/
 /*    --read-only-fields-background: rgba(240, 240, 240);*/
 /*    --navigation-text-color: #FFFFFF;*/
 /*    --navigation-tile-border-color: #FFFFFF;*/
@@ -36,14 +39,17 @@
 
 /* -----------------------------Parameters for a second color theme -------------------------*/
 :root {
-    --nav_bar_background: rgb(10, 40, 40);
+    --nav_bar_background: rgb(11, 12, 16);
     --buttons_background: rgba(10, 69, 69, 0.4);
     --main-background: #1F2833;
     --background-image:url("/static/images/background-dark.jpg");
-    --document-background: rgba(80, 80, 80, 0.8);
-    --document-text-color: rgb(102, 252, 241);
-    --document-fields-background-color: rgb(70, 70, 75, 0.8);
-    --read-only-fields-background: rgb(70, 75, 70, 0.8);
+    --document-background: rgba(30, 40, 50, 0.7);
+    --document-header-border: rgb(69,162,158);
+    --document-header-text-color: rgb(102, 252, 241);
+    --document-text-color: rgb(210,231,255);
+    --document-fields-background-color: rgb(55, 65, 75);
+    --document-input-border-color: rgb(210,231,255);
+    --read-only-fields-background: rgb(43,101,97);
     --navigation-text-color: rgb(102, 252, 241);
     --navigation-tile-border-color: rgb(69, 162, 158);
 
