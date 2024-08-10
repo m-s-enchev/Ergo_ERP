@@ -17,9 +17,19 @@
     flex-direction: column;
     padding: 2vh;
     margin: 1.5vh;
-    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 30px var(--navigation-tile-border-color);
     justify-content: space-between;
     background-color: var(--document-background);
+    color:var(--document-header-text-color);
+}
+
+#receive-wrapper #receive-document input,
+#receive-wrapper #receive-document select,
+#ship-wrapper #ship-document input,
+#ship-wrapper #ship-document select {
+    color: inherit;
+    background-color: var(--document-fields-background-color);
+    border-color: var(--document-input-border-color);
 }
 
 #receive-wrapper #receive-document-header,
@@ -28,6 +38,7 @@
     flex-direction: column;
     justify-content: space-between;
     gap:1vh;
+
 }
 
 #receive-wrapper #receive-document-header input,
@@ -56,10 +67,10 @@
     justify-content: space-between;
     align-items: center;
     gap: 1vw;
-    border: 1px solid black;
     border-radius: 3px;
     padding: 1vw 1vw 1vw 1vw;
     min-width: 35vw;
+    border: 1px solid var(--document-header-border);
 }
 
 
@@ -98,8 +109,20 @@
 #shipped-products table th {
     font-size: calc(10px + 0.4vw);
     padding: 3px 5px;
-    border: 1px solid black;
     height: 2vmax;
+    border: 2px solid var(--document-header-border);
+    border-radius: 5px;
+}
+
+#received-products .product-form td,
+#shipped-products .product-form td,
+#received-products .product-form input,
+#shipped-products .product-form input,
+#receive-document-header input,
+#ship-document-header input {
+    font-size: calc(11px + 0.4vw);
+    border-color: var(--document-input-border-color);
+    color: var(--document-text-color);
 }
 
 #received-products table th.numerator,
@@ -140,11 +163,12 @@
     width: 11%;
 }
 
-#received-products .product-form td.purchase-price,
-#received-products .product-form td.product-total,
-#shipped-products .product-form td.purchase-price,
-#shipped-products .product-form td.product-total {
+#received-products .product-form .purchase-price,
+#received-products .product-form .product-total,
+#shipped-products .product-form .purchase-price,
+#shipped-products .product-form .product-total {
     width: 9%;
+    background-color: red;
 }
 
 #received-products .product-form input,
@@ -163,3 +187,4 @@
     background-color: var(--read-only-fields-background);
     border-color: rgb(150, 150, 150);
 }
+
